@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Northoverse | Minimal Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #fafafa;
+            color: #111;
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        /* Header */
+        header {
+            margin-bottom: 60px;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            filter: grayscale(100%);
+            transition: filter 0.3s;
+        }
+        .avatar:hover {
+            filter: grayscale(0%);
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        .meta {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .meta span {
+            margin-right: 15px;
+        }
+        .bio {
+            font-size: 16px;
+            color: #444;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+        .stats {
+            display: flex;
+            gap: 30px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: 500;
+            color: #000;
+        }
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+        }
+        /* Sections */
+        section {
+            margin: 60px 0;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        /* Repo list */
+        .repo-list {
+            list-style: none;
+        }
+        .repo-item {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        .repo-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .repo-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        .repo-name {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .repo-name a {
+            color: #000;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+        .repo-name a:hover {
+            border-bottom-color: #000;
+        }
+        .repo-language {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .language-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #858585;
+        }
+        .repo-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .repo-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #999;
+        }
+        .repo-meta i {
+            margin-right: 5px;
+        }
+        /* Topics */
+        .topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        .topic {
+            background: #f0f0f0;
+            color: #555;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+        /* Languages grid */
+        .languages-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .lang-item {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: #444;
+        }
+        /* Footer */
+        footer {
+            margin-top: 80px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 13px;
+            color: #999;
+        }
+        footer a {
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+        footer a:hover {
+            border-bottom-color: #333;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 40px 0;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://avatars.githubusercontent.com/u/245461294?v=4" alt="Northoverse" class="avatar">
+            <h1>Northoverse</h1>
+            <div class="meta">
+                <span>@Northoverse</span>
+                
+                
+            </div>
+            <p class="bio">GitHub developer and open source enthusiast</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Repositories</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Followers</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Following</div>
+                </div>
+            </div>
+        </header>
+        
+        <section>
+            <h2>Repositories</h2>
+            <div class="repo-list">
+
+                <div class="repo-item">
+                    <div class="repo-header">
+                        <span class="repo-name"><a href="https://github.com/Northoverse/DaaS-Devpack" target="_blank">DaaS-Devpack</a></span>
+                        <span class="repo-language"><span class="language-color" style="background-color: #858585;"></span>None</span>
+                    </div>
+                    <p class="repo-description">landing page for the devpack so users can see the teaser and then get redirected to the appropriate repos with gumroad pages.</p>
+                    <div class="topics">
+                        
+                    </div>
+                    <div class="repo-meta">
+                        <span><i>⭐</i> 1</span>
+                        <span><i>🍴</i> 0</span>
+                        <span><i>📅</i> Updated 2025-12-28</span>
+                    </div>
+                </div>
+            
+                <div class="repo-item">
+                    <div class="repo-header">
+                        <span class="repo-name"><a href="https://github.com/Northoverse/DaaS-opensource_master" target="_blank">DaaS-opensource_master</a></span>
+                        <span class="repo-language"><span class="language-color" style="background-color: #858585;"></span>None</span>
+                    </div>
+                    <p class="repo-description">Where I keep python scripts that generate reliable data.</p>
+                    <div class="topics">
+                        
+                    </div>
+                    <div class="repo-meta">
+                        <span><i>⭐</i> 1</span>
+                        <span><i>🍴</i> 0</span>
+                        <span><i>📅</i> Updated 2025-12-28</span>
+                    </div>
+                </div>
+            
+                <div class="repo-item">
+                    <div class="repo-header">
+                        <span class="repo-name"><a href="https://github.com/Northoverse/DaaS-daasfac_master" target="_blank">DaaS-daasfac_master</a></span>
+                        <span class="repo-language"><span class="language-color" style="background-color: #858585;"></span>None</span>
+                    </div>
+                    <p class="repo-description">Where I keep python scripts that generate reliable data for dasfac users until i integrate the system to API.</p>
+                    <div class="topics">
+                        
+                    </div>
+                    <div class="repo-meta">
+                        <span><i>⭐</i> 1</span>
+                        <span><i>🍴</i> 0</span>
+                        <span><i>📅</i> Updated 2025-12-28</span>
+                    </div>
+                </div>
+            
+                <div class="repo-item">
+                    <div class="repo-header">
+                        <span class="repo-name"><a href="https://github.com/Northoverse/DaaS-devpack_master" target="_blank">DaaS-devpack_master</a></span>
+                        <span class="repo-language"><span class="language-color" style="background-color: #858585;"></span>None</span>
+                    </div>
+                    <p class="repo-description">Where I keep python scripts that generate reliable data for devpack buyers coming in from gumroad. The scripts that generate that data lives here.</p>
+                    <div class="topics">
+                        
+                    </div>
+                    <div class="repo-meta">
+                        <span><i>⭐</i> 1</span>
+                        <span><i>🍴</i> 0</span>
+                        <span><i>📅</i> Updated 2025-12-28</span>
+                    </div>
+                </div>
+            
+                <div class="repo-item">
+                    <div class="repo-header">
+                        <span class="repo-name"><a href="https://github.com/Northoverse/Notepad" target="_blank">Notepad</a></span>
+                        <span class="repo-language"><span class="language-color" style="background-color: #E34C26;"></span>HTML</span>
+                    </div>
+                    <p class="repo-description">I work here with my files before moving them in the right repos for my users.</p>
+                    <div class="topics">
+                        
+                    </div>
+                    <div class="repo-meta">
+                        <span><i>⭐</i> 1</span>
+                        <span><i>🍴</i> 0</span>
+                        <span><i>📅</i> Updated 2025-12-26</span>
+                    </div>
+                </div>
+            
+                <div class="repo-item">
+                    <div class="repo-header">
+                        <span class="repo-name"><a href="https://github.com/Northoverse/DaaSFac-master" target="_blank">DaaSFac-master</a></span>
+                        <span class="repo-language"><span class="language-color" style="background-color: #858585;"></span>None</span>
+                    </div>
+                    <p class="repo-description">Spider sends the data here...</p>
+                    <div class="topics">
+                        
+                    </div>
+                    <div class="repo-meta">
+                        <span><i>⭐</i> 0</span>
+                        <span><i>🍴</i> 0</span>
+                        <span><i>📅</i> Updated 2025-12-27</span>
+                    </div>
+                </div>
+            
+                <div class="repo-item">
+                    <div class="repo-header">
+                        <span class="repo-name"><a href="https://github.com/Northoverse/p1505-company-docs" target="_blank">p1505-company-docs</a></span>
+                        <span class="repo-language"><span class="language-color" style="background-color: #858585;"></span>MDX</span>
+                    </div>
+                    <p class="repo-description">None</p>
+                    <div class="topics">
+                        
+                    </div>
+                    <div class="repo-meta">
+                        <span><i>⭐</i> 0</span>
+                        <span><i>🍴</i> 0</span>
+                        <span><i>📅</i> Updated 2025-12-26</span>
+                    </div>
+                </div>
+            
+            </div>
+        </section>
+        
+        <section>
+            <h2>Languages</h2>
+            <div class="languages-grid">
+<span class="lang-item">HTML</span><span class="lang-item">MDX</span>
+            </div>
+        </section>
+        
+        <hr>
+        
+        <footer>
+            <p>Generated with <a href="https://github.com" target="_blank">Codefolio Sync</a> — 2026</p>
+            <p style="margin-top: 10px;"><a href="https://github.com/Northoverse" target="_blank">View GitHub Profile →</a></p>
+        </footer>
+    </div>
+</body>
+</html>
