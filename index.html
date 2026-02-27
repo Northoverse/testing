@@ -15,6 +15,9 @@
             --text-secondary: #9ca3af;
             --accent: #d4af37;
             --border: #2a2a2a;
+            --glow-size: 0px;
+            --glow-x: 50%;
+            --glow-y: 50%;
         }
 
         /* --- 2. THEME OVERRIDES --- */
@@ -63,7 +66,29 @@
         body.light-mode.theme-sunset { --accent: #e67e22; }
         body.light-mode.theme-forest { --accent: #059669; }
 
-        /* --- 4. LAYOUT & STYLING --- */
+        /* --- 4. CURSOR GLOW EFFECT --- */
+        .glow-effect {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at center, var(--accent) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: screen;
+            opacity: 0.15;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, opacity 0.3s;
+            filter: blur(20px);
+        }
+        
+        .glow-effect:hover {
+            width: 400px;
+            height: 400px;
+            opacity: 0.25;
+        }
+
+        /* --- 5. LAYOUT & STYLING --- */
         * {
             margin: 0;
             padding: 0;
@@ -79,14 +104,38 @@
             width: 100%; 
             min-height: 100vh;
             line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Table Layout for PDF Stability */
+        /* Container with subtle glow */
         .container { 
             display: table; 
             width: 100%; 
             min-height: 100vh;
             table-layout: fixed;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Add subtle animated border glow */
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid var(--accent);
+            border-radius: 24px;
+            opacity: 0;
+            animation: borderPulse 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes borderPulse {
+            0%, 100% { opacity: 0; box-shadow: 0 0 10px var(--accent); }
+            50% { opacity: 0.3; box-shadow: 0 0 30px var(--accent); }
         }
         
         .sidebar { 
@@ -96,6 +145,8 @@
             padding: 40px 25px; 
             vertical-align: top;
             border-right: 1px solid var(--border);
+            position: relative;
+            z-index: 2;
         }
         
         .main { 
@@ -103,29 +154,41 @@
             width: 70%; 
             padding: 40px 30px; 
             vertical-align: top; 
+            position: relative;
+            z-index: 2;
         }
 
-        /* Avatar - Squircle Shape */
+        /* Avatar - Larger Squircle Shape with glow */
         .avatar-container {
             text-align: center;
             margin-bottom: 30px;
+            position: relative;
         }
         
         .avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 24px;
+            width: 160px;  /* Increased from 120px */
+            height: 160px; /* Increased from 120px */
+            border-radius: 32px; /* Squircle effect - increased proportionally */
             object-fit: cover;
-            border: 3px solid var(--accent);
-            transition: transform 0.3s;
+            border: 4px solid var(--accent);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: inline-block;
+            box-shadow: 0 0 20px var(--accent);
+            animation: avatarGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes avatarGlow {
+            0%, 100% { box-shadow: 0 0 20px var(--accent); }
+            50% { box-shadow: 0 0 40px var(--accent); }
         }
         
         .avatar:hover {
-            transform: scale(1.05);
+            transform: scale(1.08) rotate(2deg);
+            border-color: var(--accent);
+            box-shadow: 0 0 50px var(--accent);
         }
 
-        /* Typography */
+        /* Typography with glow */
         h1 { 
             margin: 0 0 5px 0; 
             font-size: 32px; 
@@ -133,6 +196,13 @@
             text-transform: uppercase; 
             letter-spacing: 2px; 
             font-weight: 600;
+            text-shadow: 0 0 10px var(--accent);
+            animation: textPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes textPulse {
+            0%, 100% { text-shadow: 0 0 10px var(--accent); }
+            50% { text-shadow: 0 0 20px var(--accent); }
         }
         
         .headline { 
@@ -154,6 +224,25 @@
             margin-top: 30px; 
             margin-bottom: 20px; 
             font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+            animation: lineGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes lineGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
         .main h2:first-of-type {
@@ -188,7 +277,7 @@
             line-height: 1.6;
         }
         
-        /* Stats */
+        /* Stats with glow */
         .stats {
             display: flex;
             justify-content: space-around;
@@ -201,6 +290,33 @@
         
         .stat {
             text-align: center;
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .stat:hover {
+            transform: translateY(-3px);
+        }
+        
+        .stat::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle at center, var(--accent), transparent);
+            border-radius: 50%;
+            transition: width 0.3s, height 0.3s;
+            z-index: -1;
+            opacity: 0;
+        }
+        
+        .stat:hover::after {
+            width: 80px;
+            height: 80px;
+            opacity: 0.2;
         }
         
         .stat-number {
@@ -234,6 +350,14 @@
             margin-right: 5px; 
             margin-bottom: 5px; 
             text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-tag:hover {
+            background: var(--accent);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px var(--accent);
         }
         
         .skill-tag { 
@@ -245,46 +369,148 @@
             font-size: 10px; 
             margin: 3px; 
             background: transparent;
+            transition: all 0.3s;
         }
         
-        /* Repository Items */
+        .skill-tag:hover {
+            background: var(--accent);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px var(--accent);
+        }
+        
+        /* Repository Items with images and buttons */
         .repo-list {
             list-style: none;
         }
         
         .repo-item {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 25px;
             border-bottom: 1px solid var(--border);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
         
-        .repo-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
+        .repo-item:hover {
+            transform: translateX(5px);
+            border-bottom-color: var(--accent);
+        }
+        
+        .repo-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.1;
+            transition: left 0.5s;
+            pointer-events: none;
+        }
+        
+        .repo-item:hover::before {
+            left: 100%;
         }
         
         .repo-header {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             flex-wrap: wrap;
         }
         
         .repo-name {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
+            flex: 1;
         }
         
         .repo-name a {
             color: var(--text-primary);
             text-decoration: none;
             border-bottom: 1px solid transparent;
-            transition: border-color 0.2s;
+            transition: all 0.3s;
         }
         
         .repo-name a:hover {
+            color: var(--accent);
             border-bottom-color: var(--accent);
+        }
+        
+        /* Repository Image */
+        .repo-image-container {
+            width: 100%;
+            height: 140px;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .repo-image-container:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 25px var(--accent);
+        }
+        
+        .repo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .repo-image-container:hover .repo-image {
+            transform: scale(1.05);
+        }
+        
+        /* Repository Actions */
+        .repo-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .repo-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .repo-button.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+            font-weight: 600;
+        }
+        
+        .repo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px var(--accent);
+            border-color: var(--accent);
+        }
+        
+        .repo-button.primary:hover {
+            background: transparent;
+            color: var(--accent);
         }
         
         .repo-language {
@@ -301,6 +527,12 @@
             height: 8px;
             border-radius: 50%;
             background-color: #858585;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
         
         .repo-description {
@@ -316,11 +548,18 @@
             font-size: 10px;
             color: var(--text-secondary);
             flex-wrap: wrap;
+            margin: 10px 0;
         }
         
         .repo-meta i {
             margin-right: 3px;
             font-style: normal;
+        }
+        
+        .repo-meta span {
+            display: flex;
+            align-items: center;
+            gap: 3px;
         }
         
         .topics {
@@ -336,6 +575,13 @@
             padding: 3px 8px;
             border-radius: 12px;
             font-size: 9px;
+            transition: all 0.3s;
+        }
+        
+        .topic:hover {
+            background: var(--accent);
+            color: #000;
+            transform: translateY(-2px);
         }
         
         /* Languages Grid */
@@ -352,6 +598,14 @@
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 10px;
+            transition: all 0.3s;
+        }
+        
+        .lang-item:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px var(--accent);
         }
         
         /* Footer */
@@ -362,33 +616,68 @@
             text-align: center;
             font-size: 10px;
             color: var(--text-secondary);
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: scan 3s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
         footer a {
             color: var(--accent);
             text-decoration: none;
             border-bottom: 1px solid transparent;
+            transition: all 0.3s;
         }
         
         footer a:hover {
             border-bottom-color: var(--accent);
+            text-shadow: 0 0 10px var(--accent);
         }
         
         hr {
             border: none;
             border-top: 1px solid var(--border);
             margin: 30px 0;
+            position: relative;
+            overflow: visible;
+        }
+        
+        hr::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: scan 4s linear infinite;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="theme-sunset ">
+<body class="theme-forest ">
+
+<!-- Cursor Glow Effect -->
+<div class="glow-effect" id="cursorGlow"></div>
 
 <div class="container">
     <!-- Sidebar - Left Column (30%) -->
     <div class="sidebar">
         
-        <!-- Avatar - Squircle shape at top of sidebar -->
+        <!-- Avatar - Larger Squircle shape at top of sidebar -->
         <div class="avatar-container">
             <img src="https://avatars.githubusercontent.com/u/245461294?v=4" alt="gtaingoria" class="avatar">
         </div>
@@ -414,7 +703,7 @@
         <!-- Languages -->
         
         <h2>Languages</h2>
-        <div style="color:var(--text-secondary); font-size:11px;">['HTML', 'MDX']</div>
+        <div style="color:var(--text-secondary); font-size:11px;">['HTML', 'JavaScript', 'MDX', 'Python']</div>
         
 
         <!-- Certifications -->
@@ -462,10 +751,105 @@
                 
                     
                     <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaS-Devpack/DaaSFac_PeriodicTable2.0" 
+                                 alt="DaaSFac_PeriodicTable2.0" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaS-Devpack/DaaSFac_PeriodicTable2.0" target="_blank">DaaSFac_PeriodicTable2.0</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-1"></span>
+                                <script>if(document.getElementById('lang-color-1')) document.getElementById('lang-color-1').style.backgroundColor = '#3572A5';</script>
+                                Python
+                            </span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">research grade periodic table data scraper script.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 1</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-29</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaS-Devpack/DaaSFac_PeriodicTable2.0" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaS-Devpack/DaaSFac_ProfanityFilter" 
+                                 alt="DaaSFac_ProfanityFilter" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaS-Devpack/DaaSFac_ProfanityFilter" target="_blank">DaaSFac_ProfanityFilter</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-2"></span>
+                                <script>if(document.getElementById('lang-color-2')) document.getElementById('lang-color-2').style.backgroundColor = '#3572A5';</script>
+                                Python
+                            </span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Ban lists for your projects, paid product. </p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 1</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-29</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaS-Devpack/DaaSFac_ProfanityFilter" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Northoverse/DaaS-Devpack" 
+                                 alt="DaaS-Devpack" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
                         <div class="repo-header">
                             <span class="repo-name"><a href="https://github.com/Northoverse/DaaS-Devpack" target="_blank">DaaS-Devpack</a></span>
                             
                         </div>
+                        
                         <p class="repo-description">landing page for the devpack so users can see the teaser and then get redirected to the appropriate repos with gumroad pages.</p>
                         
                         
@@ -477,15 +861,32 @@
                             <span><i>📅</i> Updated 2025-12-28</span>
                             
                         </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Northoverse/DaaS-Devpack" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
                     </div>
                     
                 
                     
                     <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Northoverse/DaaS-opensource_master" 
+                                 alt="DaaS-opensource_master" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
                         <div class="repo-header">
                             <span class="repo-name"><a href="https://github.com/Northoverse/DaaS-opensource_master" target="_blank">DaaS-opensource_master</a></span>
                             
                         </div>
+                        
                         <p class="repo-description">Where I keep python scripts that generate reliable data.</p>
                         
                         
@@ -497,15 +898,32 @@
                             <span><i>📅</i> Updated 2025-12-28</span>
                             
                         </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Northoverse/DaaS-opensource_master" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
                     </div>
                     
                 
                     
                     <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Northoverse/DaaS-daasfac_master" 
+                                 alt="DaaS-daasfac_master" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
                         <div class="repo-header">
                             <span class="repo-name"><a href="https://github.com/Northoverse/DaaS-daasfac_master" target="_blank">DaaS-daasfac_master</a></span>
                             
                         </div>
+                        
                         <p class="repo-description">Where I keep python scripts that generate reliable data for dasfac users until i integrate the system to API.</p>
                         
                         
@@ -517,15 +935,32 @@
                             <span><i>📅</i> Updated 2025-12-28</span>
                             
                         </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Northoverse/DaaS-daasfac_master" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
                     </div>
                     
                 
                     
                     <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Northoverse/DaaS-devpack_master" 
+                                 alt="DaaS-devpack_master" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
                         <div class="repo-header">
                             <span class="repo-name"><a href="https://github.com/Northoverse/DaaS-devpack_master" target="_blank">DaaS-devpack_master</a></span>
                             
                         </div>
+                        
                         <p class="repo-description">Where I keep python scripts that generate reliable data for devpack buyers coming in from gumroad. The scripts that generate that data lives here.</p>
                         
                         
@@ -537,21 +972,38 @@
                             <span><i>📅</i> Updated 2025-12-28</span>
                             
                         </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Northoverse/DaaS-devpack_master" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
                     </div>
                     
                 
                     
                     <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Northoverse/Notepad" 
+                                 alt="Notepad" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
                         <div class="repo-header">
                             <span class="repo-name"><a href="https://github.com/Northoverse/Notepad" target="_blank">Notepad</a></span>
                             
                             <span class="repo-language">
-                                <span class="language-color" id="lang-color-5"></span>
-                                <script>if(document.getElementById('lang-color-5')) document.getElementById('lang-color-5').style.backgroundColor = '#E34C26';</script>
+                                <span class="language-color" id="lang-color-7"></span>
+                                <script>if(document.getElementById('lang-color-7')) document.getElementById('lang-color-7').style.backgroundColor = '#E34C26';</script>
                                 HTML
                             </span>
                             
                         </div>
+                        
                         <p class="repo-description">I work here with my files before moving them in the right repos for my users.</p>
                         
                         
@@ -563,21 +1015,229 @@
                             <span><i>📅</i> Updated 2025-12-26</span>
                             
                         </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Northoverse/Notepad" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
                     </div>
                     
                 
                     
                     <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Northoverse-ngo/etlassioo.apk" 
+                                 alt="etlassioo.apk" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
                         <div class="repo-header">
-                            <span class="repo-name"><a href="https://github.com/Northoverse/testing" target="_blank">testing</a></span>
+                            <span class="repo-name"><a href="https://github.com/Northoverse-ngo/etlassioo.apk" target="_blank">etlassioo.apk</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Geography app featuring a CountryDex, air quality index and climate watch that can be geolocated on a 3D globe, a Historic map gallery, a Landmark browser that holds more than 10000 landmarks capable of geolocating on a 3D globe, a currency convertor with a year historic performance chart, and much more.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 1</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-25</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Northoverse-ngo/etlassioo.apk" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Northoverse-ngo/visewords.apk" 
+                                 alt="visewords.apk" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/Northoverse-ngo/visewords.apk" target="_blank">visewords.apk</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">A quotes app featuring a savable gallery-style collection based on authors, called Quotosphere. Swipe on the quote you like and start creating your collection.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 1</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-25</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Northoverse-ngo/visewords.apk" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Northoverse-ngo/cosmicinfo.apk" 
+                                 alt="cosmicinfo.apk" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/Northoverse-ngo/cosmicinfo.apk" target="_blank">cosmicinfo.apk</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Space app featuring ISS location tracking, T-sec for upcoming SpaceX launches with location pin, Mars rover images, NASA Astronomy Picture of the Day, NASA DONKI data, NASA Space Weather data, and much more.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 1</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-25</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Northoverse-ngo/cosmicinfo.apk" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaSFac/Daas-studentbud" 
+                                 alt="Daas-studentbud" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaSFac/Daas-studentbud" target="_blank">Daas-studentbud</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">"StudentBud" = DaaS - 'Data as a Service'. Automated: Self-updating scrapers ensure data is refreshed weekly without manual maintenance. Developer-Ready: Data is delivered in structured .json format via a private GitHub repository, ready for immediate integration into apps and platforms.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 1</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-25</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaSFac/Daas-studentbud" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Feerebu/Feerebu-Engine" 
+                                 alt="Feerebu-Engine" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/Feerebu/Feerebu-Engine" target="_blank">Feerebu-Engine</a></span>
                             
                             <span class="repo-language">
-                                <span class="language-color" id="lang-color-6"></span>
-                                <script>if(document.getElementById('lang-color-6')) document.getElementById('lang-color-6').style.backgroundColor = '#E34C26';</script>
+                                <span class="language-color" id="lang-color-12"></span>
+                                <script>if(document.getElementById('lang-color-12')) document.getElementById('lang-color-12').style.backgroundColor = '#E34C26';</script>
                                 HTML
                             </span>
                             
                         </div>
+                        
+                        <p class="repo-description">somethings brewing....</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-02-27</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Feerebu/Feerebu-Engine" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Northoverse/testing" 
+                                 alt="testing" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/Northoverse/testing" target="_blank">testing</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-13"></span>
+                                <script>if(document.getElementById('lang-color-13')) document.getElementById('lang-color-13').style.backgroundColor = '#E34C26';</script>
+                                HTML
+                            </span>
+                            
+                        </div>
+                        
                         <p class="repo-description">My developer portfolio generated by Codefolio Sync</p>
                         
                         
@@ -589,15 +1249,863 @@
                             <span><i>📅</i> Updated 2026-02-27</span>
                             
                         </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Northoverse/testing" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
                     </div>
                     
                 
                     
                     <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Feerebu/Ranchie-DevOps" 
+                                 alt="Ranchie-DevOps" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/Feerebu/Ranchie-DevOps" target="_blank">Ranchie-DevOps</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Ranchie is the developer group where we collab and create more products for our projects under the teams control...</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-02-01</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Feerebu/Ranchie-DevOps" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Feerebu/nesstyai" 
+                                 alt="nesstyai" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/Feerebu/nesstyai" target="_blank">nesstyai</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">business incubation app...</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-28</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Feerebu/nesstyai" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Feerebu/Landbase-Animalia" 
+                                 alt="Landbase-Animalia" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/Feerebu/Landbase-Animalia" target="_blank">Landbase-Animalia</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">biology encyclopedia app....</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-28</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Feerebu/Landbase-Animalia" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Feerebu/cosmicinfo" 
+                                 alt="cosmicinfo" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/Feerebu/cosmicinfo" target="_blank">cosmicinfo</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">space encyclopedia app...</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-28</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Feerebu/cosmicinfo" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Feerebu/visewords" 
+                                 alt="visewords" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/Feerebu/visewords" target="_blank">visewords</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">quotes application repo...</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-28</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Feerebu/visewords" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Feerebu/Feerebu-addons" 
+                                 alt="Feerebu-addons" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/Feerebu/Feerebu-addons" target="_blank">Feerebu-addons</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Our updates that come from collab's with the contributors of Ranchie app devops...</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-28</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Feerebu/Feerebu-addons" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaSFac/DaaSFac_Data_Factory" 
+                                 alt="DaaSFac_Data_Factory" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaSFac/DaaSFac_Data_Factory" target="_blank">DaaSFac_Data_Factory</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-20"></span>
+                                <script>if(document.getElementById('lang-color-20')) document.getElementById('lang-color-20').style.backgroundColor = '#F1E05A';</script>
+                                JavaScript
+                            </span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">None</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-14</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaSFac/DaaSFac_Data_Factory" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaSFac/DaaSFac-Mock" 
+                                 alt="DaaSFac-Mock" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaSFac/DaaSFac-Mock" target="_blank">DaaSFac-Mock</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Collection of mock data for visual representation proposes.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-08</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaSFac/DaaSFac-Mock" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/gtaingoria-ops/DaaSFac_Countries_StatesDB" 
+                                 alt="DaaSFac_Countries_StatesDB" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/gtaingoria-ops/DaaSFac_Countries_StatesDB" target="_blank">DaaSFac_Countries_StatesDB</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-22"></span>
+                                <script>if(document.getElementById('lang-color-22')) document.getElementById('lang-color-22').style.backgroundColor = '#3572A5';</script>
+                                Python
+                            </span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Countries_StatesDB</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-07</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/gtaingoria-ops/DaaSFac_Countries_StatesDB" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/gtaingoria-ops/opensource-datapacks" 
+                                 alt="opensource-datapacks" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/gtaingoria-ops/opensource-datapacks" target="_blank">opensource-datapacks</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-23"></span>
+                                <script>if(document.getElementById('lang-color-23')) document.getElementById('lang-color-23').style.backgroundColor = '#3572A5';</script>
+                                Python
+                            </span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">data packs in .json for devs</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-07</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/gtaingoria-ops/opensource-datapacks" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/gtaingoria-ops/DaaSFac_Opensource" 
+                                 alt="DaaSFac_Opensource" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/gtaingoria-ops/DaaSFac_Opensource" target="_blank">DaaSFac_Opensource</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">This is a open source repo storage drop, its for the data thats open source but requires a repo access through either DaaSFac website or Feerebu marketplace.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-06</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/gtaingoria-ops/DaaSFac_Opensource" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaS-Devpack/DaaSFac_APFilterOP" 
+                                 alt="DaaSFac_APFilterOP" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaS-Devpack/DaaSFac_APFilterOP" target="_blank">DaaSFac_APFilterOP</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-25"></span>
+                                <script>if(document.getElementById('lang-color-25')) document.getElementById('lang-color-25').style.backgroundColor = '#3572A5';</script>
+                                Python
+                            </span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">APFilterOP is a dev ready database which export's the largest possible airport centric database in 4 different file formats.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-01</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaS-Devpack/DaaSFac_APFilterOP" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/gtaingoria-ops/DaaSFac_APFilter" 
+                                 alt="DaaSFac_APFilter" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/gtaingoria-ops/DaaSFac_APFilter" target="_blank">DaaSFac_APFilter</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-26"></span>
+                                <script>if(document.getElementById('lang-color-26')) document.getElementById('lang-color-26').style.backgroundColor = '#3572A5';</script>
+                                Python
+                            </span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Airport data scraper, open source for the community and devs. </p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2026-01-01</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/gtaingoria-ops/DaaSFac_APFilter" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Feerebu/Feerebu-v2" 
+                                 alt="Feerebu-v2" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/Feerebu/Feerebu-v2" target="_blank">Feerebu-v2</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Future testing ground for feerebu</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-30</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Feerebu/Feerebu-v2" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/gtaingoria-ops/DaaSFac_GeologLite" 
+                                 alt="DaaSFac_GeologLite" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/gtaingoria-ops/DaaSFac_GeologLite" target="_blank">DaaSFac_GeologLite</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-28"></span>
+                                <script>if(document.getElementById('lang-color-28')) document.getElementById('lang-color-28').style.backgroundColor = '#3572A5';</script>
+                                Python
+                            </span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Scraper for open source users, this is to be locked ill display the data for free later.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-30</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/gtaingoria-ops/DaaSFac_GeologLite" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaS-Devpack/DaaSFac_Geolog" 
+                                 alt="DaaSFac_Geolog" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaS-Devpack/DaaSFac_Geolog" target="_blank">DaaSFac_Geolog</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Extensive data scraper for geography based applications, basically powering our apps with it and providing this database to our customers.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-30</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaS-Devpack/DaaSFac_Geolog" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaS-Devpack/DaaSFac_Senti" 
+                                 alt="DaaSFac_Senti" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaS-Devpack/DaaSFac_Senti" target="_blank">DaaSFac_Senti</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-30"></span>
+                                <script>if(document.getElementById('lang-color-30')) document.getElementById('lang-color-30').style.backgroundColor = '#3572A5';</script>
+                                Python
+                            </span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Sentiment dictionary, big and in multiple formats ready for devs.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-30</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaS-Devpack/DaaSFac_Senti" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaS-Devpack/DaaSFac_Color_DB" 
+                                 alt="DaaSFac_Color_DB" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaS-Devpack/DaaSFac_Color_DB" target="_blank">DaaSFac_Color_DB</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-31"></span>
+                                <script>if(document.getElementById('lang-color-31')) document.getElementById('lang-color-31').style.backgroundColor = '#3572A5';</script>
+                                Python
+                            </span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">12000+ lines containing one of the biggest dev ready color based database.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-29</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaS-Devpack/DaaSFac_Color_DB" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaS-Devpack/DaaSFac_AI_image_enhancer" 
+                                 alt="DaaSFac_AI_image_enhancer" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaS-Devpack/DaaSFac_AI_image_enhancer" target="_blank">DaaSFac_AI_image_enhancer</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">A github page Website to allow users to enhance their images with the help of hugging face AI enhancer. </p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-29</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaS-Devpack/DaaSFac_AI_image_enhancer" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/gtaingoria-ops/DaaSFac_PeriodicTable" 
+                                 alt="DaaSFac_PeriodicTable" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/gtaingoria-ops/DaaSFac_PeriodicTable" target="_blank">DaaSFac_PeriodicTable</a></span>
+                            
+                            <span class="repo-language">
+                                <span class="language-color" id="lang-color-33"></span>
+                                <script>if(document.getElementById('lang-color-33')) document.getElementById('lang-color-33').style.backgroundColor = '#3572A5';</script>
+                                Python
+                            </span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Periodic table data scraping script, open source.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-29</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/gtaingoria-ops/DaaSFac_PeriodicTable" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaS-Devpack/quotables" 
+                                 alt="quotables" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaS-Devpack/quotables" target="_blank">quotables</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Quotes data for devs, if you have access you have paid for the subscription.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-28</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaS-Devpack/quotables" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Northoverse/DaaSFac-master" 
+                                 alt="DaaSFac-master" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
                         <div class="repo-header">
                             <span class="repo-name"><a href="https://github.com/Northoverse/DaaSFac-master" target="_blank">DaaSFac-master</a></span>
                             
                         </div>
+                        
                         <p class="repo-description">Spider sends the data here...</p>
                         
                         
@@ -609,21 +2117,75 @@
                             <span><i>📅</i> Updated 2025-12-27</span>
                             
                         </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Northoverse/DaaSFac-master" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
                     </div>
                     
                 
                     
                     <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaSFac/DaaSFac-Engine" 
+                                 alt="DaaSFac-Engine" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaSFac/DaaSFac-Engine" target="_blank">DaaSFac-Engine</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">This holds my assets for my website, and also the script for the spider cloud unit.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-26</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaSFac/DaaSFac-Engine" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/Northoverse/p1505-company-docs" 
+                                 alt="p1505-company-docs" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
                         <div class="repo-header">
                             <span class="repo-name"><a href="https://github.com/Northoverse/p1505-company-docs" target="_blank">p1505-company-docs</a></span>
                             
                             <span class="repo-language">
-                                <span class="language-color" id="lang-color-8"></span>
-                                <script>if(document.getElementById('lang-color-8')) document.getElementById('lang-color-8').style.backgroundColor = '#858585';</script>
+                                <span class="language-color" id="lang-color-37"></span>
+                                <script>if(document.getElementById('lang-color-37')) document.getElementById('lang-color-37').style.backgroundColor = '#858585';</script>
                                 MDX
                             </span>
                             
                         </div>
+                        
                         <p class="repo-description">None</p>
                         
                         
@@ -633,6 +2195,125 @@
                             <span><i>🍴</i> 0</span>
                             
                             <span><i>📅</i> Updated 2025-12-26</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/Northoverse/p1505-company-docs" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaSFac/DaaS-B2BNAPSpider" 
+                                 alt="DaaS-B2BNAPSpider" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaSFac/DaaS-B2BNAPSpider" target="_blank">DaaS-B2BNAPSpider</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">We will be collecting data on business names, address and phone numbers to provide that as a product to companies like salesforce or CRMs.</p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-25</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaSFac/DaaS-B2BNAPSpider" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaSFac/DaaS-NutritionIntelEngine" 
+                                 alt="DaaS-NutritionIntelEngine" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaSFac/DaaS-NutritionIntelEngine" target="_blank">DaaS-NutritionIntelEngine</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Data on recipes, ingredients and other factual info that can be scraped legally. </p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-25</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaSFac/DaaS-NutritionIntelEngine" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <div class="repo-item">
+                        <!-- Repository Image -->
+                        <div class="repo-image-container">
+                            <img src="https://opengraph.githubassets.com/1/DaaSFac/DaaS-InsiderSpider" 
+                                 alt="DaaS-InsiderSpider" 
+                                 class="repo-image"
+                                 onerror="this.parentElement.style.display='none'">
+                        </div>
+                        
+                        <div class="repo-header">
+                            <span class="repo-name"><a href="https://github.com/DaaSFac/DaaS-InsiderSpider" target="_blank">DaaS-InsiderSpider</a></span>
+                            
+                        </div>
+                        
+                        <p class="repo-description">Political Insider Trading Tracker Spider, our data is for retail investor platforms and apps.  </p>
+                        
+                        
+                        
+                        <div class="repo-meta">
+                            <span><i>⭐</i> 0</span>
+                            <span><i>🍴</i> 0</span>
+                            
+                            <span><i>📅</i> Updated 2025-12-25</span>
+                            
+                        </div>
+                        
+                        <!-- Repository Action Buttons -->
+                        <div class="repo-actions">
+                            <a href="https://github.com/DaaSFac/DaaS-InsiderSpider" target="_blank" class="repo-button primary">
+                                <i>🔗</i> View Repository
+                            </a>
                             
                         </div>
                     </div>
@@ -648,7 +2329,11 @@
             
             <span class="lang-item">HTML</span>
             
+            <span class="lang-item">JavaScript</span>
+            
             <span class="lang-item">MDX</span>
+            
+            <span class="lang-item">Python</span>
             
         </div>
         
@@ -656,11 +2341,47 @@
         <hr>
         
         <footer>
-            <p>Generated with <a href="https://github.com" target="_blank">Codefolio Sync</a> — 2026</p>
+            <p>Generated with <a href="https://feerebu.tech/apps/academics/career/codefolio_sync/codefolio_sync.html" target="_blank">Codefolio Sync</a> — 2026</p>
             <p style="margin-top: 8px;"><a href="https://github.com/Northoverse" target="_blank">View GitHub Profile →</a></p>
         </footer>
     </div>
 </div>
+
+<script>
+    // Cursor Glow Effect
+    document.addEventListener('DOMContentLoaded', function() {
+        const glow = document.getElementById('cursorGlow');
+        
+        document.addEventListener('mousemove', function(e) {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+        
+        document.addEventListener('mouseenter', function() {
+            glow.style.opacity = '0.15';
+        });
+        
+        document.addEventListener('mouseleave', function() {
+            glow.style.opacity = '0';
+        });
+        
+        // Add glow to interactive elements
+        const interactive = document.querySelectorAll('a, button, .repo-item, .stat, .skill-tag, .lang-item, .social-tag');
+        interactive.forEach(el => {
+            el.addEventListener('mouseenter', function() {
+                glow.style.width = '400px';
+                glow.style.height = '400px';
+                glow.style.opacity = '0.25';
+            });
+            
+            el.addEventListener('mouseleave', function() {
+                glow.style.width = '300px';
+                glow.style.height = '300px';
+                glow.style.opacity = '0.15';
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
