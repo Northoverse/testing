@@ -1,778 +1,123 @@
 <!DOCTYPE html>
-<html lang="en" data-mode="dark" data-color="cyan">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Linkhub | Premium Creator Profile</title>
-<meta name="description" content="All my links, merch, and content in one place.">
-
-<!-- Fonts & Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Site</title>
 <style>
-  /* ----------------------------------------------------
-     1. CSS VARIABLES & THEMING SYSTEM
-     ---------------------------------------------------- */
-  :root {
-    /* Core Layout & Fonts */
-    --font-main: 'Inter', system-ui, sans-serif;
-    --font-head: 'Poppins', system-ui, sans-serif;
-    --glass-blur: blur(16px);
-    --success: #10b981;
-  }
-
-  /* --- MODES --- */
-  [data-mode="dark"] {
-    --bg-base: #050508;
-    --bg-gradient: radial-gradient(circle at top, #151522 0%, #050508 100%);
-    --card-bg: rgba(25, 25, 40, 0.45);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --text-main: #f0f0f5;
-    --text-muted: #8b8b9f;
-    --shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-
-  [data-mode="light"] {
-    --bg-base: #f7f7fc;
-    --bg-gradient: radial-gradient(circle at top, #ffffff 0%, #eaeaf2 100%);
-    --card-bg: rgba(255, 255, 255, 0.7);
-    --card-border: rgba(0, 0, 0, 0.08);
-    --text-main: #111118;
-    --text-muted: #6b6b80;
-    --shadow: 0 10px 30px rgba(0,0,0,0.08);
-  }
-
-  [data-mode="matte"] {
-    --bg-base: #000000;
-    --bg-gradient: none;
-    --card-bg: #0d0d0d;
-    --card-border: #1f1f1f;
-    --text-main: #e6e6e6;
-    --text-muted: #666666;
-    --shadow: 0 15px 35px rgba(0,0,0,0.6);
-  }
-
-  /* --- ACCENT COLORS --- */
-  [data-color="cyan"] {
-    --accent-1: #00f5ff;
-    --accent-2: #0088ff;
-    --accent-glow: rgba(0, 245, 255, 0.35);
-  }
-  [data-color="purple"] {
-    --accent-1: #bc13fe;
-    --accent-2: #ff2a7a;
-    --accent-glow: rgba(188, 19, 254, 0.35);
-  }
-  [data-color="green"] {
-    --accent-1: #10b981;
-    --accent-2: #a7f3d0;
-    --accent-glow: rgba(16, 185, 129, 0.35);
-  }
-  [data-color="orange"] {
-    --accent-1: #ff6b00;
-    --accent-2: #ffb703;
-    --accent-glow: rgba(255, 107, 0, 0.35);
-  }
-
-  /* ----------------------------------------------------
-     2. RESET & BASE
-     ---------------------------------------------------- */
-  * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
-  html { scroll-behavior: smooth; }
-  
-  body {
-    background: var(--bg-base);
-    background-image: var(--bg-gradient);
-    color: var(--text-main);
-    font-family: var(--font-main);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    overflow-x: hidden;
-    position: relative;
-    transition: background 0.4s ease, color 0.4s ease;
-  }
-
-  body::selection { background: var(--accent-1); color: #000; }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg-base); }
-  ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--accent-1); }
-
-  #canvas-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: 0.5; }
-
-  /* Cursor */
-  .cursor-dot, .cursor-outline {
-    position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
-    border-radius: 50%; z-index: 9999; pointer-events: none;
-    transition: opacity 0.2s, transform 0.1s;
-  }
-  .cursor-dot { width: 6px; height: 6px; background: var(--accent-1); }
-  .cursor-outline {
-    width: 30px; height: 30px; border: 1.5px solid var(--accent-1);
-    transition: width 0.2s, height 0.2s, background 0.2s, transform 0.15s ease-out;
-  }
-  .cursor-hover .cursor-outline { width: 50px; height: 50px; background: var(--accent-glow); border-color: transparent; }
-
-  /* ----------------------------------------------------
-     3. LAYOUT & TOP BAR
-     ---------------------------------------------------- */
-  .app-container {
-    width: 100%; max-width: 640px; padding: 80px 20px 60px;
-    display: flex; flex-direction: column; align-items: center; z-index: 1;
-  }
-
-  .top-bar {
-    position: absolute; top: 20px; left: 0; width: 100%; padding: 0 20px;
-    display: flex; justify-content: space-between; z-index: 10;
-  }
-  .control-group { display: flex; gap: 10px; }
-  .icon-btn {
-    width: 42px; height: 42px; border-radius: 50%;
-    background: var(--card-bg); border: 1px solid var(--card-border);
-    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-    color: var(--text-main); display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative;
-  }
-  .icon-btn:hover { border-color: var(--accent-1); color: var(--accent-1); transform: translateY(-3px); box-shadow: 0 5px 15px var(--accent-glow); }
-
-  [data-tooltip]::after {
-    content: attr(data-tooltip); position: absolute; bottom: -35px; left: 50%;
-    transform: translateX(-50%) translateY(10px); background: var(--text-main); color: var(--bg-base);
-    padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;
-    opacity: 0; pointer-events: none; transition: all 0.2s; white-space: nowrap; z-index: 100;
-  }
-  [data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* ----------------------------------------------------
-     4. PROFILE
-     ---------------------------------------------------- */
-  .profile { text-align: center; margin-bottom: 30px; width: 100%; }
-  
-  .avatar-wrap { position: relative; margin: 0 auto 20px; width: 120px; height: 120px; }
-  .avatar {
-    width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--bg-base);
-    object-fit: cover; background: var(--card-bg); position: relative; z-index: 2;
-  }
-  .avatar-ring {
-    position: absolute; inset: -4px; border-radius: 50%; z-index: 1;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-    animation: spin 6s linear infinite; opacity: 0.9;
-  }
-  .status-dot {
-    position: absolute; bottom: 8px; right: 8px; width: 20px; height: 20px;
-    background: var(--success); border-radius: 50%; border: 3px solid var(--bg-base);
-    z-index: 3; box-shadow: 0 0 10px var(--success); animation: pulse 2s infinite;
-  }
-
-  .name-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 4px; }
-  .name { font-family: var(--font-head); font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; }
-  .verified { color: var(--accent-1); font-size: 1.3rem; }
-  .handle { font-size: 0.95rem; font-weight: 600; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; margin-bottom: 15px; }
-  
-  .bio { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin: 0 auto 20px; max-width: 480px; }
-
-  .stats { display: flex; justify-content: center; gap: 35px; margin: 0 0 25px 0; padding: 20px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--card-border); backdrop-filter: var(--glass-blur); }
-  .stat { text-align: center; }
-  .stat-n { font-family: var(--font-head); font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-bottom: 2px; }
-  .stat-l { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-
-  /* ----------------------------------------------------
-     5. SEARCH & FILTERS
-     ---------------------------------------------------- */
-  .tools-section { width: 100%; margin-bottom: 25px; display: flex; flex-direction: column; gap: 15px; }
-  .tabs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab-btn {
-    padding: 10px 20px; border-radius: 30px; border: 1px solid var(--card-border);
-    background: var(--card-bg); color: var(--text-muted); font-size: 0.85rem; font-weight: 600;
-    white-space: nowrap; transition: all 0.3s; backdrop-filter: var(--glass-blur);
-  }
-  .tab-btn.active { background: var(--text-main); color: var(--bg-base); border-color: var(--text-main); }
-  .tab-btn:hover:not(.active) { color: var(--text-main); border-color: var(--accent-1); }
-
-  /* ----------------------------------------------------
-     6. CONTENT MODULES (CARDS)
-     ---------------------------------------------------- */
-  .content-container { width: 100%; display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
-  
-  .module-card {
-    background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px;
-    padding: 16px; color: var(--text-main); text-decoration: none; position: relative; overflow: hidden;
-    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-    transition: transform 0.2s, border-color 0.3s, box-shadow 0.3s;
-  }
-  .module-card:hover { border-color: var(--accent-1); box-shadow: var(--shadow); transform: translateY(-3px); }
-
-  /* Standard Link Style */
-  .link-flex { display: flex; align-items: center; gap: 15px; }
-  .module-icon {
-    width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem; flex-shrink: 0; background: rgba(128,128,128,0.1); border: 1px solid var(--card-border); color: var(--text-main); transition: all 0.3s;
-  }
-  .module-card:hover .module-icon { background: var(--accent-glow); color: var(--accent-1); border-color: var(--accent-1); }
-  
-  .module-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-  .module-title { font-family: var(--font-head); font-size: 1.05rem; font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 8px; }
-  .module-sub { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
-  
-  .module-action { width: 36px; height: 36px; border-radius: 10px; border: none; background: rgba(128,128,128,0.1); color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: all 0.2s; z-index: 10; font-size: 0.9rem; }
-  .module-action:hover { background: var(--accent-1); color: #000; transform: scale(1.1); }
-
-  /* Featured Article / Video */
-  .feature-banner { padding: 0; display: flex; flex-direction: column; }
-  .feature-img { width: 100%; height: 160px; object-fit: cover; border-radius: 20px 20px 0 0; border-bottom: 1px solid var(--card-border); }
-  .feature-content { padding: 16px; display: flex; justify-content: space-between; align-items: center; }
-
-  /* Store Grid */
-  .store-grid-wrap { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-  .store-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .merch-item {
-    background: rgba(128,128,128,0.05); border: 1px solid var(--card-border); border-radius: 14px;
-    padding: 10px; text-align: center; transition: all 0.3s;
-  }
-  .merch-item:hover { border-color: var(--accent-1); background: rgba(128,128,128,0.1); }
-  .merch-img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
-  .merch-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; }
-  .merch-price { font-size: 0.9rem; color: var(--accent-1); font-weight: 800; font-family: var(--font-head); }
-
-  /* Event List */
-  .event-item { display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid var(--card-border); }
-  .event-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .event-date { background: rgba(128,128,128,0.1); border-radius: 12px; width: 55px; height: 55px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
-  .event-month { font-size: 0.65rem; text-transform: uppercase; color: var(--accent-1); font-weight: 800; }
-  .event-day { font-size: 1.2rem; font-family: var(--font-head); font-weight: 700; line-height: 1; }
-  .event-info { flex: 1; }
-  .event-city { font-weight: 700; font-size: 0.95rem; }
-  .event-venue { font-size: 0.8rem; color: var(--text-muted); }
-  .event-btn { padding: 6px 14px; border-radius: 20px; background: var(--text-main); color: var(--bg-base); font-size: 0.8rem; font-weight: 700; border: none; transition: transform 0.2s; }
-  .event-btn:hover { transform: scale(1.05); }
-
-  /* Podcast Mock */
-  .podcast-player { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 14px; margin-top: 10px; }
-  .play-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-1); color: #000; display: flex; align-items: center; justify-content: center; font-size: 1rem; padding-left: 3px; cursor: pointer; }
-  .progress-bar { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; }
-  .progress-fill { width: 35%; height: 100%; background: var(--accent-1); border-radius: 2px; }
-
-  /* Newsletter */
-  .newsletter-form { display: flex; gap: 8px; margin-top: 12px; width: 100%; }
-  .newsletter-form input { flex: 1; padding: 12px 15px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(128,128,128,0.05); color: var(--text-main); font-family: var(--font-main); outline: none; transition: border 0.3s; }
-  .newsletter-form input:focus { border-color: var(--accent-1); }
-  .newsletter-form button { padding: 0 20px; border-radius: 12px; border: none; background: var(--text-main); color: var(--bg-base); font-weight: 700; transition: transform 0.2s; }
-  .newsletter-form button:hover { transform: scale(1.05); }
-
-  /* ----------------------------------------------------
-     7. SOCIALS & FOOTER
-     ---------------------------------------------------- */
-  .socials { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
-  .social-btn {
-    width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--card-border); background: var(--card-bg);
-    display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.3rem;
-    text-decoration: none; transition: all 0.3s; backdrop-filter: var(--glass-blur);
-  }
-  .social-btn:hover { border-color: var(--accent-1); color: var(--bg-base); background: var(--accent-1); transform: translateY(-5px) scale(1.1); box-shadow: 0 10px 20px var(--accent-glow); }
-
-  footer { font-size: 0.8rem; color: var(--text-muted); text-align: center; font-weight: 500; padding-bottom: 20px;}
-  footer a { color: var(--accent-1); text-decoration: none; font-weight: 700; }
-
-  /* ----------------------------------------------------
-     8. MODALS (Settings, QR)
-     ---------------------------------------------------- */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
-    display: flex; align-items: center; justify-content: center; z-index: 200;
-    opacity: 0; pointer-events: none; transition: opacity 0.3s;
-  }
-  .modal-overlay.active { opacity: 1; pointer-events: auto; }
-  .modal {
-    background: var(--bg-base); border: 1px solid var(--card-border); padding: 30px;
-    border-radius: 24px; width: 90%; max-width: 420px; transform: translateY(30px);
-    transition: transform 0.3s; position: relative; box-shadow: var(--shadow); color: var(--text-main);
-  }
-  .modal-overlay.active .modal { transform: translateY(0); }
-  .modal-close { position: absolute; top: 20px; right: 20px; background: rgba(128,128,128,0.1); border-radius: 50%; width: 32px; height: 32px; border: none; color: var(--text-muted); font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-  .modal-close:hover { background: var(--card-border); color: var(--text-main); }
-  
-  .modal-title { font-family: var(--font-head); font-size: 1.4rem; margin-bottom: 20px; text-align: center; }
-  
-  /* Settings Grid */
-  .settings-section { margin-bottom: 20px; }
-  .settings-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 10px; display: block; }
-  .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
-  .opt-btn {
-    padding: 12px; border-radius: 12px; border: 2px solid var(--card-border); background: var(--card-bg);
-    color: var(--text-main); font-weight: 600; font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: all 0.2s;
-  }
-  .opt-btn.active { border-color: var(--accent-1); background: var(--accent-glow); }
-  .opt-btn:hover:not(.active) { border-color: var(--text-muted); }
-  
-  .color-circle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); }
-
-  /* Real QR Code */
-  .qr-container { text-align: center; }
-  #real-qr-code { width: 220px; height: 220px; border-radius: 16px; margin: 0 auto 20px; display: block; padding: 10px; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-
-  /* Toasts */
-  #toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 300; pointer-events: none; }
-  .toast { background: var(--text-main); color: var(--bg-base); padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: slideUpFade 0.3s ease forwards; }
-
-  /* ----------------------------------------------------
-     9. ANIMATIONS
-     ---------------------------------------------------- */
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
-  @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  .fade-up { opacity: 0; transform: translateY(30px); animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-  
-  .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3); transform: scale(0); animation: rippleAnim 0.6s linear; pointer-events: none; }
-  @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
-  
-  @media(max-width: 480px) {
-    .app-container { padding-top: 70px; }
-    .name { font-size: 1.8rem; }
-    .stats { gap: 15px; padding: 15px; }
-    .store-grid { grid-template-columns: 1fr; }
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111;line-height:1.6}
+.blk-nav{display:flex;align-items:center;gap:24px;padding:16px 40px;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}.blk-nav-brand{font-size:1.2rem;font-weight:800;text-decoration:none;color:inherit}.blk-nav-links{display:flex;gap:20px;list-style:none;margin:0 auto;padding:0}.blk-nav-links a{text-decoration:none;opacity:.7;font-weight:500;font-size:.9rem}.blk-nav-links a:hover{opacity:1}
+.blk-hero{padding:80px 40px;text-align:center;background:linear-gradient(135deg,#667eea22,#764ba222)}.blk-hero-title{font-size:3rem;font-weight:800;margin-bottom:16px}.blk-hero-sub{font-size:1.1rem;opacity:.75;max-width:520px;margin:0 auto 32px}.blk-hero-actions{display:flex;gap:12px;justify-content:center}.blk-btn-primary{background:#6c63ff;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600}.blk-btn-ghost{border:2px solid #6c63ff;color:#6c63ff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600}
+.blk-features{padding:72px 40px;text-align:center}.blk-section-title{font-size:2.2rem;font-weight:800;margin-bottom:10px}.blk-section-sub{opacity:.65;margin-bottom:48px;font-size:1.05rem}.blk-features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;max-width:960px;margin:0 auto}.blk-feature-card{padding:28px;background:#f8f9fa;border-radius:16px;text-align:left;border:1.5px solid #eee;transition:transform .2s,box-shadow .2s}.blk-feature-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.08)}.blk-feature-icon{font-size:2rem;margin-bottom:14px}.blk-feature-card h3{font-weight:700;margin-bottom:8px;font-size:1rem}.blk-feature-card p{opacity:.7;line-height:1.65;font-size:.88rem}
+.blk-cta{padding:80px 40px;text-align:center;background:linear-gradient(135deg,#6c63ff,#a78bfa);color:#fff;border-radius:24px;margin:40px}.blk-cta h2{font-size:2.4rem;font-weight:800;margin-bottom:14px}.blk-cta p{opacity:.88;font-size:1.1rem;margin-bottom:32px;max-width:520px;margin-inline:auto}.blk-cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.blk-cta-btn-primary{background:#fff;color:#6c63ff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700}.blk-cta-btn-ghost{border:2px solid rgba(255,255,255,.6);color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:600}
+.blk-testimonials{padding:72px 40px;background:#f8f9ff}.blk-testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:44px}.blk-testimonial{background:#fff;border-left:4px solid #6c63ff;padding:28px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06)}.blk-testimonial p{font-style:italic;line-height:1.7;margin-bottom:16px;font-size:.95rem;opacity:.85}.blk-testimonial cite{display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:700;font-style:normal;opacity:.7}.blk-testimonial cite img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+.blk-stats{padding:56px 40px;background:linear-gradient(135deg,#0f0f17,#1a1a2e);color:#fff}.blk-stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px;max-width:960px;margin:0 auto;text-align:center}.blk-stat-value{font-size:2.8rem;font-weight:800;color:#a78bfa;font-variant-numeric:tabular-nums}.blk-stat-label{opacity:.6;font-weight:500;margin-top:6px;font-size:.88rem;letter-spacing:.3px}
+.blk-team{padding:72px 40px;text-align:center}.blk-team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:28px;margin-top:44px;max-width:900px;margin-inline:auto}.blk-team-card{background:#f8f9fa;border-radius:20px;padding:28px 20px;border:1.5px solid #eee;transition:transform .2s}.blk-team-card:hover{transform:translateY(-4px)}.blk-team-card img{width:90px;height:90px;border-radius:50%;object-fit:cover;margin:0 auto 14px;border:3px solid #6c63ff22}.blk-team-card h3{font-weight:700;margin-bottom:4px;font-size:1rem}.blk-team-card p{opacity:.6;font-size:.85rem}.blk-team-links{display:flex;justify-content:center;gap:10px;margin-top:12px}.blk-team-links a{text-decoration:none;color:#6c63ff;font-size:.8rem;font-weight:700}
+.blk-gallery{padding:64px 40px}.blk-gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:36px}.blk-gallery-grid img{width:100%;height:220px;object-fit:cover;border-radius:12px;transition:transform .25s}.blk-gallery-grid img:hover{transform:scale(1.03)}
+.blk-contact{padding:72px 40px;max-width:720px;margin:0 auto}.blk-contact-form{margin-top:36px;display:flex;flex-direction:column;gap:18px}.blk-form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}.blk-form-field{display:flex;flex-direction:column;gap:6px}.blk-form-field label{font-size:.82rem;font-weight:600;opacity:.75}.blk-form-field input,.blk-form-field textarea{padding:12px 16px;border:1.5px solid #ddd;border-radius:10px;font-size:.95rem;font-family:inherit;transition:border-color .15s}.blk-form-field input:focus,.blk-form-field textarea:focus{outline:none;border-color:#6c63ff;box-shadow:0 0 0 3px rgba(108,99,255,.1)}.blk-form-field textarea{resize:vertical;min-height:120px}.blk-btn-primary{background:#6c63ff;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;transition:opacity .15s}.blk-btn-primary:hover{opacity:.9}
+.blk-footer{background:#0f0f17;color:#e0e0f0;padding:56px 40px 24px}.blk-footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}.blk-footer-brand p{opacity:.55;font-size:.875rem;margin-top:10px;line-height:1.65;max-width:220px}.blk-footer strong{font-weight:700;font-size:.88rem;letter-spacing:.5px}.blk-footer ul{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:8px}.blk-footer a{color:rgba(255,255,255,.55);text-decoration:none;font-size:.875rem}.blk-footer a:hover{color:#fff}.blk-footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:20px;opacity:.4;font-size:.8rem}
 </style>
 </head>
 <body>
-
-  <div class="cursor-dot"></div>
-  <div class="cursor-outline"></div>
-  <canvas id="canvas-bg"></canvas>
-
-  <div class="app-container">
-    
-    <!-- Top Bar Controls -->
-    <div class="top-bar fade-up" style="animation-delay: 0.1s;">
-      <div class="control-group">
-        <button class="icon-btn" id="settings-btn" data-tooltip="Theme & Settings" aria-label="Settings"><i class="fas fa-palette"></i></button>
-      </div>
-      <div class="control-group">
-        <button class="icon-btn" id="qr-btn" data-tooltip="My QR Code" aria-label="Show QR Code"><i class="fas fa-qrcode"></i></button>
-        <button class="icon-btn" id="share-btn" data-tooltip="Share Profile" aria-label="Share Profile"><i class="fas fa-share-nodes"></i></button>
-      </div>
-    </div>
-
-    <!-- Profile Section -->
-    <header class="profile">
-      <div class="avatar-wrap fade-up" style="animation-delay: 0.2s;">
-        <img class="avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Profile Picture">
-        <div class="avatar-ring"></div>
-        <div class="status-dot" data-tooltip="Recording Now"></div>
-      </div>
-      
-      <div class="name-wrap fade-up" style="animation-delay: 0.3s;">
-        <h1 class="name">Sarah Jenkins</h1>
-        <i class="fas fa-circle-check verified" data-tooltip="Verified Creator"></i>
-      </div>
-      <div class="handle fade-up" style="animation-delay: 0.35s;">@sarahcreates</div>
-      
-      <div class="bio fade-up" style="animation-delay: 0.4s;">
-        Digital Artist, Podcaster & Tech Reviewer. Helping you build better creative workflows. Based in NYC 🍎
-      </div>
-
-      <div class="stats fade-up" style="animation-delay: 0.45s;">
-        <div class="stat"><div class="stat-n" data-target="150" data-suffix="k">0</div><div class="stat-l">Subscribers</div></div>
-        <div class="stat"><div class="stat-n" data-target="3" data-suffix="M">0</div><div class="stat-l">Views</div></div>
-        <div class="stat"><div class="stat-n" data-target="42">0</div><div class="stat-l">Episodes</div></div>
-      </div>
-    </header>
-
-    <!-- Filters -->
-    <div class="tools-section fade-up" style="animation-delay: 0.5s;">
-      <div class="tabs" id="category-tabs">
-        <button class="tab-btn active" data-filter="all">All Content</button>
-        <button class="tab-btn" data-filter="links">Important Links</button>
-        <button class="tab-btn" data-filter="media">Videos & Audio</button>
-        <button class="tab-btn" data-filter="store">Merch Store</button>
-        <button class="tab-btn" data-filter="events">Live Events</button>
-      </div>
-    </div>
-
-    <!-- Content List -->
-    <main class="content-container" id="content-container">
-      
-      <!-- 1. Featured Video / Blog (Media) -->
-      <a href="#" class="module-card feature-banner fade-up item-card" data-category="media" style="animation-delay: 0.55s;">
-        <img class="feature-img" src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Video Thumbnail">
-        <div class="feature-content">
-          <div>
-            <div class="module-title"><span style="color:var(--accent-1)"><i class="fab fa-youtube"></i></span> My New Desk Setup Tour</div>
-            <div class="module-sub">Watch the full 2024 tech breakdown</div>
-          </div>
-          <button class="module-action"><i class="fas fa-play"></i></button>
-        </div>
-      </a>
-
-      <!-- 2. Podcast Player Mock (Media) -->
-      <div class="module-card fade-up item-card" data-category="media" style="animation-delay: 0.6s;">
-        <div class="link-flex">
-          <div class="module-icon" style="color: #bc13fe;"><i class="fas fa-podcast"></i></div>
-          <div class="module-info">
-            <div class="module-title">The Creative Workflow Podcast</div>
-            <div class="module-sub">Ep 42: Avoiding Burnout as a Freelancer</div>
-          </div>
-        </div>
-        <div class="podcast-player">
-          <div class="play-btn" onclick="showToast('Playing Episode 42...')"><i class="fas fa-play"></i></div>
-          <div class="progress-bar"><div class="progress-fill"></div></div>
-          <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">12:45 / 45:00</span>
-        </div>
-      </div>
-
-      <!-- 3. Standard Links (Links) -->
-      <a href="#" class="module-card fade-up item-card" data-category="links" style="animation-delay: 0.65s;">
-        <div class="link-flex">
-          <div class="module-icon"><i class="fas fa-globe"></i></div>
-          <div class="module-info">
-            <div class="module-title">My Official Website</div>
-            <div class="module-sub">Read my full blog and case studies</div>
-          </div>
-          <button class="module-action copy-btn" data-link="https://sarahcreates.com" data-tooltip="Copy Link"><i class="fas fa-copy"></i></button>
-        </div>
-      </a>
-
-      <a href="#" class="module-card fade-up item-card" data-category="links" style="animation-delay: 0.7s;">
-        <div class="link-flex">
-          <div class="module-icon" style="color: #0077b5;"><i class="fab fa-linkedin"></i></div>
-          <div class="module-info">
-            <div class="module-title">Let's connect on LinkedIn</div>
-            <div class="module-sub">Open for brand partnerships & speaking</div>
-          </div>
-          <button class="module-action copy-btn" data-link="https://linkedin.com" data-tooltip="Copy Link"><i class="fas fa-copy"></i></button>
-        </div>
-      </a>
-
-      <!-- 4. Merch Store Grid (Store) -->
-      <div class="module-card store-grid-wrap fade-up item-card" data-category="store" style="animation-delay: 0.75s;">
-        <div class="module-title"><i class="fas fa-store" style="color:var(--accent-1)"></i> Official Merch Drop Vol. 1</div>
-        <div class="store-grid">
-          <a href="#" class="merch-item" style="text-decoration:none; color:inherit;">
-            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="T-Shirt" class="merch-img">
-            <div class="merch-title">"Create" Essential Tee</div>
-            <div class="merch-price">$28.00</div>
-          </a>
-          <a href="#" class="merch-item" style="text-decoration:none; color:inherit;">
-            <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Mug" class="merch-img">
-            <div class="merch-title">Midnight Coffee Mug</div>
-            <div class="merch-price">$16.00</div>
-          </a>
-        </div>
-      </div>
-
-      <!-- 5. Live Events (Events) -->
-      <div class="module-card store-grid-wrap fade-up item-card" data-category="events" style="animation-delay: 0.8s;">
-        <div class="module-title"><i class="fas fa-ticket-alt" style="color:var(--accent-1)"></i> Upcoming Tour Dates</div>
-        <div class="event-list">
-          <div class="event-item">
-            <div class="event-date"><span class="event-month">Nov</span><span class="event-day">12</span></div>
-            <div class="event-info">
-              <div class="event-city">New York City, NY</div>
-              <div class="event-venue">Creator Economy Summit '24</div>
-            </div>
-            <button class="event-btn" onclick="showToast('Redirecting to tickets...')">Tickets</button>
-          </div>
-          <div class="event-item">
-            <div class="event-date"><span class="event-month">Dec</span><span class="event-day">05</span></div>
-            <div class="event-info">
-              <div class="event-city">Los Angeles, CA</div>
-              <div class="event-venue">Tech & Design Workshop</div>
-            </div>
-            <button class="event-btn" onclick="showToast('Redirecting to tickets...')">Tickets</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 6. Newsletter Sign Up -->
-      <div class="module-card fade-up item-card" data-category="links" style="animation-delay: 0.85s;">
-        <div class="link-flex" style="margin-bottom: 5px;">
-          <div class="module-icon"><i class="fas fa-envelope-open-text"></i></div>
-          <div class="module-info">
-            <div class="module-title">Join my Newsletter</div>
-            <div class="module-sub">Weekly tips on design & productivity</div>
-          </div>
-        </div>
-        <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Thanks for subscribing!'); this.reset();">
-          <input type="email" placeholder="Your best email address..." required>
-          <button type="submit">Subscribe</button>
-        </form>
-      </div>
-
-    </main>
-
-    <!-- Socials & Footer -->
-    <div class="socials fade-up" style="animation-delay: 0.9s;">
-      <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-      <a href="#" class="social-btn" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-      <a href="#" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-      <button class="social-btn" onclick="showToast('vCard Download started')" aria-label="Save Contact"><i class="fas fa-address-card"></i></button>
-    </div>
-
-    <footer class="fade-up" style="animation-delay: 0.95s;">
-      <p>Built for Creators. Powered by <a href="https://daasfactory.live/brainwaves/api/enterapi/corner_editor.html">DaaSFac - Corner</a></p>
-    </footer>
-
-  </div>
-
-  <!-- MODALS -->
-
-  <!-- Settings Modal -->
-  <div class="modal-overlay" id="settings-modal">
-    <div class="modal">
-      <button class="modal-close"><i class="fas fa-times"></i></button>
-      <h2 class="modal-title">Appearance Settings</h2>
-      
-      <div class="settings-section">
-        <span class="settings-label">Background Mode</span>
-        <div class="options-grid">
-          <button class="opt-btn mode-btn active" data-set-mode="dark"><i class="fas fa-moon"></i> Dark</button>
-          <button class="opt-btn mode-btn" data-set-mode="light"><i class="fas fa-sun"></i> Light</button>
-          <button class="opt-btn mode-btn" data-set-mode="matte"><i class="fas fa-square-full"></i> Matte Black</button>
-        </div>
-      </div>
-
-      <div class="settings-section">
-        <span class="settings-label">Accent Color</span>
-        <div class="options-grid">
-          <button class="opt-btn color-btn active" data-set-color="cyan">
-            <div class="color-circle" style="background:#00f5ff;"></div>Cyan
-          </button>
-          <button class="opt-btn color-btn" data-set-color="purple">
-            <div class="color-circle" style="background:#bc13fe;"></div>Purple
-          </button>
-          <button class="opt-btn color-btn" data-set-color="green">
-            <div class="color-circle" style="background:#10b981;"></div>Emerald
-          </button>
-          <button class="opt-btn color-btn" data-set-color="orange">
-            <div class="color-circle" style="background:#ff6b00;"></div>Blaze
-          </button>
-        </div>
-      </div>
+<nav class="blk-nav">
+  <a href="#" class="blk-nav-brand">Brand</a>
+  <ul class="blk-nav-links">
+    <li><a href="#">Home</a></li><li><a href="#">About</a></li>
+    <li><a href="#">Features</a></li><li><a href="#">Pricing</a></li>
+  </ul>
+  <a href="#" class="blk-btn-primary" style="padding:8px 18px;font-size:.875rem">Sign Up</a>
+</nav>
+<section class="blk-hero">
+  <div class="blk-hero-content">
+    <h1 class="blk-hero-title">Your Headline Here</h1>
+    <p class="blk-hero-sub">Supporting description that explains your value proposition clearly.</p>
+    <div class="blk-hero-actions">
+      <a href="#" class="blk-btn-primary">Get Started</a>
+      <a href="#" class="blk-btn-ghost">Learn More</a>
     </div>
   </div>
-
-  <!-- QR Code Modal (Now dynamic API based) -->
-  <div class="modal-overlay" id="qr-modal">
-    <div class="modal qr-container">
-      <button class="modal-close"><i class="fas fa-times"></i></button>
-      <h2 class="modal-title">Scan Profile</h2>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Point your camera at this code to view my Linkhub.</p>
-      
-      <!-- Actual dynamic image tag for API -->
-      <img id="real-qr-code" src="" alt="QR Code">
-      
-      <button class="tab-btn" style="width: 100%; padding: 12px; background: var(--text-main); color: var(--bg-base);" onclick="showToast('QR Code saved to photos!')"><i class="fas fa-download"></i> Save Image</button>
-    </div>
+</section>
+<section class="blk-features">
+  <h2 class="blk-section-title">Why Choose Us</h2>
+  <p class="blk-section-sub">Everything you need to succeed in one place</p>
+  <div class="blk-features-grid">
+    <div class="blk-feature-card"><div class="blk-feature-icon">⚡</div><h3>Lightning Fast</h3><p>Performance-first architecture delivers sub-second page loads globally.</p></div>
+    <div class="blk-feature-card"><div class="blk-feature-icon">🔒</div><h3>Bank-Grade Security</h3><p>Enterprise security with end-to-end encryption and SOC 2 compliance.</p></div>
+    <div class="blk-feature-card"><div class="blk-feature-icon">📱</div><h3>Fully Responsive</h3><p>Looks pixel-perfect on every device from 320px to 4K displays.</p></div>
+    <div class="blk-feature-card"><div class="blk-feature-icon">🤖</div><h3>AI-Powered</h3><p>Smart automation handles the repetitive work so you can focus on growth.</p></div>
+    <div class="blk-feature-card"><div class="blk-feature-icon">🌐</div><h3>Global CDN</h3><p>Deployed across 200+ edge locations for blazing fast delivery worldwide.</p></div>
+    <div class="blk-feature-card"><div class="blk-feature-icon">📊</div><h3>Deep Analytics</h3><p>Actionable insights with real-time dashboards and custom reporting.</p></div>
   </div>
-
-  <!-- Toast Container -->
-  <div id="toast-container"></div>
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-
-    /* --- 1. Custom Cursor --- */
-    const cursorDot = document.querySelector('.cursor-dot');
-    const cursorOutline = document.querySelector('.cursor-outline');
-    
-    window.addEventListener('mousemove', (e) => {
-      cursorDot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-      cursorOutline.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    });
-
-    const interactables = document.querySelectorAll('a, button, input, .module-card');
-    interactables.forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-    });
-
-    /* --- 2. Interactive Background (Particles) --- */
-    const canvas = document.getElementById('canvas-bg');
-    const ctx = canvas.getContext('2d');
-    let width, height, particles = [];
-    let mouse = { x: null, y: null, radius: 150 };
-
-    function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resizeCanvas); resizeCanvas();
-    window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-    window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * width; this.y = Math.random() * height;
-        this.size = Math.random() * 2 + 0.5;
-        this.baseX = this.x; this.baseY = this.y;
-        this.density = (Math.random() * 30) + 1;
-        this.color = getComputedStyle(document.documentElement).getPropertyValue('--accent-1').trim() || '#ffffff';
-      }
-      draw() {
-        ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.closePath(); ctx.fill();
-      }
-      update() {
-        // Dynamically get current accent color (responds to theme changes)
-        this.color = getComputedStyle(document.documentElement).getPropertyValue('--accent-1').trim();
-        
-        let dx = mouse.x - this.x; let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        let forceDirectionX = dx / distance; let forceDirectionY = dy / distance;
-        let force = (mouse.radius - distance) / mouse.radius;
-        let directionX = forceDirectionX * force * this.density; let directionY = forceDirectionY * force * this.density;
-
-        if (distance < mouse.radius) { this.x -= directionX; this.y -= directionY; } 
-        else {
-          if (this.x !== this.baseX) { this.x -= (this.x - this.baseX) / 10; }
-          if (this.y !== this.baseY) { this.y -= (this.y - this.baseY) / 10; }
-        }
-        
-        this.baseY -= 0.15; // float up slowly
-        if(this.baseY < -10) this.baseY = height + 10;
-        this.draw();
-      }
-    }
-    function initParticles() {
-      particles = []; let numParticles = (width * height) / 15000;
-      for (let i = 0; i < numParticles; i++) particles.push(new Particle());
-    }
-    initParticles();
-    function animateParticles() { ctx.clearRect(0, 0, width, height); for (let i = 0; i < particles.length; i++) particles[i].update(); requestAnimationFrame(animateParticles); }
-    animateParticles();
-
-    /* --- 3. Toasts --- */
-    const toastContainer = document.getElementById('toast-container');
-    window.showToast = function(message) {
-      const toast = document.createElement('div');
-      toast.className = 'toast'; toast.textContent = message;
-      toastContainer.appendChild(toast);
-      setTimeout(() => {
-        toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)'; toast.style.transition = 'all 0.3s';
-        setTimeout(() => toast.remove(), 300);
-      }, 3000);
-    }
-
-    /* --- 4. Modals & Settings (Theming Engine) --- */
-    const htmlEl = document.documentElement;
-    const settingsBtn = document.getElementById('settings-btn');
-    const settingsModal = document.getElementById('settings-modal');
-    
-    // Open/Close Modals
-    document.querySelectorAll('.modal-close').forEach(btn => {
-      btn.addEventListener('click', (e) => e.target.closest('.modal-overlay').classList.remove('active'));
-    });
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-      overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
-    });
-
-    settingsBtn.addEventListener('click', () => settingsModal.classList.add('active'));
-
-    // Handle Mode Switch
-    const modeBtns = document.querySelectorAll('.mode-btn');
-    modeBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        modeBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        htmlEl.setAttribute('data-mode', btn.dataset.setMode);
-      });
-    });
-
-    // Handle Color Switch
-    const colorBtns = document.querySelectorAll('.color-btn');
-    colorBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        colorBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        htmlEl.setAttribute('data-color', btn.dataset.setColor);
-      });
-    });
-
-    /* --- 5. Real QR Code Generator API --- */
-    const qrBtn = document.getElementById('qr-btn');
-    const qrModal = document.getElementById('qr-modal');
-    const qrImg = document.getElementById('real-qr-code');
-
-    qrBtn.addEventListener('click', () => {
-      // Use current page URL to generate a working QR code dynamically
-      const currentUrl = encodeURIComponent(window.location.href);
-      // Using reliable qrserver API
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${currentUrl}&color=000000&bgcolor=ffffff&margin=10`;
-      qrModal.classList.add('active');
-    });
-
-    /* --- 6. Number Animation --- */
-    setTimeout(() => {
-      document.querySelectorAll('.stat-n').forEach(counter => {
-        const target = +counter.getAttribute('data-target');
-        const suffix = counter.getAttribute('data-suffix') || '';
-        let current = 0; const increment = target / (2000 / 16);
-        const updateCounter = () => {
-          current += increment;
-          if(current < target) { counter.innerText = Math.ceil(current) + suffix; requestAnimationFrame(updateCounter); } 
-          else { counter.innerText = target + suffix; }
-        };
-        updateCounter();
-      });
-    }, 800);
-
-    /* --- 7. Tab Filtering --- */
-    const tabBtns = document.querySelectorAll('.tab-btn[data-filter]');
-    const items = document.querySelectorAll('.item-card');
-
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        tabBtns.forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        const filter = e.target.dataset.filter;
-
-        items.forEach(item => {
-          if(filter === 'all' || item.dataset.category === filter) {
-            item.style.display = 'flex';
-            setTimeout(() => item.style.opacity = '1', 50);
-          } else {
-            item.style.opacity = '0';
-            setTimeout(() => item.style.display = 'none', 300);
-          }
-        });
-      });
-    });
-
-    /* --- 8. Copy Link & Share --- */
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault(); e.stopPropagation();
-        navigator.clipboard.writeText(btn.dataset.link).then(() => {
-          showToast('Link copied to clipboard!');
-        }).catch(() => showToast('Failed to copy.'));
-      });
-    });
-
-    document.getElementById('share-btn').addEventListener('click', async () => {
-      if (navigator.share) {
-        try { await navigator.share({ title: 'Sarah Jenkins - Creator Profile', url: window.location.href }); showToast('Shared successfully!'); } 
-        catch (err) { console.log('Share canceled'); }
-      } else {
-        navigator.clipboard.writeText(window.location.href); showToast('Profile URL copied!');
-      }
-    });
-
-    /* --- 9. Ripple Effects --- */
-    document.querySelectorAll('button:not(.module-action)').forEach(btn => {
-      btn.addEventListener('click', e => {
-        const circle = document.createElement('span'); const d = Math.max(btn.clientWidth, btn.clientHeight);
-        const rect = btn.getBoundingClientRect();
-        circle.style.width = circle.style.height = `${d}px`;
-        circle.style.left = `${e.clientX - rect.left - d/2}px`; circle.style.top = `${e.clientY - rect.top - d/2}px`;
-        circle.classList.add('ripple');
-        const existing = btn.querySelector('.ripple'); if (existing) existing.remove();
-        btn.appendChild(circle);
-      });
-    });
-
-  });
-</script>
+</section>
+<section class="blk-cta">
+  <h2>Ready to transform your workflow?</h2>
+  <p>Join 10,000+ teams already using our platform to ship faster and smarter.</p>
+  <div class="blk-cta-actions">
+    <a href="#" class="blk-cta-btn-primary">Start Free Trial →</a>
+    <a href="#" class="blk-cta-btn-ghost">See Demo</a>
+  </div>
+</section>
+<section class="blk-testimonials">
+  <h2 class="blk-section-title">What People Say</h2>
+  <div class="blk-testimonials-grid">
+    <blockquote class="blk-testimonial"><p>"This platform completely changed how our team ships product. Reduced deployment time by 80%."</p><cite><img src="https://i.pravatar.cc/40?img=5" alt="">Sarah K., Head of Engineering at Vercel</cite></blockquote>
+    <blockquote class="blk-testimonial"><p>"The best developer tooling investment we made this year. Setup took under 10 minutes."</p><cite><img src="https://i.pravatar.cc/40?img=8" alt="">James M., CTO at Linear</cite></blockquote>
+    <blockquote class="blk-testimonial"><p>"Our site performance went from 60 to 98 on Core Web Vitals within a week of switching."</p><cite><img src="https://i.pravatar.cc/40?img=12" alt="">Priya R., VP Engineering at Stripe</cite></blockquote>
+  </div>
+</section>
+<section class="blk-stats">
+  <div class="blk-stats-grid">
+    <div class="blk-stat"><div class="blk-stat-value">50K+</div><div class="blk-stat-label">Active Users</div></div>
+    <div class="blk-stat"><div class="blk-stat-value">99.99%</div><div class="blk-stat-label">Uptime SLA</div></div>
+    <div class="blk-stat"><div class="blk-stat-value">4.9★</div><div class="blk-stat-label">Avg Rating</div></div>
+    <div class="blk-stat"><div class="blk-stat-value">24/7</div><div class="blk-stat-label">Expert Support</div></div>
+    <div class="blk-stat"><div class="blk-stat-value">140+</div><div class="blk-stat-label">Countries</div></div>
+  </div>
+</section>
+<section class="blk-team">
+  <h2 class="blk-section-title">Meet the Team</h2>
+  <p class="blk-section-sub">The people behind the product</p>
+  <div class="blk-team-grid">
+    <div class="blk-team-card"><img src="https://i.pravatar.cc/160?img=1" alt="Alice Chen"><h3>Alice Chen</h3><p>CEO &amp; Co-founder</p><div class="blk-team-links"><a href="#">𝕏</a><a href="#">in</a></div></div>
+    <div class="blk-team-card"><img src="https://i.pravatar.cc/160?img=3" alt="Bob Smith"><h3>Bob Smith</h3><p>CTO</p><div class="blk-team-links"><a href="#">𝕏</a><a href="#">in</a></div></div>
+    <div class="blk-team-card"><img src="https://i.pravatar.cc/160?img=9" alt="Carol Lee"><h3>Carol Lee</h3><p>Head of Design</p><div class="blk-team-links"><a href="#">𝕏</a><a href="#">in</a></div></div>
+    <div class="blk-team-card"><img src="https://i.pravatar.cc/160?img=11" alt="Dev Patel"><h3>Dev Patel</h3><p>Head of Product</p><div class="blk-team-links"><a href="#">𝕏</a><a href="#">in</a></div></div>
+  </div>
+</section>
+<section class="blk-gallery">
+  <h2 class="blk-section-title">Gallery</h2>
+  <div class="blk-gallery-grid">
+    <img src="https://picsum.photos/seed/g1/600/400" alt="Gallery image 1">
+    <img src="https://picsum.photos/seed/g2/600/400" alt="Gallery image 2">
+    <img src="https://picsum.photos/seed/g3/600/400" alt="Gallery image 3">
+    <img src="https://picsum.photos/seed/g4/600/400" alt="Gallery image 4">
+    <img src="https://picsum.photos/seed/g5/600/400" alt="Gallery image 5">
+    <img src="https://picsum.photos/seed/g6/600/400" alt="Gallery image 6">
+  </div>
+</section>
+<section class="blk-contact">
+  <h2 class="blk-section-title">Get in Touch</h2>
+  <p class="blk-section-sub">We respond within 24 hours on business days</p>
+  <form class="blk-contact-form" onsubmit="return false">
+    <div class="blk-form-row">
+      <div class="blk-form-field"><label>First Name</label><input type="text" placeholder="Alice" /></div>
+      <div class="blk-form-field"><label>Last Name</label><input type="text" placeholder="Smith" /></div>
+    </div>
+    <div class="blk-form-field"><label>Email</label><input type="email" placeholder="alice@example.com" /></div>
+    <div class="blk-form-field"><label>Subject</label><input type="text" placeholder="How can we help?" /></div>
+    <div class="blk-form-field"><label>Message</label><textarea rows="5" placeholder="Your message…"></textarea></div>
+    <button type="submit" class="blk-btn-primary" style="width:100%;padding:14px;font-size:1rem">Send Message →</button>
+  </form>
+</section>
+<footer class="blk-footer">
+  <div class="blk-footer-top">
+    <div class="blk-footer-brand"><strong>Brand</strong><p>Building great things for the modern web, one line at a time.</p></div>
+    <div><strong>Product</strong><ul><li><a href="#">Features</a></li><li><a href="#">Pricing</a></li><li><a href="#">Changelog</a></li></ul></div>
+    <div><strong>Company</strong><ul><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li></ul></div>
+    <div><strong>Legal</strong><ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Cookies</a></li></ul></div>
+  </div>
+  <div class="blk-footer-bottom">© 2025 Brand Inc. All rights reserved.</div>
+</footer>
 </body>
 </html>
