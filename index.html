@@ -1,123 +1,977 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="matte" data-accent="crimson">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Site</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>The Dispatch · Editor's News Stand & Workspace</title>
+<meta name="description" content="Advanced editorial news stand, version control, and system updates for journalists.">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111;line-height:1.6}
-.blk-nav{display:flex;align-items:center;gap:24px;padding:16px 40px;background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}.blk-nav-brand{font-size:1.2rem;font-weight:800;text-decoration:none;color:inherit}.blk-nav-links{display:flex;gap:20px;list-style:none;margin:0 auto;padding:0}.blk-nav-links a{text-decoration:none;opacity:.7;font-weight:500;font-size:.9rem}.blk-nav-links a:hover{opacity:1}
-.blk-hero{padding:80px 40px;text-align:center;background:linear-gradient(135deg,#667eea22,#764ba222)}.blk-hero-title{font-size:3rem;font-weight:800;margin-bottom:16px}.blk-hero-sub{font-size:1.1rem;opacity:.75;max-width:520px;margin:0 auto 32px}.blk-hero-actions{display:flex;gap:12px;justify-content:center}.blk-btn-primary{background:#6c63ff;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600}.blk-btn-ghost{border:2px solid #6c63ff;color:#6c63ff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600}
-.blk-features{padding:72px 40px;text-align:center}.blk-section-title{font-size:2.2rem;font-weight:800;margin-bottom:10px}.blk-section-sub{opacity:.65;margin-bottom:48px;font-size:1.05rem}.blk-features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;max-width:960px;margin:0 auto}.blk-feature-card{padding:28px;background:#f8f9fa;border-radius:16px;text-align:left;border:1.5px solid #eee;transition:transform .2s,box-shadow .2s}.blk-feature-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.08)}.blk-feature-icon{font-size:2rem;margin-bottom:14px}.blk-feature-card h3{font-weight:700;margin-bottom:8px;font-size:1rem}.blk-feature-card p{opacity:.7;line-height:1.65;font-size:.88rem}
-.blk-cta{padding:80px 40px;text-align:center;background:linear-gradient(135deg,#6c63ff,#a78bfa);color:#fff;border-radius:24px;margin:40px}.blk-cta h2{font-size:2.4rem;font-weight:800;margin-bottom:14px}.blk-cta p{opacity:.88;font-size:1.1rem;margin-bottom:32px;max-width:520px;margin-inline:auto}.blk-cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.blk-cta-btn-primary{background:#fff;color:#6c63ff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700}.blk-cta-btn-ghost{border:2px solid rgba(255,255,255,.6);color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:600}
-.blk-testimonials{padding:72px 40px;background:#f8f9ff}.blk-testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:44px}.blk-testimonial{background:#fff;border-left:4px solid #6c63ff;padding:28px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06)}.blk-testimonial p{font-style:italic;line-height:1.7;margin-bottom:16px;font-size:.95rem;opacity:.85}.blk-testimonial cite{display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:700;font-style:normal;opacity:.7}.blk-testimonial cite img{width:36px;height:36px;border-radius:50%;object-fit:cover}
-.blk-stats{padding:56px 40px;background:linear-gradient(135deg,#0f0f17,#1a1a2e);color:#fff}.blk-stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px;max-width:960px;margin:0 auto;text-align:center}.blk-stat-value{font-size:2.8rem;font-weight:800;color:#a78bfa;font-variant-numeric:tabular-nums}.blk-stat-label{opacity:.6;font-weight:500;margin-top:6px;font-size:.88rem;letter-spacing:.3px}
-.blk-team{padding:72px 40px;text-align:center}.blk-team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:28px;margin-top:44px;max-width:900px;margin-inline:auto}.blk-team-card{background:#f8f9fa;border-radius:20px;padding:28px 20px;border:1.5px solid #eee;transition:transform .2s}.blk-team-card:hover{transform:translateY(-4px)}.blk-team-card img{width:90px;height:90px;border-radius:50%;object-fit:cover;margin:0 auto 14px;border:3px solid #6c63ff22}.blk-team-card h3{font-weight:700;margin-bottom:4px;font-size:1rem}.blk-team-card p{opacity:.6;font-size:.85rem}.blk-team-links{display:flex;justify-content:center;gap:10px;margin-top:12px}.blk-team-links a{text-decoration:none;color:#6c63ff;font-size:.8rem;font-weight:700}
-.blk-gallery{padding:64px 40px}.blk-gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:36px}.blk-gallery-grid img{width:100%;height:220px;object-fit:cover;border-radius:12px;transition:transform .25s}.blk-gallery-grid img:hover{transform:scale(1.03)}
-.blk-contact{padding:72px 40px;max-width:720px;margin:0 auto}.blk-contact-form{margin-top:36px;display:flex;flex-direction:column;gap:18px}.blk-form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}.blk-form-field{display:flex;flex-direction:column;gap:6px}.blk-form-field label{font-size:.82rem;font-weight:600;opacity:.75}.blk-form-field input,.blk-form-field textarea{padding:12px 16px;border:1.5px solid #ddd;border-radius:10px;font-size:.95rem;font-family:inherit;transition:border-color .15s}.blk-form-field input:focus,.blk-form-field textarea:focus{outline:none;border-color:#6c63ff;box-shadow:0 0 0 3px rgba(108,99,255,.1)}.blk-form-field textarea{resize:vertical;min-height:120px}.blk-btn-primary{background:#6c63ff;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;transition:opacity .15s}.blk-btn-primary:hover{opacity:.9}
-.blk-footer{background:#0f0f17;color:#e0e0f0;padding:56px 40px 24px}.blk-footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}.blk-footer-brand p{opacity:.55;font-size:.875rem;margin-top:10px;line-height:1.65;max-width:220px}.blk-footer strong{font-weight:700;font-size:.88rem;letter-spacing:.5px}.blk-footer ul{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:8px}.blk-footer a{color:rgba(255,255,255,.55);text-decoration:none;font-size:.875rem}.blk-footer a:hover{color:#fff}.blk-footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:20px;opacity:.4;font-size:.8rem}
+/* =========================================
+   THEMING SYSTEM (3 Modes, 4 Accents)
+   ========================================= */
+:root {
+  /* Fonts */
+  --font-serif: 'Source Serif 4', 'Georgia', serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Transitions */
+  --trans: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 1. MATTE BLACK MODE (Default) */
+[data-theme="matte"] {
+  --bg: #09090b;
+  --surface: #121214;
+  --surface-hover: #1c1c1f;
+  --border: #27272a;
+  --border-light: #1f1f22;
+  --text-main: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --text-sub: #71717a;
+  --glass: rgba(18, 18, 20, 0.8);
+}
+
+/* 2. DARK MODE (Classic Navy/Dark Gray) */
+[data-theme="dark"] {
+  --bg: #0f1117;
+  --surface: #151821;
+  --surface-hover: #1e222d;
+  --border: #2a2e39;
+  --border-light: #1f232e;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-sub: #64748b;
+  --glass: rgba(21, 24, 33, 0.8);
+}
+
+/* 3. LIGHT MODE (Clean Paper) */
+[data-theme="light"] {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-hover: #f1f5f9;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-sub: #64748b;
+  --glass: rgba(255, 255, 255, 0.85);
+}
+
+/* ACCENT COLORS */
+[data-accent="crimson"] {
+  --a1: #e11d48; /* Main */
+  --a1-hover: #be123c;
+  --a1-muted: rgba(225, 29, 72, 0.15);
+  --a2: #0ea5e9; /* Secondary/AI */
+}
+[data-accent="emerald"] {
+  --a1: #10b981;
+  --a1-hover: #059669;
+  --a1-muted: rgba(16, 185, 129, 0.15);
+  --a2: #8b5cf6;
+}
+[data-accent="blue"] {
+  --a1: #3b82f6;
+  --a1-hover: #2563eb;
+  --a1-muted: rgba(59, 130, 246, 0.15);
+  --a2: #f59e0b;
+}
+[data-accent="amber"] {
+  --a1: #f59e0b;
+  --a1-hover: #d97706;
+  --a1-muted: rgba(245, 158, 11, 0.15);
+  --a2: #3b82f6;
+}
+
+/* =========================================
+   GLOBAL STYLES
+   ========================================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { 
+  background: var(--bg); color: var(--text-main); 
+  font-family: var(--font-sans); min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+  overflow-x: hidden;
+}
+a { color: var(--a1); text-decoration: none; transition: var(--trans); }
+a:hover { color: var(--a2); }
+ul { list-style: none; }
+
+/* =========================================
+   TOP UTILITY BAR (Theme Switchers & Tools)
+   ========================================= */
+.top-util {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  padding: 8px 48px; background: var(--surface); border-bottom: 1px solid var(--border);
+  font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-muted);
+}
+.theme-controls, .system-status { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.theme-btn {
+  background: none; border: 1px solid var(--border); color: var(--text-muted);
+  padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: var(--trans);
+  font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase;
+}
+.theme-btn:hover, .theme-btn.active { background: var(--border); color: var(--text-main); }
+.color-swatches { display: flex; gap: 8px; align-items: center; }
+.swatch {
+  width: 16px; height: 16px; border-radius: 50%; cursor: pointer;
+  border: 2px solid transparent; transition: var(--trans);
+}
+.swatch.active { border-color: var(--text-main); transform: scale(1.2); }
+.sw-crimson { background: #e11d48; }
+.sw-emerald { background: #10b981; }
+.sw-blue { background: #3b82f6; }
+.sw-amber { background: #f59e0b; }
+.status-indicator { display: flex; align-items: center; gap: 6px; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--a1); animation: pulse 2s infinite; }
+
+/* =========================================
+   TICKER
+   ========================================= */
+.ticker-wrap { background: var(--a1); overflow: hidden; height: 32px; display: flex; align-items: center; transition: var(--trans); }
+.ticker-badge { background: rgba(0,0,0,0.4); color: #fff; padding: 0 16px; font-size: 0.65rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; height: 100%; display: flex; align-items: center; flex-shrink: 0; }
+.ticker-track { display: flex; gap: 60px; animation: tick 40s linear infinite; white-space: nowrap; align-items: center; }
+@keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker-item { font-size: 0.72rem; color: #fff; display: flex; align-items: center; gap: 10px; font-weight: 600;}
+.ticker-item::before { content: '◆'; font-size: 0.5rem; opacity: .7; }
+
+/* =========================================
+   HEADER & NAVIGATION
+   ========================================= */
+header { padding: 0 48px; border-bottom: 1px solid var(--border); background: var(--surface); position: sticky; top: 0; z-index: 100; }
+.header-top { padding: 24px 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-light); flex-wrap: wrap; gap: 16px; }
+.brand { display: flex; flex-direction: column; }
+.pub-name { font-family: var(--font-serif); font-size: 2rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; line-height: 1; }
+.pub-name span { color: var(--a1); }
+.pub-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: var(--text-sub); margin-top: 6px; font-weight: 600;}
+.header-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 6px;
+  font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: var(--trans); border: none; font-family: var(--font-sans); white-space: nowrap;
+}
+.btn-p { background: var(--a1); color: #fff; }
+.btn-p:hover { background: var(--a1-hover); transform: translateY(-1px); }
+.btn-ghost { border: 1px solid var(--border); color: var(--text-main); background: transparent; }
+.btn-ghost:hover { border-color: var(--a1); color: var(--a1); background: var(--a1-muted); }
+
+.header-nav { display: flex; gap: 24px; padding: 16px 0 0 0; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.header-nav::-webkit-scrollbar { display: none; }
+.nav-link { padding-bottom: 16px; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: var(--trans); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+.nav-link:hover { color: var(--text-main); }
+.nav-link.active { color: var(--text-main); border-bottom-color: var(--a1); }
+
+/* =========================================
+   WORKSPACE HERO
+   ========================================= */
+.hero { display: grid; grid-template-columns: 2fr 1fr; border-bottom: 1px solid var(--border); }
+.hero-main { padding: 48px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--surface); position: relative; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; opacity: 0.03; background-image: radial-gradient(var(--text-main) 1px, transparent 1px); background-size: 20px 20px; z-index: 0; pointer-events: none; }
+.hero-content { position: relative; z-index: 1; }
+.version-tag { display: inline-flex; align-items: center; gap: 8px; background: var(--a1-muted); color: var(--a1); padding: 6px 14px; border-radius: 20px; font-size: 0.7rem; font-weight: 800; font-family: var(--font-mono); margin-bottom: 20px; border: 1px solid rgba(225,29,72,0.3); }
+.hero-title { font-family: var(--font-serif); font-size: clamp(1.8rem, 4vw, 3.2rem); font-weight: 800; line-height: 1.15; color: var(--text-main); margin-bottom: 16px; }
+.hero-sub { font-size: 1rem; color: var(--text-muted); line-height: 1.6; max-width: 600px; margin-bottom: 24px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.75rem; color: var(--text-sub); align-items: center; }
+.meta-item { display: flex; align-items: center; gap: 6px; }
+
+/* Hero Sidebar: Quick Activity Feed */
+.hero-sidebar { display: flex; flex-direction: column; background: var(--bg); max-height: 500px; overflow-y: auto; }
+.hero-sidebar::-webkit-scrollbar { width: 4px; }
+.hero-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.feed-header { padding: 16px 24px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 2; color: var(--text-muted); display: flex; justify-content: space-between;}
+.feed-item { padding: 16px 24px; border-bottom: 1px solid var(--border-light); cursor: pointer; transition: var(--trans); display: grid; grid-template-columns: 24px 1fr; gap: 12px; }
+.feed-item:hover { background: var(--surface-hover); }
+.feed-icon { width: 24px; height: 24px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: var(--text-main); }
+.feed-content { display: flex; flex-direction: column; gap: 4px; }
+.feed-title { font-size: 0.85rem; font-weight: 600; color: var(--text-main); line-height: 1.4; }
+.feed-title span { color: var(--a1); font-weight: 800; }
+.feed-time { font-size: 0.65rem; color: var(--text-sub); font-family: var(--font-mono); }
+
+/* =========================================
+   MAIN GRID & SECTIONS
+   ========================================= */
+main { padding: 48px; display: flex; flex-direction: column; gap: 60px; }
+.section-hdr { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 32px; border-bottom: 2px solid var(--border); padding-bottom: 16px; flex-wrap: wrap; gap: 16px; }
+.section-title { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 12px; }
+.section-title i { color: var(--a1); font-size: 1.4rem; }
+.section-tools { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* BADGES */
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border: 1px solid; white-space: nowrap; }
+.bdg-ai { background: rgba(14, 165, 233, 0.1); border-color: rgba(14, 165, 233, 0.3); color: var(--a2); }
+.bdg-legal { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #10b981; }
+.bdg-draft { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); color: #f59e0b; }
+.bdg-alert { background: rgba(225, 29, 72, 0.1); border-color: rgba(225, 29, 72, 0.3); color: #e11d48; }
+
+/* GRIDS */
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+/* CARDS */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px; transition: var(--trans); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.card:hover { border-color: var(--a1); box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;}
+.card-cat { font-size: 0.65rem; font-family: var(--font-mono); color: var(--a1); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.card-title { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; line-height: 1.4; color: var(--text-main); margin-bottom: 12px; }
+.card-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; flex-grow: 1; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-light); padding-top: 16px; font-size: 0.7rem; color: var(--text-sub); }
+.avatars { display: flex; }
+.avatar { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--surface); background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 800; color: var(--text-main); margin-left: -8px; }
+.avatar:first-child { margin-left: 0; }
+.progress-bar { width: 100%; height: 4px; background: var(--border); border-radius: 2px; margin-top: 12px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--a1); border-radius: 2px; }
+
+/* LOGS / DIFFS */
+.log-container { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); overflow: hidden; }
+.log-row { display: grid; grid-template-columns: 120px 1fr 180px; gap: 24px; padding: 20px 24px; border-bottom: 1px solid var(--border-light); align-items: center; transition: var(--trans); }
+.log-row:hover { background: var(--surface-hover); }
+.log-row:last-child { border-bottom: none; }
+.log-hash { font-family: var(--font-mono); font-size: 0.75rem; color: var(--a1); }
+.log-details h4 { font-size: 0.9rem; font-weight: 600; color: var(--text-main); margin-bottom: 4px; line-height: 1.4; }
+.log-details p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+.diff-tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-family: var(--font-mono); font-size: 0.65rem; margin-right: 6px; }
+.diff-add { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.diff-del { background: rgba(225, 29, 72, 0.1); color: #e11d48; }
+
+/* SOURCES */
+.source-card { display: flex; gap: 16px; padding: 20px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); transition: var(--trans); align-items: flex-start;}
+.source-card:hover { border-color: var(--a2); }
+.source-icon { font-size: 1.5rem; color: var(--a2); opacity: 0.8; margin-top: 4px; }
+.source-info h4 { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px; }
+.source-info p { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; }
+.source-meta { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-sub); display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* FACT-CHECK TABLE */
+.table-wrapper { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; -webkit-overflow-scrolling: touch; }
+.fact-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; min-width: 600px;}
+.fact-table th { padding: 16px; border-bottom: 2px solid var(--border); color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; white-space: nowrap; }
+.fact-table td { padding: 16px; border-bottom: 1px solid var(--border-light); color: var(--text-main); vertical-align: top; line-height: 1.5; }
+.fact-table tr:hover td { background: var(--surface-hover); }
+.verdict { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 0.75rem; white-space: nowrap;}
+.v-true { color: #10b981; }
+.v-false { color: #e11d48; }
+.v-partial { color: #f59e0b; }
+
+/* MEDIA */
+.media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+.media-item { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; }
+.media-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+.media-item:hover img { transform: scale(1.05); }
+.media-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; opacity: 0; transition: opacity 0.2s; }
+.media-item:hover .media-overlay { opacity: 1; }
+.media-type { font-size: 0.6rem; text-transform: uppercase; color: #fff; font-weight: 800; letter-spacing: 1px; margin-bottom: 4px;}
+.media-name { font-size: 0.75rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* NEW: ANALYTICS CARDS */
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 12px; transition: var(--trans); }
+.stat-card:hover { border-color: var(--a2); }
+.stat-title { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; display: flex; justify-content: space-between; }
+.stat-val { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 800; color: var(--text-main); }
+.stat-trend { font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+.trend-up { color: #10b981; }
+.trend-down { color: #e11d48; }
+
+/* NEW: CALENDAR/EMBARGOES */
+.cal-list { display: flex; flex-direction: column; gap: 12px; }
+.cal-item { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: var(--trans); }
+.cal-item:hover { transform: translateX(4px); border-color: var(--a1); }
+.cal-date { background: var(--border-light); padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 80px; border-right: 1px solid var(--border); }
+.cal-month { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; color: var(--a1); letter-spacing: 1px; }
+.cal-day { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 800; color: var(--text-main); line-height: 1; margin-top: 4px; }
+.cal-details { padding: 16px 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+.cal-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+.cal-meta { font-size: 0.75rem; color: var(--text-muted); display: flex; gap: 12px; font-family: var(--font-mono); }
+
+/* FOOTER */
+footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-muted); background: var(--surface); flex-wrap: wrap; gap: 16px; }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-links a:hover { color: var(--text-main); }
+
+/* =========================================
+   MOBILE RESPONSIVE OVERHAUL
+   ========================================= */
+@media(max-width: 1200px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 960px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-sidebar { border-top: 1px solid var(--border); max-height: 400px; }
+  .top-util, header, main, footer { padding-left: 24px; padding-right: 24px; }
+  .log-row { grid-template-columns: 1fr; gap: 12px; }
+  .log-hash { display: none; }
+  .log-details { padding-right: 0; }
+  .log-row > div:last-child { text-align: left !important; display: flex; gap: 12px; align-items: center; }
+}
+@media(max-width: 600px) {
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  
+  .top-util { flex-direction: column; align-items: flex-start; padding: 12px 16px; gap: 16px; }
+  .theme-controls { width: 100%; justify-content: space-between; }
+  
+  header { padding: 0 16px; }
+  .header-top { flex-direction: column; align-items: flex-start; gap: 16px; padding: 16px 0; }
+  .header-actions { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .header-actions .badge { grid-column: span 2; justify-content: center; padding: 8px; }
+  .header-actions .btn { justify-content: center; }
+  
+  .hero-main { padding: 32px 16px; }
+  .hero-title { font-size: 1.8rem; }
+  .hero-meta { flex-direction: column; align-items: flex-start; gap: 10px; }
+  
+  main { padding: 32px 16px; gap: 48px; }
+  .section-hdr { flex-direction: column; align-items: flex-start; gap: 16px; padding-bottom: 12px; }
+  .section-tools { width: 100%; overflow-x: auto; padding-bottom: 4px; }
+  
+  .card, .source-card, .stat-card { padding: 16px; }
+  .source-card { flex-direction: column; gap: 12px; }
+  
+  .cal-item { flex-direction: column; }
+  .cal-date { border-right: none; border-bottom: 1px solid var(--border); padding: 12px; flex-direction: row; gap: 12px; justify-content: flex-start; }
+  .cal-day { margin-top: 0; font-size: 1.2rem; }
+  
+  footer { padding: 24px 16px; flex-direction: column; align-items: flex-start; gap: 24px; }
+  .footer-links { flex-direction: column; gap: 12px; width: 100%; }
+}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<nav class="blk-nav">
-  <a href="#" class="blk-nav-brand">Brand</a>
-  <ul class="blk-nav-links">
-    <li><a href="#">Home</a></li><li><a href="#">About</a></li>
-    <li><a href="#">Features</a></li><li><a href="#">Pricing</a></li>
-  </ul>
-  <a href="#" class="blk-btn-primary" style="padding:8px 18px;font-size:.875rem">Sign Up</a>
-</nav>
-<section class="blk-hero">
-  <div class="blk-hero-content">
-    <h1 class="blk-hero-title">Your Headline Here</h1>
-    <p class="blk-hero-sub">Supporting description that explains your value proposition clearly.</p>
-    <div class="blk-hero-actions">
-      <a href="#" class="blk-btn-primary">Get Started</a>
-      <a href="#" class="blk-btn-ghost">Learn More</a>
+
+<!-- TOP UTILITY BAR -->
+<div class="top-util">
+  <div class="system-status">
+    <div class="status-indicator">
+      <div class="status-dot"></div>
+      <span>CMS v4.2.1 Online</span>
+    </div>
+    <span class="hide-mobile">|</span>
+    <span>SecureDrop: <strong style="color:var(--a1)">0 New</strong></span>
+  </div>
+  
+  <div class="theme-controls">
+    <div style="display:flex; gap:6px;">
+      <button class="theme-btn" onclick="setTheme('light')">Light</button>
+      <button class="theme-btn" onclick="setTheme('dark')">Dark</button>
+      <button class="theme-btn active" onclick="setTheme('matte')">Matte</button>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <span style="margin-left:8px; font-size:0.6rem; text-transform:uppercase;">Accent:</span>
+      <div class="color-swatches">
+        <div class="swatch sw-crimson active" onclick="setAccent('crimson')"></div>
+        <div class="swatch sw-emerald" onclick="setAccent('emerald')"></div>
+        <div class="swatch sw-blue" onclick="setAccent('blue')"></div>
+        <div class="swatch sw-amber" onclick="setAccent('amber')"></div>
+      </div>
     </div>
   </div>
-</section>
-<section class="blk-features">
-  <h2 class="blk-section-title">Why Choose Us</h2>
-  <p class="blk-section-sub">Everything you need to succeed in one place</p>
-  <div class="blk-features-grid">
-    <div class="blk-feature-card"><div class="blk-feature-icon">⚡</div><h3>Lightning Fast</h3><p>Performance-first architecture delivers sub-second page loads globally.</p></div>
-    <div class="blk-feature-card"><div class="blk-feature-icon">🔒</div><h3>Bank-Grade Security</h3><p>Enterprise security with end-to-end encryption and SOC 2 compliance.</p></div>
-    <div class="blk-feature-card"><div class="blk-feature-icon">📱</div><h3>Fully Responsive</h3><p>Looks pixel-perfect on every device from 320px to 4K displays.</p></div>
-    <div class="blk-feature-card"><div class="blk-feature-icon">🤖</div><h3>AI-Powered</h3><p>Smart automation handles the repetitive work so you can focus on growth.</p></div>
-    <div class="blk-feature-card"><div class="blk-feature-icon">🌐</div><h3>Global CDN</h3><p>Deployed across 200+ edge locations for blazing fast delivery worldwide.</p></div>
-    <div class="blk-feature-card"><div class="blk-feature-icon">📊</div><h3>Deep Analytics</h3><p>Actionable insights with real-time dashboards and custom reporting.</p></div>
-  </div>
-</section>
-<section class="blk-cta">
-  <h2>Ready to transform your workflow?</h2>
-  <p>Join 10,000+ teams already using our platform to ship faster and smarter.</p>
-  <div class="blk-cta-actions">
-    <a href="#" class="blk-cta-btn-primary">Start Free Trial →</a>
-    <a href="#" class="blk-cta-btn-ghost">See Demo</a>
-  </div>
-</section>
-<section class="blk-testimonials">
-  <h2 class="blk-section-title">What People Say</h2>
-  <div class="blk-testimonials-grid">
-    <blockquote class="blk-testimonial"><p>"This platform completely changed how our team ships product. Reduced deployment time by 80%."</p><cite><img src="https://i.pravatar.cc/40?img=5" alt="">Sarah K., Head of Engineering at Vercel</cite></blockquote>
-    <blockquote class="blk-testimonial"><p>"The best developer tooling investment we made this year. Setup took under 10 minutes."</p><cite><img src="https://i.pravatar.cc/40?img=8" alt="">James M., CTO at Linear</cite></blockquote>
-    <blockquote class="blk-testimonial"><p>"Our site performance went from 60 to 98 on Core Web Vitals within a week of switching."</p><cite><img src="https://i.pravatar.cc/40?img=12" alt="">Priya R., VP Engineering at Stripe</cite></blockquote>
-  </div>
-</section>
-<section class="blk-stats">
-  <div class="blk-stats-grid">
-    <div class="blk-stat"><div class="blk-stat-value">50K+</div><div class="blk-stat-label">Active Users</div></div>
-    <div class="blk-stat"><div class="blk-stat-value">99.99%</div><div class="blk-stat-label">Uptime SLA</div></div>
-    <div class="blk-stat"><div class="blk-stat-value">4.9★</div><div class="blk-stat-label">Avg Rating</div></div>
-    <div class="blk-stat"><div class="blk-stat-value">24/7</div><div class="blk-stat-label">Expert Support</div></div>
-    <div class="blk-stat"><div class="blk-stat-value">140+</div><div class="blk-stat-label">Countries</div></div>
-  </div>
-</section>
-<section class="blk-team">
-  <h2 class="blk-section-title">Meet the Team</h2>
-  <p class="blk-section-sub">The people behind the product</p>
-  <div class="blk-team-grid">
-    <div class="blk-team-card"><img src="https://i.pravatar.cc/160?img=1" alt="Alice Chen"><h3>Alice Chen</h3><p>CEO &amp; Co-founder</p><div class="blk-team-links"><a href="#">𝕏</a><a href="#">in</a></div></div>
-    <div class="blk-team-card"><img src="https://i.pravatar.cc/160?img=3" alt="Bob Smith"><h3>Bob Smith</h3><p>CTO</p><div class="blk-team-links"><a href="#">𝕏</a><a href="#">in</a></div></div>
-    <div class="blk-team-card"><img src="https://i.pravatar.cc/160?img=9" alt="Carol Lee"><h3>Carol Lee</h3><p>Head of Design</p><div class="blk-team-links"><a href="#">𝕏</a><a href="#">in</a></div></div>
-    <div class="blk-team-card"><img src="https://i.pravatar.cc/160?img=11" alt="Dev Patel"><h3>Dev Patel</h3><p>Head of Product</p><div class="blk-team-links"><a href="#">𝕏</a><a href="#">in</a></div></div>
-  </div>
-</section>
-<section class="blk-gallery">
-  <h2 class="blk-section-title">Gallery</h2>
-  <div class="blk-gallery-grid">
-    <img src="https://picsum.photos/seed/g1/600/400" alt="Gallery image 1">
-    <img src="https://picsum.photos/seed/g2/600/400" alt="Gallery image 2">
-    <img src="https://picsum.photos/seed/g3/600/400" alt="Gallery image 3">
-    <img src="https://picsum.photos/seed/g4/600/400" alt="Gallery image 4">
-    <img src="https://picsum.photos/seed/g5/600/400" alt="Gallery image 5">
-    <img src="https://picsum.photos/seed/g6/600/400" alt="Gallery image 6">
-  </div>
-</section>
-<section class="blk-contact">
-  <h2 class="blk-section-title">Get in Touch</h2>
-  <p class="blk-section-sub">We respond within 24 hours on business days</p>
-  <form class="blk-contact-form" onsubmit="return false">
-    <div class="blk-form-row">
-      <div class="blk-form-field"><label>First Name</label><input type="text" placeholder="Alice" /></div>
-      <div class="blk-form-field"><label>Last Name</label><input type="text" placeholder="Smith" /></div>
+</div>
+
+<!-- ALERT TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-badge">SYSTEM ALERTS</div>
+  <div style="overflow:hidden;flex:1">
+    <div class="ticker-track">
+      <span class="ticker-item">MAINTENANCE: Scheduled database index tonight at 02:00 UTC</span>
+      <span class="ticker-item">SECURITY: Mandatory 2FA rotation required by EOD Friday</span>
+      <span class="ticker-item">LEGAL: New FOIA templates available in Document Center</span>
+      <span class="ticker-item">API: OpenAI summarization endpoints experiencing degraded performance</span>
+      <span class="ticker-item">MAINTENANCE: Scheduled database index tonight at 02:00 UTC</span>
+      <span class="ticker-item">SECURITY: Mandatory 2FA rotation required by EOD Friday</span>
+      <span class="ticker-item">LEGAL: New FOIA templates available in Document Center</span>
     </div>
-    <div class="blk-form-field"><label>Email</label><input type="email" placeholder="alice@example.com" /></div>
-    <div class="blk-form-field"><label>Subject</label><input type="text" placeholder="How can we help?" /></div>
-    <div class="blk-form-field"><label>Message</label><textarea rows="5" placeholder="Your message…"></textarea></div>
-    <button type="submit" class="blk-btn-primary" style="width:100%;padding:14px;font-size:1rem">Send Message →</button>
-  </form>
-</section>
-<footer class="blk-footer">
-  <div class="blk-footer-top">
-    <div class="blk-footer-brand"><strong>Brand</strong><p>Building great things for the modern web, one line at a time.</p></div>
-    <div><strong>Product</strong><ul><li><a href="#">Features</a></li><li><a href="#">Pricing</a></li><li><a href="#">Changelog</a></li></ul></div>
-    <div><strong>Company</strong><ul><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li></ul></div>
-    <div><strong>Legal</strong><ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Cookies</a></li></ul></div>
   </div>
-  <div class="blk-footer-bottom">© 2025 Brand Inc. All rights reserved.</div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <a href="#" class="brand">
+      <div class="pub-name">The<span>.</span>Dispatch</div>
+      <span class="pub-tag">Workspace & News Stand</span>
+    </a>
+    <div class="header-actions">
+      <span class="badge bdg-ai"><i class="fas fa-robot"></i> AI Assist Active</span>
+      <a href="#" class="btn btn-ghost"><i class="fas fa-print"></i> Print PDF</a>
+      <a href="#" class="btn btn-p"><i class="fas fa-plus"></i> New Draft</a>
+    </div>
+  </div>
+  <div class="header-nav">
+    <a href="#" class="nav-link active">Dashboard</a>
+    <a href="#pipeline" class="nav-link">Pipeline</a>
+    <a href="#pitches" class="nav-link">Pitch Board</a>
+    <a href="#analytics" class="nav-link">Live Analytics</a>
+    <a href="#calendar" class="nav-link">Calendar</a>
+    <a href="#revisions" class="nav-link">Version History</a>
+    <a href="#sources" class="nav-link">Source Matrix</a>
+    <a href="#factcheck" class="nav-link">Fact-Checks</a>
+    <a href="#media" class="nav-link">Media</a>
+  </div>
+</header>
+
+<!-- HERO WORKSPACE -->
+<div class="hero">
+  <div class="hero-main">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="version-tag"><i class="fas fa-code-branch"></i> Release v2.4.0 (Global Config)</div>
+      <h1 class="hero-title">Major Style Guide Overhaul & Correction Policy Update</h1>
+      <p class="hero-sub">Effective immediately, all desks must adhere to the newly integrated AP Stylebook API adjustments. We have also introduced a strict standardized format for post-publication retractions and automated timeline injections for living stories.</p>
+      
+      <div class="hero-meta">
+        <div class="meta-item"><i class="fas fa-user-edit"></i> <strong>Approved By:</strong> Editorial Board</div>
+        <div class="meta-item"><i class="fas fa-clock"></i> <strong>Deployed:</strong> 2 hours ago</div>
+        <div class="meta-item"><i class="fas fa-file-contract"></i> <strong>Impacts:</strong> All Desks</div>
+        <a href="#" class="btn btn-ghost" style="padding: 4px 10px; font-size:0.65rem;"><i class="fas fa-book"></i> View Diff</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="hero-sidebar">
+    <div class="feed-header">Live Activity Log <i class="fas fa-satellite-dish" style="color:var(--a1)"></i></div>
+    
+    <a href="#" class="feed-item">
+      <div class="feed-icon"><i class="fas fa-check-circle" style="color:#10b981"></i></div>
+      <div class="feed-content">
+        <div class="feed-title">Legal cleared <span>"Project Sentinel"</span> draft</div>
+        <div class="feed-time">12 mins ago · Sarah Jenkins</div>
+      </div>
+    </a>
+    <a href="#" class="feed-item">
+      <div class="feed-icon"><i class="fas fa-image" style="color:var(--a2)"></i></div>
+      <div class="feed-content">
+        <div class="feed-title">3 verified images added to <span>Climate Summit</span></div>
+        <div class="feed-time">45 mins ago · Photo Desk</div>
+      </div>
+    </a>
+    <a href="#" class="feed-item">
+      <div class="feed-icon"><i class="fas fa-language" style="color:#f59e0b"></i></div>
+      <div class="feed-content">
+        <div class="feed-title">Spanish translation initiated for <span>Tech Monopoly</span></div>
+        <div class="feed-time">1 hour ago · Auto-L10n</div>
+      </div>
+    </a>
+    <a href="#" class="feed-item">
+      <div class="feed-icon"><i class="fas fa-file-audio" style="color:var(--a1)"></i></div>
+      <div class="feed-content">
+        <div class="feed-title">Interview transcript finalized: <span>Source A</span></div>
+        <div class="feed-time">2 hours ago · AI Scribe</div>
+      </div>
+    </a>
+    <a href="#" class="feed-item">
+      <div class="feed-icon"><i class="fas fa-exclamation-triangle" style="color:#e11d48"></i></div>
+      <div class="feed-content">
+        <div class="feed-title">Correction issued on <span>Senate Race</span> piece</div>
+        <div class="feed-time">3 hours ago · Editor-in-Chief</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<main>
+
+  <!-- NEW SECTION: EDITORIAL CALENDAR & EMBARGOES -->
+  <section id="calendar">
+    <div class="section-hdr">
+      <h2 class="section-title"><i class="far fa-calendar-alt"></i> Editorial Calendar & Embargoes</h2>
+      <div class="section-tools">
+        <a href="#" class="btn btn-ghost"><i class="fas fa-plus"></i> Add Event</a>
+      </div>
+    </div>
+    
+    <div class="grid-2">
+      <div class="cal-list">
+        <h3 style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:1px;">This Week</h3>
+        <a href="#" class="cal-item">
+          <div class="cal-date">
+            <span class="cal-month">Mar</span>
+            <span class="cal-day">24</span>
+          </div>
+          <div class="cal-details">
+            <div class="cal-title">Federal Reserve Interest Rate Decision</div>
+            <div class="cal-meta">
+              <span><i class="far fa-clock"></i> 14:00 EST</span>
+              <span style="color:var(--a1)"><i class="fas fa-lock"></i> Embargoed</span>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="cal-item">
+          <div class="cal-date">
+            <span class="cal-month">Mar</span>
+            <span class="cal-day">26</span>
+          </div>
+          <div class="cal-details">
+            <div class="cal-title">Tech Giant Q1 Earnings Call Coverage</div>
+            <div class="cal-meta">
+              <span><i class="far fa-clock"></i> 16:30 EST</span>
+              <span><i class="fas fa-users"></i> Tech Desk</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="cal-list">
+        <h3 style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:1px;">Upcoming</h3>
+        <a href="#" class="cal-item">
+          <div class="cal-date">
+            <span class="cal-month">Apr</span>
+            <span class="cal-day">02</span>
+          </div>
+          <div class="cal-details">
+            <div class="cal-title">Global Climate Summit (Paris)</div>
+            <div class="cal-meta">
+              <span><i class="far fa-clock"></i> All Day Event</span>
+              <span><i class="fas fa-plane"></i> 3 Reporters Deployed</span>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="cal-item">
+          <div class="cal-date">
+            <span class="cal-month">Apr</span>
+            <span class="cal-day">15</span>
+          </div>
+          <div class="cal-details">
+            <div class="cal-title">National Tax Day Investigative Drop</div>
+            <div class="cal-meta">
+              <span><i class="far fa-clock"></i> 06:00 EST</span>
+              <span style="color:var(--a2)"><i class="fas fa-rocket"></i> Major Launch</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 1: EDITORIAL PIPELINE -->
+  <section id="pipeline">
+    <div class="section-hdr">
+      <h2 class="section-title"><i class="fas fa-tasks"></i> Active Investigations Pipeline</h2>
+      <div class="section-tools">
+        <a href="#" class="btn btn-ghost">Filter: My Desk</a>
+        <a href="#" class="btn btn-ghost"><i class="fas fa-sort"></i> Deadline</a>
+      </div>
+    </div>
+    
+    <div class="grid-4">
+      <a href="#" class="card">
+        <div class="card-top">
+          <span class="card-cat">Politics</span>
+          <span class="badge bdg-draft">Drafting</span>
+        </div>
+        <h3 class="card-title">Lobbying Firm Finances Uncovered</h3>
+        <p class="card-desc">Analyzing 10 years of tax returns obtained via FOIA request regarding energy sector lobbying.</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 40%"></div></div>
+        <div class="card-footer" style="margin-top:12px;">
+          <div class="avatars">
+            <div class="avatar">AR</div><div class="avatar">MJ</div>
+          </div>
+          <span><i class="far fa-clock"></i> 4 days to Embargo</span>
+        </div>
+      </a>
+      
+      <a href="#" class="card">
+        <div class="card-top">
+          <span class="card-cat">Technology</span>
+          <span class="badge bdg-legal">Legal Review</span>
+        </div>
+        <h3 class="card-title">Silicon Valley's New NDA Tactics</h3>
+        <p class="card-desc">Exposé on aggressive non-disclosure agreements targeting mid-level engineers.</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 85%; background:#10b981"></div></div>
+        <div class="card-footer" style="margin-top:12px;">
+          <div class="avatars">
+            <div class="avatar">TC</div>
+          </div>
+          <span style="color:#10b981"><i class="fas fa-balance-scale"></i> Clearances: 2/3</span>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-top">
+          <span class="card-cat">Climate</span>
+          <span class="badge bdg-alert">Fact-Check</span>
+        </div>
+        <h3 class="card-title">Carbon Offset Discrepancies</h3>
+        <p class="card-desc">Satellite data contradicts corporate claims of reforestation in the Amazon basin.</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 70%; background:#e11d48"></div></div>
+        <div class="card-footer" style="margin-top:12px;">
+          <div class="avatars">
+            <div class="avatar">LK</div><div class="avatar">DR</div>
+          </div>
+          <span><i class="fas fa-search"></i> 4 Claims Pending</span>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-top">
+          <span class="card-cat">Business</span>
+          <span class="badge" style="background:rgba(255,255,255,0.1)">Published</span>
+        </div>
+        <h3 class="card-title">Central Bank Digital Currency Pilot</h3>
+        <p class="card-desc">Deep dive into the beta testing phase of the new digital dollar architecture.</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 100%; background:var(--text-muted)"></div></div>
+        <div class="card-footer" style="margin-top:12px;">
+          <div class="avatars">
+            <div class="avatar">MK</div>
+          </div>
+          <span><i class="fas fa-chart-line"></i> +45k Readers</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- NEW SECTION: PITCH BOARD -->
+  <section id="pitches">
+    <div class="section-hdr">
+      <h2 class="section-title"><i class="fas fa-lightbulb"></i> Story Pitch Board</h2>
+      <div class="section-tools">
+        <a href="#" class="btn btn-p"><i class="fas fa-pen"></i> Submit Pitch</a>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-top">
+          <span class="card-cat" style="color:var(--text-main);">Culture / Art</span>
+          <span class="badge bdg-ai"><i class="fas fa-arrow-up"></i> 14 Votes</span>
+        </div>
+        <h3 class="card-title">AI Art Generators vs. Copyright Law</h3>
+        <p class="card-desc">Pitching a 3-part series exploring ongoing lawsuits by visual artists against Midjourney and OpenAI.</p>
+        <div class="card-footer" style="border:none; padding-top:0;">
+          <span style="font-size:0.75rem; color:var(--text-muted);">Pitched by <strong>Elena R.</strong></span>
+          <a href="#" class="btn btn-ghost" style="padding: 4px 10px; font-size:0.65rem;">Review</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-cat" style="color:var(--text-main);">Local Politics</span>
+          <span class="badge bdg-ai"><i class="fas fa-arrow-up"></i> 8 Votes</span>
+        </div>
+        <h3 class="card-title">Zoning Board Corruption Allegations</h3>
+        <p class="card-desc">I have a source willing to go on record about fast-tracked commercial zoning permits for campaign donors.</p>
+        <div class="card-footer" style="border:none; padding-top:0;">
+          <span style="font-size:0.75rem; color:var(--text-muted);">Pitched by <strong>David M.</strong></span>
+          <a href="#" class="btn btn-ghost" style="padding: 4px 10px; font-size:0.65rem;">Review</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-cat" style="color:var(--text-main);">Science</span>
+          <span class="badge" style="background:rgba(16,185,129,0.1); color:#10b981;"><i class="fas fa-check"></i> Approved</span>
+        </div>
+        <h3 class="card-title">Microplastics in Rainwater</h3>
+        <p class="card-desc">Working with the university lab to analyze samples from 5 major metropolitan areas. Need budget for testing.</p>
+        <div class="card-footer" style="border:none; padding-top:0;">
+          <span style="font-size:0.75rem; color:var(--text-muted);">Pitched by <strong>Dr. Chen</strong></span>
+          <a href="#" class="btn btn-ghost" style="padding: 4px 10px; font-size:0.65rem;">Assign</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW SECTION: LIVE ANALYTICS -->
+  <section id="analytics">
+    <div class="section-hdr">
+      <h2 class="section-title"><i class="fas fa-chart-pie"></i> Live Impact Analytics</h2>
+      <div class="section-tools">
+        <span style="font-size:0.7rem; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+          <div class="status-dot"></div> Auto-updating
+        </span>
+      </div>
+    </div>
+
+    <div class="grid-4">
+      <div class="stat-card">
+        <div class="stat-title">Concurrent Readers <i class="fas fa-users" style="color:var(--a1)"></i></div>
+        <div class="stat-val">24,892</div>
+        <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 12% vs last hour</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-title">Paywall Conversions <i class="fas fa-lock-open" style="color:#10b981"></i></div>
+        <div class="stat-val">342</div>
+        <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 5% vs 30d avg</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-title">Avg. Engagement Time <i class="far fa-clock" style="color:var(--a2)"></i></div>
+        <div class="stat-val">3m 42s</div>
+        <div class="stat-trend trend-down"><i class="fas fa-arrow-down"></i> 2% vs yesterday</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-title">Social Amplification <i class="fas fa-share-nodes" style="color:#f59e0b"></i></div>
+        <div class="stat-val">8.4k</div>
+        <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> Viral spike detected</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: VERSION HISTORY -->
+  <section id="revisions">
+    <div class="section-hdr">
+      <h2 class="section-title"><i class="fas fa-history"></i> Revision Control Log</h2>
+      <div class="section-tools">
+        <a href="#" class="btn btn-ghost"><i class="fas fa-download"></i> Export CSV</a>
+      </div>
+    </div>
+    
+    <div class="log-container">
+      <a href="#" class="log-row">
+        <div class="log-hash">#a7f92bc</div>
+        <div class="log-details">
+          <h4><span class="diff-tag diff-add">+142w</span> <span class="diff-tag diff-del">-38w</span> Updated quote attribution in Section 3</h4>
+          <p>Changed "anonymous official" to "Undersecretary of Defense" after embargo lift.</p>
+        </div>
+        <div style="text-align:right; font-size:0.75rem; color:var(--text-muted);">
+          <div>Today, 09:42 AM</div>
+          <div><i class="fas fa-user"></i> Editor Desk</div>
+        </div>
+      </a>
+      
+      <a href="#" class="log-row">
+        <div class="log-hash">#b4e11fa</div>
+        <div class="log-details">
+          <h4><span class="diff-tag diff-add">+0w</span> <span class="diff-tag diff-del">-12w</span> Legal redaction applied to leaked document excerpt</h4>
+          <p>Removed personally identifiable information (PII) of whistleblower per legal counsel.</p>
+        </div>
+        <div style="text-align:right; font-size:0.75rem; color:var(--text-muted);">
+          <div>Yesterday, 16:30 PM</div>
+          <div><i class="fas fa-user"></i> Legal Team</div>
+        </div>
+      </a>
+
+      <a href="#" class="log-row">
+        <div class="log-hash">#c91b4da</div>
+        <div class="log-details">
+          <h4><span class="diff-tag diff-add">+850w</span> <span class="diff-tag diff-del">-0w</span> Merged investigative data set analysis</h4>
+          <p>Integrated CSV parser results for the 2019-2023 budget deficits.</p>
+        </div>
+        <div style="text-align:right; font-size:0.75rem; color:var(--text-muted);">
+          <div>Mar 18, 11:15 AM</div>
+          <div><i class="fas fa-robot"></i> Data Pipeline</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- SECTION 3: SOURCE MATRIX & FOIA -->
+  <section id="sources">
+    <div class="section-hdr">
+      <h2 class="section-title"><i class="fas fa-network-wired"></i> Source & Document Matrix</h2>
+      <div class="section-tools">
+        <a href="#" class="badge bdg-ai" style="padding: 8px 12px;"><i class="fas fa-sync"></i> Re-scan Sources</a>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <a href="#" class="source-card">
+        <div class="source-icon"><i class="fas fa-file-pdf"></i></div>
+        <div class="source-info">
+          <h4>FOIA Request #8821-A</h4>
+          <p>EPA internal communications regarding chemical spill assessments in Ohio region.</p>
+          <div class="source-meta">
+            <span style="color:#10b981"><i class="fas fa-check"></i> Fulfilled</span>
+            <span><i class="fas fa-database"></i> 432 Pages</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="source-card">
+        <div class="source-icon"><i class="fas fa-user-secret"></i></div>
+        <div class="source-info">
+          <h4>Source: "Deep Blue"</h4>
+          <p>Encrypted communications log via SecureDrop. Anonymity mathematically verified.</p>
+          <div class="source-meta">
+            <span style="color:var(--a1)"><i class="fas fa-shield-alt"></i> Protection Level 5</span>
+            <span><i class="fas fa-key"></i> PGP Verified</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="source-card">
+        <div class="source-icon"><i class="fas fa-table"></i></div>
+        <div class="source-info">
+          <h4>Census Bureau Dataset</h4>
+          <p>Live API connection to 2024 demographic shifts in swing states.</p>
+          <div class="source-meta">
+            <span style="color:var(--a2)"><i class="fas fa-link"></i> Live Sync</span>
+            <span><i class="fas fa-sync-alt"></i> Updated 1h ago</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- SECTION 4: FACT-CHECKING LOG -->
+  <section id="factcheck">
+    <div class="section-hdr">
+      <h2 class="section-title"><i class="fas fa-check-double"></i> Fact-Checking & Verdicts</h2>
+    </div>
+    
+    <div class="table-wrapper">
+      <table class="fact-table">
+        <thead>
+          <tr>
+            <th>Claim / Statement</th>
+            <th>Source Context</th>
+            <th>Investigation Notes</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;">"Inflation rose by 8% uniquely under current administration."</td>
+            <td>Candidate Speech, Oct 14</td>
+            <td>Global macroeconomic data indicates parallel rises in EU (9%) and UK (10%) during the same period.</td>
+            <td><span class="verdict v-false"><i class="fas fa-times-circle"></i> False Context</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">"Corporate tax receipts hit record highs in absolute dollars."</td>
+            <td>Treasury Press Release</td>
+            <td>Raw numbers match Treasury data, but adjusted for inflation/GDP, it is below 2007 peak.</td>
+            <td><span class="verdict v-partial"><i class="fas fa-exclamation-triangle"></i> Needs Context</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">"The new solar farm powers 40,000 homes."</td>
+            <td>Energy Corp PR</td>
+            <td>Independent grid analysis verifies megawatt output matches average regional consumption for 41,200 households.</td>
+            <td><span class="verdict v-true"><i class="fas fa-check-circle"></i> Verified</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 5: MEDIA & ASSETS -->
+  <section id="media">
+    <div class="section-hdr">
+      <h2 class="section-title"><i class="fas fa-photo-video"></i> Media Asset Pool</h2>
+      <span style="font-size:0.8rem; color:var(--text-muted);">All assets cleared for publication rights.</span>
+    </div>
+    
+    <div class="media-grid">
+      <div class="media-item">
+        <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=400&q=70" alt="Capitol">
+        <div class="media-overlay">
+          <span class="media-type">Image / Getty</span>
+          <span class="media-name">capitol_steps_01.jpg</span>
+        </div>
+      </div>
+      <div class="media-item">
+        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&q=70" alt="Economy">
+        <div class="media-overlay">
+          <span class="media-type">Graph / D3.js</span>
+          <span class="media-name">inflation_chart_v2.svg</span>
+        </div>
+      </div>
+      <div class="media-item">
+        <img src="https://images.unsplash.com/photo-1639322537228-f710d846310a?w=400&q=70" alt="Tech">
+        <div class="media-overlay">
+          <span class="media-type">Image / AP</span>
+          <span class="media-name">chip_manufacturing.jpg</span>
+        </div>
+      </div>
+      <div class="media-item">
+        <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&q=70" alt="Audio">
+        <div class="media-overlay" style="opacity:1; background: var(--surface); display:flex; justify-content:center; align-items:center;">
+          <i class="fas fa-microphone" style="font-size:2rem; color:var(--a1); margin-bottom:10px;"></i>
+          <span class="media-type">Audio / Raw</span>
+          <span class="media-name">whistleblower_tape.wav</span>
+        </div>
+      </div>
+      <div class="media-item">
+        <div class="media-overlay" style="opacity:1; background: var(--border); display:flex; justify-content:center; align-items:center; border: 2px dashed var(--text-muted);">
+          <i class="fas fa-plus" style="font-size:1.5rem; color:var(--text-muted); margin-bottom:10px;"></i>
+          <span class="media-type" style="color:var(--text-muted)">Upload New Asset</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: SYNDICATION & DISTRIBUTION -->
+  <section id="syndication">
+    <div class="section-hdr">
+      <h2 class="section-title"><i class="fas fa-share-alt"></i> Syndication & Output Status</h2>
+    </div>
+    
+    <div class="grid-4">
+      <a href="#" class="card" style="align-items:center; text-align:center;">
+        <i class="fas fa-envelope-open-text" style="font-size:2rem; color:var(--a2); margin-bottom:16px;"></i>
+        <h3 class="card-title">Morning Newsletter</h3>
+        <p class="card-desc">Campaign dispatched to 452,000 subscribers.</p>
+        <span class="badge" style="background:rgba(16,185,129,0.1); color:#10b981;">Delivered</span>
+      </a>
+      
+      <a href="#" class="card" style="align-items:center; text-align:center;">
+        <i class="fas fa-rss-square" style="font-size:2rem; color:#f59e0b; margin-bottom:16px;"></i>
+        <h3 class="card-title">RSS Feeds</h3>
+        <p class="card-desc">Global XML payloads updated with latest slugs.</p>
+        <span class="badge" style="background:rgba(16,185,129,0.1); color:#10b981;">Synced</span>
+      </a>
+
+      <a href="#" class="card" style="align-items:center; text-align:center;">
+        <i class="fab fa-twitter" style="font-size:2rem; color:#1da1f2; margin-bottom:16px;"></i>
+        <h3 class="card-title">Social Bot</h3>
+        <p class="card-desc">Auto-threads generated and pending editor approval.</p>
+        <span class="badge bdg-draft">Pending Review</span>
+      </a>
+
+      <a href="#" class="card" style="align-items:center; text-align:center;">
+        <i class="fas fa-newspaper" style="font-size:2rem; color:var(--text-main); margin-bottom:16px;"></i>
+        <h3 class="card-title">Print Layout Sync</h3>
+        <p class="card-desc">Awaiting InDesign bridge export for Sunday edition.</p>
+        <span class="badge bdg-alert">Blocked</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div>
+    <span style="font-weight:700; color:var(--text-main);">The Dispatch Internal System</span>
+    <span style="margin-left:10px; display:inline-block; margin-top:4px;">© 2026 Editorial Tech Div.</span>
+  </div>
+  <div class="footer-links">
+    <a href="#"><i class="fas fa-book"></i> Style Guide</a>
+    <a href="#"><i class="fas fa-shield-alt"></i> Security Protocol</a>
+    <a href="#"><i class="fas fa-life-ring"></i> IT Helpdesk</a>
+    <a href="#"><i class="fas fa-sign-out-alt"></i> Secure Logout</a>
+  </div>
 </footer>
+
+<script>
+  // Theme Toggle Logic
+  function setTheme(mode) {
+    document.documentElement.setAttribute('data-theme', mode);
+    // Update button states
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.classList.remove('active');
+      if(btn.innerText.toLowerCase() === mode) btn.classList.add('active');
+    });
+  }
+
+  // Accent Color Toggle Logic
+  function setAccent(color) {
+    document.documentElement.setAttribute('data-accent', color);
+    // Update swatch states
+    document.querySelectorAll('.swatch').forEach(sw => {
+      sw.classList.remove('active');
+      if(sw.classList.contains('sw-' + color)) sw.classList.add('active');
+    });
+  }
+
+  // Prevent default jumping on empty links (to make the template easy to edit/interact with)
+  document.querySelectorAll('a[href="#"]').forEach(link => {
+    link.addEventListener('click', e => e.preventDefault());
+  });
+</script>
+
 </body>
 </html>
