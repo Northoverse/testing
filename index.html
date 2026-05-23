@@ -1,776 +1,795 @@
-<html lang="en" data-mode="dark" data-color="cyan"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Linkhub | Premium Creator Profile</title>
-<meta name="description" content="All my links, merch, and content in one place.">
-
-<!-- Fonts & Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Poppins:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
-
-<style>
-  /* ----------------------------------------------------
-     1. CSS VARIABLES & THEMING SYSTEM
-     ---------------------------------------------------- */
-  :root {
-    /* Core Layout & Fonts */
-    --font-main: 'Inter', system-ui, sans-serif;
-    --font-head: 'Poppins', system-ui, sans-serif;
-    --glass-blur: blur(16px);
-    --success: #10b981;
-  }
-
-  /* --- MODES --- */
-  [data-mode="dark"] {
-    --bg-base: #050508;
-    --bg-gradient: radial-gradient(circle at top, #151522 0%, #050508 100%);
-    --card-bg: rgba(25, 25, 40, 0.45);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --text-main: #f0f0f5;
-    --text-muted: #8b8b9f;
-    --shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-
-  [data-mode="light"] {
-    --bg-base: #f7f7fc;
-    --bg-gradient: radial-gradient(circle at top, #ffffff 0%, #eaeaf2 100%);
-    --card-bg: rgba(255, 255, 255, 0.7);
-    --card-border: rgba(0, 0, 0, 0.08);
-    --text-main: #111118;
-    --text-muted: #6b6b80;
-    --shadow: 0 10px 30px rgba(0,0,0,0.08);
-  }
-
-  [data-mode="matte"] {
-    --bg-base: #000000;
-    --bg-gradient: none;
-    --card-bg: #0d0d0d;
-    --card-border: #1f1f1f;
-    --text-main: #e6e6e6;
-    --text-muted: #666666;
-    --shadow: 0 15px 35px rgba(0,0,0,0.6);
-  }
-
-  /* --- ACCENT COLORS --- */
-  [data-color="cyan"] {
-    --accent-1: #00f5ff;
-    --accent-2: #0088ff;
-    --accent-glow: rgba(0, 245, 255, 0.35);
-  }
-  [data-color="purple"] {
-    --accent-1: #bc13fe;
-    --accent-2: #ff2a7a;
-    --accent-glow: rgba(188, 19, 254, 0.35);
-  }
-  [data-color="green"] {
-    --accent-1: #10b981;
-    --accent-2: #a7f3d0;
-    --accent-glow: rgba(16, 185, 129, 0.35);
-  }
-  [data-color="orange"] {
-    --accent-1: #ff6b00;
-    --accent-2: #ffb703;
-    --accent-glow: rgba(255, 107, 0, 0.35);
-  }
-
-  /* ----------------------------------------------------
-     2. RESET & BASE
-     ---------------------------------------------------- */
-  * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
-  html { scroll-behavior: smooth; }
-  
-  body {
-    background: var(--bg-base);
-    background-image: var(--bg-gradient);
-    color: var(--text-main);
-    font-family: var(--font-main);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    overflow-x: hidden;
-    position: relative;
-    transition: background 0.4s ease, color 0.4s ease;
-  }
-
-  body::selection { background: var(--accent-1); color: #000; }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg-base); }
-  ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--accent-1); }
-
-  #canvas-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: 0.5; }
-
-  /* Cursor */
-  .cursor-dot, .cursor-outline {
-    position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
-    border-radius: 50%; z-index: 9999; pointer-events: none;
-    transition: opacity 0.2s, transform 0.1s;
-  }
-  .cursor-dot { width: 6px; height: 6px; background: var(--accent-1); }
-  .cursor-outline {
-    width: 30px; height: 30px; border: 1.5px solid var(--accent-1);
-    transition: width 0.2s, height 0.2s, background 0.2s, transform 0.15s ease-out;
-  }
-  .cursor-hover .cursor-outline { width: 50px; height: 50px; background: var(--accent-glow); border-color: transparent; }
-
-  /* ----------------------------------------------------
-     3. LAYOUT & TOP BAR
-     ---------------------------------------------------- */
-  .app-container {
-    width: 100%; max-width: 640px; padding: 80px 20px 60px;
-    display: flex; flex-direction: column; align-items: center; z-index: 1;
-  }
-
-  .top-bar {
-    position: absolute; top: 20px; left: 0; width: 100%; padding: 0 20px;
-    display: flex; justify-content: space-between; z-index: 10;
-  }
-  .control-group { display: flex; gap: 10px; }
-  .icon-btn {
-    width: 42px; height: 42px; border-radius: 50%;
-    background: var(--card-bg); border: 1px solid var(--card-border);
-    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-    color: var(--text-main); display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative;
-  }
-  .icon-btn:hover { border-color: var(--accent-1); color: var(--accent-1); transform: translateY(-3px); box-shadow: 0 5px 15px var(--accent-glow); }
-
-  [data-tooltip]::after {
-    content: attr(data-tooltip); position: absolute; bottom: -35px; left: 50%;
-    transform: translateX(-50%) translateY(10px); background: var(--text-main); color: var(--bg-base);
-    padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;
-    opacity: 0; pointer-events: none; transition: all 0.2s; white-space: nowrap; z-index: 100;
-  }
-  [data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* ----------------------------------------------------
-     4. PROFILE
-     ---------------------------------------------------- */
-  .profile { text-align: center; margin-bottom: 30px; width: 100%; }
-  
-  .avatar-wrap { position: relative; margin: 0 auto 20px; width: 120px; height: 120px; }
-  .avatar {
-    width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--bg-base);
-    object-fit: cover; background: var(--card-bg); position: relative; z-index: 2;
-  }
-  .avatar-ring {
-    position: absolute; inset: -4px; border-radius: 50%; z-index: 1;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-    animation: spin 6s linear infinite; opacity: 0.9;
-  }
-  .status-dot {
-    position: absolute; bottom: 8px; right: 8px; width: 20px; height: 20px;
-    background: var(--success); border-radius: 50%; border: 3px solid var(--bg-base);
-    z-index: 3; box-shadow: 0 0 10px var(--success); animation: pulse 2s infinite;
-  }
-
-  .name-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 4px; }
-  .name { font-family: var(--font-head); font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; }
-  .verified { color: var(--accent-1); font-size: 1.3rem; }
-  .handle { font-size: 0.95rem; font-weight: 600; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; margin-bottom: 15px; }
-  
-  .bio { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin: 0 auto 20px; max-width: 480px; }
-
-  .stats { display: flex; justify-content: center; gap: 35px; margin: 0 0 25px 0; padding: 20px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--card-border); backdrop-filter: var(--glass-blur); }
-  .stat { text-align: center; }
-  .stat-n { font-family: var(--font-head); font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-bottom: 2px; }
-  .stat-l { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-
-  /* ----------------------------------------------------
-     5. SEARCH & FILTERS
-     ---------------------------------------------------- */
-  .tools-section { width: 100%; margin-bottom: 25px; display: flex; flex-direction: column; gap: 15px; }
-  .tabs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab-btn {
-    padding: 10px 20px; border-radius: 30px; border: 1px solid var(--card-border);
-    background: var(--card-bg); color: var(--text-muted); font-size: 0.85rem; font-weight: 600;
-    white-space: nowrap; transition: all 0.3s; backdrop-filter: var(--glass-blur);
-  }
-  .tab-btn.active { background: var(--text-main); color: var(--bg-base); border-color: var(--text-main); }
-  .tab-btn:hover:not(.active) { color: var(--text-main); border-color: var(--accent-1); }
-
-  /* ----------------------------------------------------
-     6. CONTENT MODULES (CARDS)
-     ---------------------------------------------------- */
-  .content-container { width: 100%; display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
-  
-  .module-card {
-    background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px;
-    padding: 16px; color: var(--text-main); text-decoration: none; position: relative; overflow: hidden;
-    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-    transition: transform 0.2s, border-color 0.3s, box-shadow 0.3s;
-  }
-  .module-card:hover { border-color: var(--accent-1); box-shadow: var(--shadow); transform: translateY(-3px); }
-
-  /* Standard Link Style */
-  .link-flex { display: flex; align-items: center; gap: 15px; }
-  .module-icon {
-    width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem; flex-shrink: 0; background: rgba(128,128,128,0.1); border: 1px solid var(--card-border); color: var(--text-main); transition: all 0.3s;
-  }
-  .module-card:hover .module-icon { background: var(--accent-glow); color: var(--accent-1); border-color: var(--accent-1); }
-  
-  .module-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-  .module-title { font-family: var(--font-head); font-size: 1.05rem; font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 8px; }
-  .module-sub { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
-  
-  .module-action { width: 36px; height: 36px; border-radius: 10px; border: none; background: rgba(128,128,128,0.1); color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: all 0.2s; z-index: 10; font-size: 0.9rem; }
-  .module-action:hover { background: var(--accent-1); color: #000; transform: scale(1.1); }
-
-  /* Featured Article / Video */
-  .feature-banner { padding: 0; display: flex; flex-direction: column; }
-  .feature-img { width: 100%; height: 160px; object-fit: cover; border-radius: 20px 20px 0 0; border-bottom: 1px solid var(--card-border); }
-  .feature-content { padding: 16px; display: flex; justify-content: space-between; align-items: center; }
-
-  /* Store Grid */
-  .store-grid-wrap { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-  .store-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .merch-item {
-    background: rgba(128,128,128,0.05); border: 1px solid var(--card-border); border-radius: 14px;
-    padding: 10px; text-align: center; transition: all 0.3s;
-  }
-  .merch-item:hover { border-color: var(--accent-1); background: rgba(128,128,128,0.1); }
-  .merch-img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
-  .merch-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; }
-  .merch-price { font-size: 0.9rem; color: var(--accent-1); font-weight: 800; font-family: var(--font-head); }
-
-  /* Event List */
-  .event-item { display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid var(--card-border); }
-  .event-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .event-date { background: rgba(128,128,128,0.1); border-radius: 12px; width: 55px; height: 55px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
-  .event-month { font-size: 0.65rem; text-transform: uppercase; color: var(--accent-1); font-weight: 800; }
-  .event-day { font-size: 1.2rem; font-family: var(--font-head); font-weight: 700; line-height: 1; }
-  .event-info { flex: 1; }
-  .event-city { font-weight: 700; font-size: 0.95rem; }
-  .event-venue { font-size: 0.8rem; color: var(--text-muted); }
-  .event-btn { padding: 6px 14px; border-radius: 20px; background: var(--text-main); color: var(--bg-base); font-size: 0.8rem; font-weight: 700; border: none; transition: transform 0.2s; }
-  .event-btn:hover { transform: scale(1.05); }
-
-  /* Podcast Mock */
-  .podcast-player { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 14px; margin-top: 10px; }
-  .play-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-1); color: #000; display: flex; align-items: center; justify-content: center; font-size: 1rem; padding-left: 3px; cursor: pointer; }
-  .progress-bar { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; }
-  .progress-fill { width: 35%; height: 100%; background: var(--accent-1); border-radius: 2px; }
-
-  /* Newsletter */
-  .newsletter-form { display: flex; gap: 8px; margin-top: 12px; width: 100%; }
-  .newsletter-form input { flex: 1; padding: 12px 15px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(128,128,128,0.05); color: var(--text-main); font-family: var(--font-main); outline: none; transition: border 0.3s; }
-  .newsletter-form input:focus { border-color: var(--accent-1); }
-  .newsletter-form button { padding: 0 20px; border-radius: 12px; border: none; background: var(--text-main); color: var(--bg-base); font-weight: 700; transition: transform 0.2s; }
-  .newsletter-form button:hover { transform: scale(1.05); }
-
-  /* ----------------------------------------------------
-     7. SOCIALS & FOOTER
-     ---------------------------------------------------- */
-  .socials { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
-  .social-btn {
-    width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--card-border); background: var(--card-bg);
-    display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.3rem;
-    text-decoration: none; transition: all 0.3s; backdrop-filter: var(--glass-blur);
-  }
-  .social-btn:hover { border-color: var(--accent-1); color: var(--bg-base); background: var(--accent-1); transform: translateY(-5px) scale(1.1); box-shadow: 0 10px 20px var(--accent-glow); }
-
-  footer { font-size: 0.8rem; color: var(--text-muted); text-align: center; font-weight: 500; padding-bottom: 20px;}
-  footer a { color: var(--accent-1); text-decoration: none; font-weight: 700; }
-
-  /* ----------------------------------------------------
-     8. MODALS (Settings, QR)
-     ---------------------------------------------------- */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
-    display: flex; align-items: center; justify-content: center; z-index: 200;
-    opacity: 0; pointer-events: none; transition: opacity 0.3s;
-  }
-  .modal-overlay.active { opacity: 1; pointer-events: auto; }
-  .modal {
-    background: var(--bg-base); border: 1px solid var(--card-border); padding: 30px;
-    border-radius: 24px; width: 90%; max-width: 420px; transform: translateY(30px);
-    transition: transform 0.3s; position: relative; box-shadow: var(--shadow); color: var(--text-main);
-  }
-  .modal-overlay.active .modal { transform: translateY(0); }
-  .modal-close { position: absolute; top: 20px; right: 20px; background: rgba(128,128,128,0.1); border-radius: 50%; width: 32px; height: 32px; border: none; color: var(--text-muted); font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-  .modal-close:hover { background: var(--card-border); color: var(--text-main); }
-  
-  .modal-title { font-family: var(--font-head); font-size: 1.4rem; margin-bottom: 20px; text-align: center; }
-  
-  /* Settings Grid */
-  .settings-section { margin-bottom: 20px; }
-  .settings-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 10px; display: block; }
-  .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
-  .opt-btn {
-    padding: 12px; border-radius: 12px; border: 2px solid var(--card-border); background: var(--card-bg);
-    color: var(--text-main); font-weight: 600; font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: all 0.2s;
-  }
-  .opt-btn.active { border-color: var(--accent-1); background: var(--accent-glow); }
-  .opt-btn:hover:not(.active) { border-color: var(--text-muted); }
-  
-  .color-circle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); }
-
-  /* Real QR Code */
-  .qr-container { text-align: center; }
-  #real-qr-code { width: 220px; height: 220px; border-radius: 16px; margin: 0 auto 20px; display: block; padding: 10px; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-
-  /* Toasts */
-  #toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 300; pointer-events: none; }
-  .toast { background: var(--text-main); color: var(--bg-base); padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: slideUpFade 0.3s ease forwards; }
-
-  /* ----------------------------------------------------
-     9. ANIMATIONS
-     ---------------------------------------------------- */
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
-  @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  .fade-up { opacity: 0; transform: translateY(30px); animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-  
-  .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3); transform: scale(0); animation: rippleAnim 0.6s linear; pointer-events: none; }
-  @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
-  
-  @media(max-width: 480px) {
-    .app-container { padding-top: 70px; }
-    .name { font-size: 1.8rem; }
-    .stats { gap: 15px; padding: 15px; }
-    .store-grid { grid-template-columns: 1fr; }
-  }
-</style>
-</head>
-<body>
-
-  <div class="cursor-dot"></div>
-  <div class="cursor-outline"></div>
-  <canvas id="canvas-bg"></canvas>
-
-  <div class="app-container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Deep Dive · Podcast</title>
     
-    <!-- Top Bar Controls -->
-    <div class="top-bar fade-up" style="animation-delay: 0.1s;">
-      <div class="control-group">
-        <button class="icon-btn" id="settings-btn" data-tooltip="Theme &amp; Settings" aria-label="Settings"><i class="fas fa-palette"></i></button>
-      </div>
-      <div class="control-group">
-        <button class="icon-btn" id="qr-btn" data-tooltip="My QR Code" aria-label="Show QR Code"><i class="fas fa-qrcode"></i></button>
-        <button class="icon-btn" id="share-btn" data-tooltip="Share Profile" aria-label="Share Profile"><i class="fas fa-share-nodes"></i></button>
-      </div>
-    </div>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        bg: 'var(--bg)',
+                        surface: 'var(--surface)',
+                        elevated: 'var(--elevated)',
+                        border: 'var(--border)',
+                        textMain: 'var(--text-main)',
+                        textMuted: 'var(--text-muted)',
+                        accent: 'var(--accent)',
+                        accentHover: 'var(--accent-hover)',
+                        accentLight: 'var(--accent-light)',
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!-- Profile Section -->
-    <header class="profile">
-      <div class="avatar-wrap fade-up" style="animation-delay: 0.2s;">
-        <img class="avatar" src="https://avatars.githubusercontent.com/u/245461294?v=4&size=1000" alt="Profile Picture">
-        <div class="avatar-ring"></div>
-        <div class="status-dot" data-tooltip="Recording Now"></div>
-      </div>
-      
-      <div class="name-wrap fade-up" style="animation-delay: 0.3s;">
-        <h1 class="name">Gunjan Taingoria</h1>
-        <i class="fas fa-circle-check verified" data-tooltip="Verified Creator"></i>
-      </div>
-      <div class="handle fade-up" style="animation-delay: 0.35s;">@gtaingoria</div>
-      
-      <div class="bio fade-up" style="animation-delay: 0.4s;">
-        Digital Artist, Developer &amp; Photographer. Helping you with digital services. Based in YYG 🍎
-      </div>
+    <!-- Theme System via CSS Variables -->
+    <style>
+        :root { scroll-behavior: smooth; }
+        body { transition: background-color 0.3s, color 0.3s; }
+        
+        /* Modes */
+        body[data-mode="matte"] { --bg: #050505; --surface: #111111; --elevated: #1a1a1a; --border: #222222; --text-main: #f3f4f6; --text-muted: #6b7280; }
+        body[data-mode="dark"] { --bg: #0f172a; --surface: #1e293b; --elevated: #334155; --border: #475569; --text-main: #f8fafc; --text-muted: #94a3b8; }
+        body[data-mode="light"] { --bg: #f8fafc; --surface: #ffffff; --elevated: #f1f5f9; --border: #e2e8f0; --text-main: #0f172a; --text-muted: #64748b; }
 
-      <div class="stats fade-up" style="animation-delay: 0.45s;">
-        <div class="stat"><div class="stat-n" data-target="0" data-suffix="k">0</div><div class="stat-l">Subscribers</div></div>
-        <div class="stat"><div class="stat-n" data-target="36" data-suffix="M+">0</div><div class="stat-l">Months</div></div>
-        <div class="stat"><div class="stat-n" data-target="2">0</div><div class="stat-l">Start-ups</div></div>
-      </div>
+        /* Accents */
+        body[data-accent="violet"] { --accent: #8b5cf6; --accent-hover: #7c3aed; --accent-light: rgba(139, 92, 246, 0.15); }
+        body[data-accent="rose"] { --accent: #f43f5e; --accent-hover: #e11d48; --accent-light: rgba(244, 63, 94, 0.15); }
+        body[data-accent="cyan"] { --accent: #06b6d4; --accent-hover: #0891b2; --accent-light: rgba(6, 182, 212, 0.15); }
+        body[data-accent="emerald"] { --accent: #10b981; --accent-hover: #059669; --accent-light: rgba(16, 185, 129, 0.15); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* Audio Visualizer Animation */
+        @keyframes bounce { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
+        .playing-bar { animation: bounce 1s infinite ease-in-out; transform-origin: bottom; }
+        .playing-bar:nth-child(2) { animation-delay: 0.2s; }
+        .playing-bar:nth-child(3) { animation-delay: 0.4s; }
+        .playing-bar:nth-child(4) { animation-delay: 0.1s; }
+    </style>
+</head>
+<body data-mode="matte" data-accent="violet" class="bg-bg text-textMain font-sans pb-32">
+
+    <!-- 1. NAVIGATION -->
+    <nav class="fixed top-0 w-full z-50 backdrop-blur-md border-b border-border bg-surface/80">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 font-black text-xl tracking-tight">
+                <i class="fas fa-microphone text-accent"></i> Test.
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex items-center gap-4 text-sm font-semibold text-textMuted">
+                    <a href="#episodes" class="hover:text-accent transition-colors">Episodes</a>
+                    <a href="#about" class="hover:text-accent transition-colors">Hosts</a>
+                    <a href="#premium" class="hover:text-accent transition-colors">Premium</a>
+                    <a href="#gear" class="hover:text-accent transition-colors">Gear</a>
+                    <!-- Feature 19: Language Selector -->
+                    <button class="hover:text-accent transition-colors flex items-center gap-1" title="Change Language"><i class="fas fa-globe"></i> EN</button>
+                </div>
+
+                <!-- Theme Switchers -->
+                <div class="flex items-center gap-2 pl-6 border-l border-border">
+                    <div class="flex p-1 rounded-lg bg-elevated border border-border">
+                        <button onclick="setMode('light')" class="p-1.5 rounded-md text-textMuted hover:text-accent transition-all" title="Light"><i class="fas fa-sun"></i></button>
+                        <button onclick="setMode('dark')" class="p-1.5 rounded-md text-textMuted hover:text-accent transition-all" title="Dark"><i class="fas fa-moon"></i></button>
+                        <button onclick="setMode('matte')" class="p-1.5 rounded-md text-textMuted hover:text-accent transition-all" title="Matte"><i class="fas fa-desktop"></i></button>
+                    </div>
+                    <div class="flex p-1 rounded-lg bg-elevated border border-border gap-1 hidden sm:flex">
+                        <button onclick="setAccent('rose')" class="w-5 h-5 rounded-full bg-rose-500 opacity-50 hover:opacity-100 transition-opacity"></button>
+                        <button onclick="setAccent('cyan')" class="w-5 h-5 rounded-full bg-cyan-500 opacity-50 hover:opacity-100 transition-opacity"></button>
+                        <button onclick="setAccent('violet')" class="w-5 h-5 rounded-full bg-violet-500 opacity-100 ring-2 ring-violet-500 ring-offset-2 ring-offset-bg transition-opacity" id="btn-violet"></button>
+                        <button onclick="setAccent('emerald')" class="w-5 h-5 rounded-full bg-emerald-500 opacity-50 hover:opacity-100 transition-opacity"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO -->
+    <header class="relative pt-32 pb-20 overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent opacity-10 blur-[100px] rounded-full pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
+            <div class="w-32 h-32 md:w-48 md:h-48 rounded-3xl border-4 border-accent mb-6 flex items-center justify-center text-6xl shadow-[0_0_30px_var(--accent-light)] bg-gradient-to-br from-black to-gray-900 overflow-hidden relative group cursor-pointer">
+                🎙️
+            </div>
+            
+            <!-- Feature 6: Awards -->
+            <div class="flex items-center gap-2 mb-6 bg-accentLight text-accent px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest border border-accent border-opacity-30">
+                <i class="fas fa-trophy"></i> Apple Top 10 Tech Podcast 2025
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-tight">
+                The <span class="text-accent">Test podcast</span>
+            </h1>
+            <p class="text-lg md:text-xl text-textMuted max-w-2xl mb-10 leading-relaxed">
+                Weekly conversations with founders, engineers, and creators who are building the future. No fluff, just pure signal.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="playLatest()" class="flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-white bg-accent hover:bg-accentHover transition-all transform hover:-translate-y-1 shadow-lg">
+                    <i class="fas fa-play"></i> Play Latest Episode
+                </button>
+                <a href="#premium" class="flex items-center gap-2 px-8 py-4 rounded-xl font-bold border-2 border-border hover:border-accent hover:text-accent transition-all">
+                    <i class="fas fa-rss"></i> Subscribe
+                </a>
+            </div>
+
+            <div class="flex flex-wrap justify-center items-center gap-3">
+                <div class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border border-border bg-surface text-textMuted hover:text-textMain cursor-pointer transition-colors"><i class="fab fa-spotify text-green-500"></i> Spotify</div>
+                <div class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border border-border bg-surface text-textMuted hover:text-textMain cursor-pointer transition-colors"><i class="fab fa-apple"></i> Apple</div>
+                <div class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border border-border bg-surface text-textMuted hover:text-textMain cursor-pointer transition-colors"><i class="fab fa-youtube text-red-500"></i> YouTube</div>
+            </div>
+        </div>
     </header>
 
-    <!-- Filters -->
-    <div class="tools-section fade-up" style="animation-delay: 0.5s;">
-      <div class="tabs" id="category-tabs">
-        <button class="tab-btn active" data-filter="all">All Content</button>
-        <button class="tab-btn" data-filter="links">Important Links</button>
-        <button class="tab-btn" data-filter="media">Videos &amp; Audio</button>
-        <button class="tab-btn" data-filter="store">Merch Store</button>
-        <button class="tab-btn" data-filter="events">Live Events</button>
-      </div>
+    <!-- 3. MARQUEE STATS -->
+    <div class="border-y border-border bg-elevated py-6 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-center gap-8 md:gap-16 text-center">
+            <div><div class="text-2xl md:text-3xl font-black text-accent">142</div><div class="text-[10px] md:text-xs uppercase tracking-widest font-bold mt-1 text-textMuted">Episodes</div></div>
+            <div><div class="text-2xl md:text-3xl font-black text-accent">1.2M</div><div class="text-[10px] md:text-xs uppercase tracking-widest font-bold mt-1 text-textMuted">Downloads</div></div>
+            <!-- Feature 7: Global Reach -->
+            <div><div class="text-2xl md:text-3xl font-black text-accent">184</div><div class="text-[10px] md:text-xs uppercase tracking-widest font-bold mt-1 text-textMuted">Countries Reached</div></div>
+            <!-- Feature 18: Discord Live Stats -->
+            <div class="hidden sm:block"><div class="text-2xl md:text-3xl font-black text-accent flex items-center gap-2 justify-center"><div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div> 1,204</div><div class="text-[10px] md:text-xs uppercase tracking-widest font-bold mt-1 text-textMuted">Online in Discord</div></div>
+        </div>
     </div>
 
-    <!-- Content List -->
-    <main class="content-container" id="content-container">
-      
-      <!-- 1. Featured Video / Blog (Media) -->
-      <a href="#" class="module-card feature-banner fade-up item-card" data-category="media" style="animation-delay: 0.55s;">
-        <img class="feature-img" src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Video Thumbnail">
-        <div class="feature-content">
-          <div>
-            <div class="module-title"><span style="color:var(--accent-1)"><i class="fab fa-youtube"></i></span> My New Desk Setup Tour</div>
-            <div class="module-sub">Watch the full 2024 tech breakdown</div>
-          </div>
-          <button class="module-action"><i class="fas fa-play"></i></button>
-        </div>
-      </a>
+    <!-- 4. MAIN LAYOUT GRID -->
+    <main class="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- LEFT COLUMN: EPISODES (8 cols) -->
+        <div class="lg:col-span-8 space-y-12" id="episodes">
+            
+            <!-- Feature 13: Curated Playlists -->
+            <section>
+                <h2 class="text-sm font-bold uppercase tracking-widest text-textMuted mb-4">Start Here / Curated Playlists</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="bg-surface border border-border p-4 rounded-xl hover:border-accent cursor-pointer transition-colors group">
+                        <i class="fas fa-rocket text-accent text-2xl mb-2 group-hover:scale-110 transition-transform"></i>
+                        <h4 class="font-bold text-sm">For Founders</h4>
+                        <p class="text-xs text-textMuted mt-1">12 episodes</p>
+                    </div>
+                    <div class="bg-surface border border-border p-4 rounded-xl hover:border-accent cursor-pointer transition-colors group">
+                        <i class="fas fa-code text-accent text-2xl mb-2 group-hover:scale-110 transition-transform"></i>
+                        <h4 class="font-bold text-sm">Deep Engineering</h4>
+                        <p class="text-xs text-textMuted mt-1">8 episodes</p>
+                    </div>
+                    <div class="bg-surface border border-border p-4 rounded-xl hover:border-accent cursor-pointer transition-colors group hidden md:block">
+                        <i class="fas fa-brain text-accent text-2xl mb-2 group-hover:scale-110 transition-transform"></i>
+                        <h4 class="font-bold text-sm">AI & Future</h4>
+                        <p class="text-xs text-textMuted mt-1">15 episodes</p>
+                    </div>
+                </div>
+            </section>
 
-      <!-- 2. Podcast Player Mock (Media) -->
-      <div class="module-card fade-up item-card" data-category="media" style="animation-delay: 0.6s;">
-        <div class="link-flex">
-          <div class="module-icon" style="color: #bc13fe;"><i class="fas fa-podcast"></i></div>
-          <div class="module-info">
-            <div class="module-title">The Creative Workflow Podcast</div>
-            <div class="module-sub">Ep 42: Avoiding Burnout as a Freelancer</div>
-          </div>
-        </div>
-        <div class="podcast-player">
-          <div class="play-btn" onclick="showToast('Playing Episode 42...')"><i class="fas fa-play"></i></div>
-          <div class="progress-bar"><div class="progress-fill"></div></div>
-          <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">12:45 / 45:00</span>
-        </div>
-      </div>
+            <!-- Featured / Latest Episode -->
+            <section>
+                <h2 class="text-sm font-bold uppercase tracking-widest mb-6 flex items-center gap-2 text-accent">
+                    <span class="w-2 h-2 rounded-full animate-pulse bg-accent"></span> Latest Release
+                </h2>
+                <div class="p-6 md:p-8 rounded-2xl border-2 border-accent bg-accentLight relative overflow-hidden group">
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="px-3 py-1 rounded-md text-xs font-bold bg-accent text-white">EP 142</span>
+                            <span class="text-sm font-semibold opacity-80 text-textMain">2 days ago</span>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-black mb-4 leading-tight text-textMain">The Future of AI: Where Are We Actually Headed?</h3>
+                        <p class="mb-8 leading-relaxed max-w-2xl text-textMain opacity-90">Dr. Sarah Chen unpacks the state of AI research, what the hype gets right, and what the next 10 years might look like for developers and society.</p>
+                        
+                        <div class="flex items-center gap-6">
+                            <button onclick="playTrack('The Future of AI', 'EP 142')" class="w-14 h-14 rounded-full flex items-center justify-center text-white bg-accent hover:bg-accentHover transform transition-transform hover:scale-105 shadow-xl">
+                                <i class="fas fa-play ml-1 text-xl"></i>
+                            </button>
+                            <div>
+                                <div class="font-bold text-sm text-textMain">Listen Now</div>
+                                <div class="text-xs opacity-75 text-textMain">38:24 • Tech, AI</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-      <!-- 3. Standard Links (Links) -->
-      <a href="#" class="module-card fade-up item-card" data-category="links" style="animation-delay: 0.65s;">
-        <div class="link-flex">
-          <div class="module-icon"><i class="fas fa-globe"></i></div>
-          <div class="module-info">
-            <div class="module-title">My Official Website</div>
-            <div class="module-sub">Read my full blog and case studies</div>
-          </div>
-          <button class="module-action copy-btn" data-link="https://sarahcreates.com" data-tooltip="Copy Link"><i class="fas fa-copy"></i></button>
-        </div>
-      </a>
+            <!-- FIXED SEARCH & EPISODES LIST -->
+            <section>
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+                    <div>
+                        <h2 class="text-3xl font-black mb-2">All Episodes</h2>
+                        <p class="text-textMuted">Dive into the archives.</p>
+                    </div>
+                </div>
 
-      <a href="#" class="module-card fade-up item-card" data-category="links" style="animation-delay: 0.7s;">
-        <div class="link-flex">
-          <div class="module-icon" style="color: #0077b5;"><i class="fab fa-linkedin"></i></div>
-          <div class="module-info">
-            <div class="module-title">Let's connect on LinkedIn</div>
-            <div class="module-sub">Open for brand partnerships &amp; speaking</div>
-          </div>
-          <button class="module-action copy-btn" data-link="https://linkedin.com" data-tooltip="Copy Link"><i class="fas fa-copy"></i></button>
-        </div>
-      </a>
+                <!-- Search Bar -->
+                <div class="flex mb-6">
+                    <div class="flex-1 flex items-center gap-2 px-4 py-3 rounded-xl border border-border bg-surface focus-within:border-accent transition-colors">
+                        <i class="fas fa-search text-textMuted"></i>
+                        <input type="text" id="searchInput" placeholder="Search episodes, guests, topics..." class="bg-transparent border-none outline-none w-full text-sm font-medium text-textMain placeholder-textMuted" onkeyup="filterEpisodes()">
+                    </div>
+                </div>
 
-      <!-- 4. Merch Store Grid (Store) -->
-      <div class="module-card store-grid-wrap fade-up item-card" data-category="store" style="animation-delay: 0.75s;">
-        <div class="module-title"><i class="fas fa-store" style="color:var(--accent-1)"></i> Official Merch Drop Vol. 1</div>
-        <div class="store-grid">
-          <a href="#" class="merch-item" style="text-decoration:none; color:inherit;">
-            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=400&amp;q=80" alt="T-Shirt" class="merch-img">
-            <div class="merch-title">"Create" Essential Tee</div>
-            <div class="merch-price">$28.00</div>
-          </a>
-          <a href="#" class="merch-item" style="text-decoration:none; color:inherit;">
-            <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=400&amp;q=80" alt="Mug" class="merch-img">
-            <div class="merch-title">Midnight Coffee Mug</div>
-            <div class="merch-price">$16.00</div>
-          </a>
-        </div>
-      </div>
+                <!-- Episode List -->
+                <div class="flex flex-col gap-4" id="episodeContainer">
+                    
+                    <!-- Episode Item -->
+                    <div class="episode-item flex flex-col sm:flex-row sm:items-center gap-6 p-4 rounded-2xl border border-border bg-surface hover:border-accent transition-all cursor-pointer">
+                        <div class="relative flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-xl bg-elevated group-hover:bg-accentLight transition-colors">
+                            <button onclick="playTrack('Building in Public: The Full Honest Truth', 'EP 141')" class="absolute inset-0 m-auto w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center shadow-lg opacity-0 hover:opacity-100 transition-opacity z-10">
+                                <i class="fas fa-play ml-0.5 text-xs"></i>
+                            </button>
+                            <div class="text-center">
+                                <div class="text-[10px] font-bold uppercase text-textMuted">EP</div>
+                                <div class="text-lg font-black text-textMain">141</div>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm bg-elevated text-textMuted">Business</span>
+                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm bg-elevated text-textMuted">Founders</span>
+                                <span class="text-xs font-medium text-textMuted ml-auto">2 weeks ago • 44:12</span>
+                            </div>
+                            <h4 class="text-lg font-bold mb-2 leading-tight episode-title">Building in Public: The Full Honest Truth</h4>
+                            <p class="text-sm text-textMuted line-clamp-2 episode-desc">Three founders share the good, bad, and ugly of building their companies openly on social media. We discuss mental health, competition, and real ROI.</p>
+                            <!-- Feature 3: Transcripts -->
+                            <div class="mt-3 flex gap-3">
+                                <button class="text-xs font-bold text-accent hover:underline flex items-center gap-1"><i class="fas fa-file-alt"></i> Read Transcript</button>
+                                <button class="text-xs font-bold text-textMuted hover:text-textMain flex items-center gap-1"><i class="fas fa-share-alt"></i> Share</button>
+                            </div>
+                        </div>
+                    </div>
 
-      <!-- 5. Live Events (Events) -->
-      <div class="module-card store-grid-wrap fade-up item-card" data-category="events" style="animation-delay: 0.8s;">
-        <div class="module-title"><i class="fas fa-ticket-alt" style="color:var(--accent-1)"></i> Upcoming Tour Dates</div>
-        <div class="event-list">
-          <div class="event-item">
-            <div class="event-date"><span class="event-month">Nov</span><span class="event-day">12</span></div>
-            <div class="event-info">
-              <div class="event-city">New York City, NY</div>
-              <div class="event-venue">Creator Economy Summit '24</div>
+                    <!-- Episode Item -->
+                    <div class="episode-item flex flex-col sm:flex-row sm:items-center gap-6 p-4 rounded-2xl border border-border bg-surface hover:border-accent transition-all cursor-pointer">
+                        <div class="relative flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-xl bg-elevated group-hover:bg-accentLight transition-colors">
+                            <button onclick="playTrack('Distributed Systems', 'EP 140')" class="absolute inset-0 m-auto w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center shadow-lg opacity-0 hover:opacity-100 transition-opacity z-10">
+                                <i class="fas fa-play ml-0.5 text-xs"></i>
+                            </button>
+                            <div class="text-center">
+                                <div class="text-[10px] font-bold uppercase text-textMuted">EP</div>
+                                <div class="text-lg font-black text-textMain">140</div>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm bg-elevated text-textMuted">Engineering</span>
+                                <span class="text-xs font-medium text-textMuted ml-auto">3 weeks ago • 51:05</span>
+                            </div>
+                            <h4 class="text-lg font-bold mb-2 leading-tight episode-title">Distributed Systems Don't Have to Be Hard</h4>
+                            <p class="text-sm text-textMuted line-clamp-2 episode-desc">A staff engineer breaks down distributed systems patterns every developer should know. Scaling microservices without losing your mind.</p>
+                            <div class="mt-3 flex gap-3">
+                                <button class="text-xs font-bold text-accent hover:underline flex items-center gap-1"><i class="fas fa-file-alt"></i> Read Transcript</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Episode Item -->
+                    <div class="episode-item flex flex-col sm:flex-row sm:items-center gap-6 p-4 rounded-2xl border border-border bg-surface hover:border-accent transition-all cursor-pointer">
+                        <div class="relative flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-xl bg-elevated group-hover:bg-accentLight transition-colors">
+                            <button onclick="playTrack('From Side Project to $2M ARR', 'EP 139')" class="absolute inset-0 m-auto w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center shadow-lg opacity-0 hover:opacity-100 transition-opacity z-10">
+                                <i class="fas fa-play ml-0.5 text-xs"></i>
+                            </button>
+                            <div class="text-center">
+                                <div class="text-[10px] font-bold uppercase text-textMuted">EP</div>
+                                <div class="text-lg font-black text-textMain">139</div>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm bg-elevated text-textMuted">Business</span>
+                                <span class="text-xs font-medium text-textMuted ml-auto">1 month ago • 36:40</span>
+                            </div>
+                            <h4 class="text-lg font-bold mb-2 leading-tight episode-title">From Side Project to $2M ARR</h4>
+                            <p class="text-sm text-textMuted line-clamp-2 episode-desc">How one developer bootstrapped a developer tool to significant revenue without outside funding. Bootstrapping vs VC debate settled.</p>
+                            <div class="mt-3 flex gap-3">
+                                <button class="text-xs font-bold text-accent hover:underline flex items-center gap-1"><i class="fas fa-file-alt"></i> Read Transcript</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p id="noResults" class="hidden text-center text-textMuted py-8 border-2 border-dashed border-border rounded-xl">No episodes found.</p>
+                </div>
+                
+                <button class="mt-8 w-full py-4 rounded-xl border border-border bg-elevated font-bold text-sm hover:text-textMain transition-colors">
+                    Load Archive
+                </button>
+            </section>
+        </div>
+
+        <!-- RIGHT COLUMN: SIDEBAR (4 cols) -->
+        <div class="lg:col-span-4 space-y-10">
+            
+            <!-- Feature 4: Voice Message Widget -->
+            <div class="p-5 rounded-2xl border border-border bg-surface text-center">
+                <div class="w-12 h-12 mx-auto rounded-full bg-accentLight text-accent flex items-center justify-center mb-3">
+                    <i class="fas fa-microphone-alt text-xl"></i>
+                </div>
+                <h3 class="font-bold mb-1">Send us a voice note</h3>
+                <p class="text-xs text-textMuted mb-4">Got a question? Record it, and we might play it on the next Q&A episode!</p>
+                <button class="w-full py-2.5 rounded-lg font-bold text-sm bg-elevated border border-border hover:border-accent transition-colors">Start Recording</button>
             </div>
-            <button class="event-btn" onclick="showToast('Redirecting to tickets...')">Tickets</button>
-          </div>
-          <div class="event-item">
-            <div class="event-date"><span class="event-month">Dec</span><span class="event-day">05</span></div>
-            <div class="event-info">
-              <div class="event-city">Los Angeles, CA</div>
-              <div class="event-venue">Tech &amp; Design Workshop</div>
+
+            <!-- Support / Premium CTA -->
+            <div class="p-6 rounded-2xl border border-accent bg-accentLight relative overflow-hidden" id="premium">
+                <i class="fas fa-star text-accent text-3xl mb-4 opacity-50"></i>
+                <h3 class="text-xl font-black mb-2">Inner Circle</h3>
+                <p class="text-sm text-textMain opacity-80 mb-6">Ad-free episodes, bonus AMA content, and private Discord access.</p>
+                <a href="#memberships" class="block text-center w-full py-3 rounded-xl font-bold text-white bg-accent hover:bg-accentHover mb-2 shadow-lg">View Tiers</a>
             </div>
-            <button class="event-btn" onclick="showToast('Redirecting to tickets...')">Tickets</button>
-          </div>
-        </div>
-      </div>
 
-      <!-- 6. Newsletter Sign Up -->
-      <div class="module-card fade-up item-card" data-category="links" style="animation-delay: 0.85s;">
-        <div class="link-flex" style="margin-bottom: 5px;">
-          <div class="module-icon"><i class="fas fa-envelope-open-text"></i></div>
-          <div class="module-info">
-            <div class="module-title">Join my Newsletter</div>
-            <div class="module-sub">Weekly tips on design &amp; productivity</div>
-          </div>
-        </div>
-        <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Thanks for subscribing!'); this.reset();">
-          <input type="email" placeholder="Your best email address..." required="">
-          <button type="submit">Subscribe</button>
-        </form>
-      </div>
+            <!-- Feature 2: Upcoming Live Shows -->
+            <div>
+                <h3 class="text-sm font-black uppercase text-textMuted mb-4"><i class="fas fa-calendar-alt text-accent"></i> Live Tour Dates</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between p-3 rounded-xl border border-border bg-surface hover:border-accent transition-colors">
+                        <div>
+                            <div class="font-bold text-sm">San Francisco, CA</div>
+                            <div class="text-xs text-textMuted">Oct 12 • The Fillmore</div>
+                        </div>
+                        <button class="text-xs font-bold px-3 py-1.5 bg-accent text-white rounded-md">Tickets</button>
+                    </div>
+                    <div class="flex items-center justify-between p-3 rounded-xl border border-border bg-surface hover:border-accent transition-colors">
+                        <div>
+                            <div class="font-bold text-sm">Austin, TX</div>
+                            <div class="text-xs text-textMuted">Oct 24 • ACL Live</div>
+                        </div>
+                        <button class="text-xs font-bold px-3 py-1.5 bg-elevated border border-border rounded-md text-textMuted">Sold Out</button>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Feature 10: Sponsor Promo Codes -->
+            <div>
+                <h3 class="text-sm font-black uppercase text-textMuted mb-4"><i class="fas fa-tag text-accent"></i> Sponsor Codes</h3>
+                <div class="bg-surface border border-border rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-3 border-b border-border pb-3">
+                        <div class="flex items-center gap-2"><i class="fas fa-server text-blue-500"></i> <span class="font-bold text-sm">CloudHost</span></div>
+                        <span class="text-xs font-mono bg-elevated px-2 py-1 rounded border border-border text-accent">DIVE20</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2"><i class="fas fa-coffee text-amber-600"></i> <span class="font-bold text-sm">MagicBrew</span></div>
+                        <span class="text-xs font-mono bg-elevated px-2 py-1 rounded border border-border text-accent">DEEPDIVE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 16: Suggest a Guest -->
+            <div class="p-5 rounded-2xl border border-border bg-surface">
+                <h3 class="font-bold mb-1 text-sm"><i class="fas fa-lightbulb text-accent"></i> Suggest a Guest</h3>
+                <p class="text-xs text-textMuted mb-3">Who should we interview next?</p>
+                <input type="text" placeholder="Twitter handle or name..." class="w-full px-3 py-2 rounded-lg border border-border bg-elevated text-sm outline-none focus:border-accent mb-2">
+                <button class="w-full py-2 rounded-lg font-bold text-xs bg-accent text-white">Submit</button>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="p-6 rounded-2xl border border-border bg-elevated">
+                <h3 class="text-lg font-black mb-2 flex items-center gap-2">
+                    <i class="fas fa-envelope text-accent"></i> The Weekly Dive
+                </h3>
+                <p class="text-sm text-textMuted mb-4">Show notes and exclusive insights every Wednesday.</p>
+                <div class="space-y-3">
+                    <input type="email" placeholder="you@email.com" class="w-full px-4 py-3 rounded-xl border border-border bg-bg outline-none focus:border-accent transition-colors text-sm">
+                    <button class="w-full py-3 rounded-xl font-bold text-white bg-accent hover:bg-accentHover">Subscribe</button>
+                </div>
+            </div>
+
+        </div>
     </main>
 
-    <!-- Socials & Footer -->
-    <div class="socials fade-up" style="animation-delay: 0.9s;">
-      <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-      <a href="#" class="social-btn" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-      <a href="#" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-      <button class="social-btn" onclick="showToast('vCard Download started')" aria-label="Save Contact"><i class="fas fa-address-card"></i></button>
-    </div>
+    <!-- 5. FEATURE SECTION: HOST BIOS (Feature 1) -->
+    <section class="py-20 border-t border-border bg-elevated" id="about">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-black mb-4">Meet the Hosts</h2>
+                <p class="text-textMuted">The voices behind the mic.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="flex gap-6 items-start">
+                    <img src="https://i.pravatar.cc/150?img=11" alt="Host 1" class="w-24 h-24 rounded-full border-2 border-accent object-cover">
+                    <div>
+                        <h3 class="text-xl font-bold mb-1">Alex Rivera</h3>
+                        <p class="text-xs font-bold text-accent uppercase mb-3">Ex-Stripe Engineer</p>
+                        <p class="text-sm text-textMuted leading-relaxed mb-3">Alex spent 8 years building payment infrastructure before turning to content creation full time. He focuses on the technical deep-dives.</p>
+                        <a href="#" class="text-textMuted hover:text-[#1DA1F2]"><i class="fab fa-twitter"></i> @arivera</a>
+                    </div>
+                </div>
+                <div class="flex gap-6 items-start">
+                    <img src="https://i.pravatar.cc/150?img=5" alt="Host 2" class="w-24 h-24 rounded-full border-2 border-accent object-cover">
+                    <div>
+                        <h3 class="text-xl font-bold mb-1">Jordan Lee</h3>
+                        <p class="text-xs font-bold text-accent uppercase mb-3">2x Founder</p>
+                        <p class="text-sm text-textMuted leading-relaxed mb-3">Jordan built and sold two SaaS companies by age 30. They bring the business, product, and growth perspective to every interview.</p>
+                        <a href="#" class="text-textMuted hover:text-[#1DA1F2]"><i class="fab fa-twitter"></i> @jordanbuilds</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <footer class="fade-up" style="animation-delay: 0.95s;">
-      <p>Built for Creators. Powered by <a href="https://daasfactory.live/brainwaves/api/enterapi/corner_editor.html">DaaSFac - Corner</a></p>
+    <!-- 6. TIERED MEMBERSHIPS (Feature 5) -->
+    <section class="py-20 border-t border-border" id="memberships">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-black mb-4">Support the Show</h2>
+                <p class="text-textMuted">Choose a tier to join the Inner Circle.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Bronze -->
+                <div class="p-6 rounded-2xl border border-border bg-surface text-center flex flex-col">
+                    <h3 class="text-lg font-bold mb-2">Supporter</h3>
+                    <div class="text-3xl font-black mb-4">$5<span class="text-sm text-textMuted font-normal">/mo</span></div>
+                    <ul class="text-sm text-textMuted space-y-3 mb-8 flex-1">
+                        <li><i class="fas fa-check text-accent mr-2"></i>Ad-free episodes</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Discord Community</li>
+                    </ul>
+                    <button class="w-full py-2 rounded-lg font-bold border border-border hover:border-accent">Join</button>
+                </div>
+                <!-- Silver (Highlighted) -->
+                <div class="p-6 rounded-2xl border-2 border-accent bg-elevated text-center flex flex-col relative transform md:-translate-y-4 shadow-2xl">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full">Most Popular</div>
+                    <h3 class="text-lg font-bold mb-2">Insider</h3>
+                    <div class="text-3xl font-black text-accent mb-4">$10<span class="text-sm text-textMuted font-normal">/mo</span></div>
+                    <ul class="text-sm text-textMuted space-y-3 mb-8 flex-1">
+                        <li><i class="fas fa-check text-accent mr-2"></i>Everything in Supporter</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Bonus monthly episode</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Early access to tickets</li>
+                    </ul>
+                    <button class="w-full py-2 rounded-lg font-bold bg-accent text-white hover:bg-accentHover">Join Insider</button>
+                </div>
+                <!-- Gold -->
+                <div class="p-6 rounded-2xl border border-border bg-surface text-center flex flex-col">
+                    <h3 class="text-lg font-bold mb-2">Producer</h3>
+                    <div class="text-3xl font-black mb-4">$50<span class="text-sm text-textMuted font-normal">/mo</span></div>
+                    <ul class="text-sm text-textMuted space-y-3 mb-8 flex-1">
+                        <li><i class="fas fa-check text-accent mr-2"></i>Everything in Insider</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Name in show notes</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Quarterly group Zoom</li>
+                    </ul>
+                    <button class="w-full py-2 rounded-lg font-bold border border-border hover:border-accent">Join Producer</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. RESOURCES & COMMUNITY (Features 8, 9, 11, 17) -->
+    <section class="py-20 border-t border-border bg-surface">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
+            
+            <!-- Left: Reading & Gear -->
+            <div>
+                <h2 class="text-2xl font-black mb-6 border-b border-border pb-2">Resources</h2>
+                
+                <!-- Books (F8) -->
+                <div class="mb-8">
+                    <h3 class="text-sm font-bold uppercase text-textMuted mb-4"><i class="fas fa-book text-accent"></i> Recommended Reading</h3>
+                    <div class="flex gap-4 overflow-x-auto pb-4">
+                        <div class="w-24 flex-shrink-0 text-center">
+                            <div class="w-24 h-32 bg-elevated border border-border rounded shadow mb-2 flex items-center justify-center text-xs">Book Cover</div>
+                            <div class="text-xs font-bold truncate">Build</div>
+                        </div>
+                        <div class="w-24 flex-shrink-0 text-center">
+                            <div class="w-24 h-32 bg-elevated border border-border rounded shadow mb-2 flex items-center justify-center text-xs">Book Cover</div>
+                            <div class="text-xs font-bold truncate">Zero to One</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gear (F9) -->
+                <div id="gear">
+                    <h3 class="text-sm font-bold uppercase text-textMuted mb-4"><i class="fas fa-headphones text-accent"></i> Studio Gear</h3>
+                    <ul class="text-sm space-y-2 border-l-2 border-elevated pl-4">
+                        <li><strong>Mics:</strong> Shure SM7B</li>
+                        <li><strong>Interface:</strong> RodeCaster Pro II</li>
+                        <li><strong>Cameras:</strong> Sony FX3 (x3)</li>
+                        <li><a href="#" class="text-accent hover:underline text-xs font-bold mt-2 inline-block">View Full Kit →</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right: Community Poll & BTS Grid -->
+            <div>
+                <h2 class="text-2xl font-black mb-6 border-b border-border pb-2">Community</h2>
+                
+                <!-- Poll (F17) -->
+                <div class="bg-elevated border border-border rounded-xl p-5 mb-8">
+                    <h3 class="font-bold text-sm mb-3"><i class="fas fa-poll text-accent"></i> Poll of the Week</h3>
+                    <p class="text-sm mb-4">What's the biggest threat to early-stage startups right now?</p>
+                    <div class="space-y-2" id="poll-options">
+                        <label class="flex items-center gap-3 p-2 rounded border border-border bg-surface cursor-pointer hover:border-accent">
+                            <input type="radio" name="poll" class="accent-accent" onclick="document.getElementById('poll-res').classList.remove('hidden')"> <span class="text-sm">Running out of runway</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 rounded border border-border bg-surface cursor-pointer hover:border-accent">
+                            <input type="radio" name="poll" class="accent-accent" onclick="document.getElementById('poll-res').classList.remove('hidden')"> <span class="text-sm">Big tech AI features</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 rounded border border-border bg-surface cursor-pointer hover:border-accent">
+                            <input type="radio" name="poll" class="accent-accent" onclick="document.getElementById('poll-res').classList.remove('hidden')"> <span class="text-sm">Finding product-market fit</span>
+                        </label>
+                    </div>
+                    <div id="poll-res" class="hidden mt-3 text-xs text-accent font-bold text-center">Thanks for voting! Results revealed on Tuesday.</div>
+                </div>
+
+                <!-- Behind the scenes (F11) -->
+                <div>
+                    <h3 class="text-sm font-bold uppercase text-textMuted mb-4"><i class="fab fa-instagram text-accent"></i> Behind the Scenes</h3>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="aspect-square bg-elevated rounded border border-border overflow-hidden group">
+                            <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=200&q=80" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
+                        </div>
+                        <div class="aspect-square bg-elevated rounded border border-border overflow-hidden group">
+                            <img src="https://images.unsplash.com/photo-1559523182-a284c3fb7cff?w=200&q=80" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
+                        </div>
+                        <div class="aspect-square bg-elevated rounded border border-border overflow-hidden group flex items-center justify-center cursor-pointer hover:bg-surface">
+                            <span class="text-xs font-bold text-textMuted">Follow →</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. FAQ (Feature 15) -->
+    <section class="py-20 border-t border-border bg-bg">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-3xl font-black mb-8 text-center">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <details class="bg-surface border border-border rounded-xl p-4 group cursor-pointer open:border-accent">
+                    <summary class="font-bold outline-none flex justify-between items-center text-sm">Do you accept guest pitches? <i class="fas fa-chevron-down text-textMuted group-open:rotate-180 transition-transform"></i></summary>
+                    <p class="text-sm text-textMuted mt-3 pl-2 border-l-2 border-accent">We do read all pitches sent via our suggestion form, but please note we currently schedule guests about 3 months in advance.</p>
+                </details>
+                <details class="bg-surface border border-border rounded-xl p-4 group cursor-pointer open:border-accent">
+                    <summary class="font-bold outline-none flex justify-between items-center text-sm">Can I sponsor an episode? <i class="fas fa-chevron-down text-textMuted group-open:rotate-180 transition-transform"></i></summary>
+                    <p class="text-sm text-textMuted mt-3 pl-2 border-l-2 border-accent">Yes! We have a dedicated audience of tech professionals. Please reach out via our contact page for the media kit and current CPM rates.</p>
+                </details>
+                <details class="bg-surface border border-border rounded-xl p-4 group cursor-pointer open:border-accent">
+                    <summary class="font-bold outline-none flex justify-between items-center text-sm">Where can I find the show notes? <i class="fas fa-chevron-down text-textMuted group-open:rotate-180 transition-transform"></i></summary>
+                    <p class="text-sm text-textMuted mt-3 pl-2 border-l-2 border-accent">Show notes with all mentioned links and transcripts are available on the individual episode pages and delivered to our newsletter subscribers.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FOOTER & PRESS KIT (Feature 14) -->
+    <footer class="border-t border-border bg-surface pt-16 pb-32">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-2 font-black text-2xl tracking-tight mb-4">
+                    <i class="fas fa-microphone text-accent"></i> DeepDive.
+                </div>
+                <p class="text-sm text-textMuted max-w-sm mb-6">
+                    The premier podcast for builders, creators, and engineers. Documenting the future, one conversation at a time.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center bg-elevated hover:bg-accent hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center bg-elevated hover:bg-accent hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center bg-elevated hover:bg-accent hover:text-white transition-colors"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center bg-elevated hover:bg-[#5865F2] hover:text-white transition-colors"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="font-bold mb-4">Navigate</h4>
+                <ul class="space-y-2 text-sm text-textMuted">
+                    <li><a href="#episodes" class="hover:text-accent">All Episodes</a></li>
+                    <li><a href="#about" class="hover:text-accent">About the Hosts</a></li>
+                    <li><a href="#store" class="hover:text-accent">Merch Store</a></li>
+                    <li><a href="#memberships" class="hover:text-accent">Memberships</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold mb-4">Resources</h4>
+                <ul class="space-y-2 text-sm text-textMuted">
+                    <!-- Feature 14: Press Kit -->
+                    <li><a href="#" class="hover:text-accent flex items-center gap-2 text-accent"><i class="fas fa-download"></i> Download Press Kit (ZIP)</a></li>
+                    <li><a href="#" class="hover:text-accent">Sponsorship Inquiries</a></li>
+                    <li><a href="#gear" class="hover:text-accent">Studio Gear List</a></li>
+                    <li><a href="#" class="hover:text-accent">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between text-xs text-textMuted">
+            <p>© <span id="year">2025</span> Deep Dive Podcast. All rights reserved.</p>
+            <div class="flex gap-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-textMain">Privacy Policy</a>
+                <a href="#" class="hover:text-textMain">Terms of Service</a>
+            </div>
+        </div>
     </footer>
 
-  </div>
-
-  <!-- MODALS -->
-
-  <!-- Settings Modal -->
-  <div class="modal-overlay" id="settings-modal">
-    <div class="modal">
-      <button class="modal-close"><i class="fas fa-times"></i></button>
-      <h2 class="modal-title">Appearance Settings</h2>
-      
-      <div class="settings-section">
-        <span class="settings-label">Background Mode</span>
-        <div class="options-grid">
-          <button class="opt-btn mode-btn active" data-set-mode="dark"><i class="fas fa-moon"></i> Dark</button>
-          <button class="opt-btn mode-btn" data-set-mode="light"><i class="fas fa-sun"></i> Light</button>
-          <button class="opt-btn mode-btn" data-set-mode="matte"><i class="fas fa-square-full"></i> Matte Black</button>
+    <!-- 10. PERSISTENT GLOBAL AUDIO PLAYER -->
+    <div class="fixed bottom-0 left-0 w-full z-50 border-t border-border bg-surface/95 backdrop-blur-xl transform transition-transform duration-300">
+        <!-- Progress Bar & Feature 12: Chapter Markers -->
+        <div class="h-1.5 w-full bg-border absolute top-0 left-0 cursor-pointer relative" id="progressContainer" onclick="seek(event)">
+            <div id="progressBar" class="h-full bg-accent w-[0%] transition-all duration-300 ease-linear"></div>
+            <!-- Chapter Markers -->
+            <div class="absolute top-0 w-0.5 h-full bg-bg left-[15%]" title="Intro"></div>
+            <div class="absolute top-0 w-0.5 h-full bg-bg left-[45%]" title="Sponsor Break"></div>
+            <div class="absolute top-0 w-0.5 h-full bg-bg left-[80%]" title="Q&A"></div>
         </div>
-      </div>
-
-      <div class="settings-section">
-        <span class="settings-label">Accent Color</span>
-        <div class="options-grid">
-          <button class="opt-btn color-btn active" data-set-color="cyan">
-            <div class="color-circle" style="background:#00f5ff;"></div>Cyan
-          </button>
-          <button class="opt-btn color-btn" data-set-color="purple">
-            <div class="color-circle" style="background:#bc13fe;"></div>Purple
-          </button>
-          <button class="opt-btn color-btn" data-set-color="green">
-            <div class="color-circle" style="background:#10b981;"></div>Emerald
-          </button>
-          <button class="opt-btn color-btn" data-set-color="orange">
-            <div class="color-circle" style="background:#ff6b00;"></div>Blaze
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- QR Code Modal (Now dynamic API based) -->
-  <div class="modal-overlay" id="qr-modal">
-    <div class="modal qr-container">
-      <button class="modal-close"><i class="fas fa-times"></i></button>
-      <h2 class="modal-title">Scan Profile</h2>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Point your camera at this code to view my Linkhub.</p>
-      
-      <!-- Actual dynamic image tag for API -->
-      <img id="real-qr-code" src="" alt="QR Code">
-      
-      <button class="tab-btn" style="width: 100%; padding: 12px; background: var(--text-main); color: var(--bg-base);" onclick="showToast('QR Code saved to photos!')"><i class="fas fa-download"></i> Save Image</button>
-    </div>
-  </div>
-
-  <!-- Toast Container -->
-  <div id="toast-container"></div>
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-
-    /* --- 1. Custom Cursor --- */
-    const cursorDot = document.querySelector('.cursor-dot');
-    const cursorOutline = document.querySelector('.cursor-outline');
-    
-    window.addEventListener('mousemove', (e) => {
-      cursorDot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-      cursorOutline.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    });
-
-    const interactables = document.querySelectorAll('a, button, input, .module-card');
-    interactables.forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-    });
-
-    /* --- 2. Interactive Background (Particles) --- */
-    const canvas = document.getElementById('canvas-bg');
-    const ctx = canvas.getContext('2d');
-    let width, height, particles = [];
-    let mouse = { x: null, y: null, radius: 150 };
-
-    function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resizeCanvas); resizeCanvas();
-    window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-    window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * width; this.y = Math.random() * height;
-        this.size = Math.random() * 2 + 0.5;
-        this.baseX = this.x; this.baseY = this.y;
-        this.density = (Math.random() * 30) + 1;
-        this.color = getComputedStyle(document.documentElement).getPropertyValue('--accent-1').trim() || '#ffffff';
-      }
-      draw() {
-        ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.closePath(); ctx.fill();
-      }
-      update() {
-        // Dynamically get current accent color (responds to theme changes)
-        this.color = getComputedStyle(document.documentElement).getPropertyValue('--accent-1').trim();
         
-        let dx = mouse.x - this.x; let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        let forceDirectionX = dx / distance; let forceDirectionY = dy / distance;
-        let force = (mouse.radius - distance) / mouse.radius;
-        let directionX = forceDirectionX * force * this.density; let directionY = forceDirectionY * force * this.density;
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 md:h-24 flex items-center justify-between gap-4">
+            
+            <!-- Track Info -->
+            <div class="flex items-center gap-4 w-1/3 min-w-0">
+                <div class="hidden sm:flex w-12 h-12 md:w-14 md:h-14 rounded-xl bg-accentLight items-center justify-center flex-shrink-0 border border-accent/30 relative overflow-hidden">
+                    <i class="fas fa-microphone text-accent text-xl z-10" id="playerIcon"></i>
+                    <!-- Feature 20: Audio Visualizer -->
+                    <div class="absolute inset-0 flex items-end justify-center gap-1 opacity-0 transition-opacity p-2" id="visualizer">
+                        <div class="w-1.5 h-[30%] bg-accent playing-bar"></div>
+                        <div class="w-1.5 h-[60%] bg-accent playing-bar"></div>
+                        <div class="w-1.5 h-[40%] bg-accent playing-bar"></div>
+                        <div class="w-1.5 h-[80%] bg-accent playing-bar"></div>
+                    </div>
+                </div>
+                <div class="min-w-0">
+                    <div class="text-[10px] font-bold uppercase tracking-wider mb-1 text-textMuted" id="playerSubtitle">Select an episode</div>
+                    <div class="text-sm md:text-base font-bold truncate pr-4" id="playerTitle">Ready to play</div>
+                </div>
+            </div>
 
-        if (distance < mouse.radius) { this.x -= directionX; this.y -= directionY; } 
-        else {
-          if (this.x !== this.baseX) { this.x -= (this.x - this.baseX) / 10; }
-          if (this.y !== this.baseY) { this.y -= (this.y - this.baseY) / 10; }
+            <!-- Controls -->
+            <div class="flex flex-col items-center justify-center flex-1 max-w-md">
+                <div class="flex items-center gap-5 md:gap-8">
+                    <button class="text-textMuted hover:text-textMain transition-colors hidden sm:block text-xs font-bold w-6 text-center" onclick="cycleSpeed()" id="speedBtn">1x</button>
+                    <button class="text-textMuted hover:text-textMain transition-colors" title="Rewind 15s"><i class="fas fa-undo"></i></button>
+                    
+                    <button onclick="togglePlay()" class="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-white bg-accent hover:bg-accentHover transform hover:scale-105 transition-all shadow-md">
+                        <i class="fas fa-play ml-1 text-lg" id="playPauseIcon"></i>
+                    </button>
+                    
+                    <button class="text-textMuted hover:text-textMain transition-colors" title="Forward 15s"><i class="fas fa-redo"></i></button>
+                    <button class="text-textMuted hover:text-textMain transition-colors hidden sm:block" title="Chapters"><i class="fas fa-list-ul"></i></button>
+                </div>
+            </div>
+
+            <!-- Extra Controls -->
+            <div class="w-1/3 flex justify-end items-center gap-4 hidden md:flex">
+                <div class="flex items-center gap-2 w-32 group">
+                    <i class="fas fa-volume-up text-textMuted text-xs"></i>
+                    <div class="h-1.5 flex-1 rounded-full bg-elevated cursor-pointer relative overflow-hidden">
+                        <div class="absolute top-0 left-0 h-full w-2/3 bg-accent"></div>
+                    </div>
+                </div>
+                <button class="p-2 rounded-md bg-elevated hover:text-textMain text-textMuted transition-colors" title="Share">
+                    <i class="fas fa-external-link-alt"></i>
+                </button>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Set Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // --- Theme System ---
+        function setMode(mode) {
+            document.body.setAttribute('data-mode', mode);
         }
-        
-        this.baseY -= 0.15; // float up slowly
-        if(this.baseY < -10) this.baseY = height + 10;
-        this.draw();
-      }
-    }
-    function initParticles() {
-      particles = []; let numParticles = (width * height) / 15000;
-      for (let i = 0; i < numParticles; i++) particles.push(new Particle());
-    }
-    initParticles();
-    function animateParticles() { ctx.clearRect(0, 0, width, height); for (let i = 0; i < particles.length; i++) particles[i].update(); requestAnimationFrame(animateParticles); }
-    animateParticles();
+        function setAccent(accent) {
+            document.body.setAttribute('data-accent', accent);
+            // Visual indicator for active accent button
+            document.querySelectorAll('[id^="btn-"]').forEach(btn => {
+                btn.className = btn.className.replace('opacity-100 ring-2 ring-offset-2 ring-offset-bg', 'opacity-50');
+                btn.classList.add('hover:opacity-100');
+            });
+            const activeBtn = document.querySelector(`[onclick="setAccent('${accent}')"]`);
+            if(activeBtn) {
+                activeBtn.className = activeBtn.className.replace('opacity-50 hover:opacity-100', '');
+                activeBtn.className += ` opacity-100 ring-2 ring-${accent}-500 ring-offset-2 ring-offset-bg`;
+            }
+        }
 
-    /* --- 3. Toasts --- */
-    const toastContainer = document.getElementById('toast-container');
-    window.showToast = function(message) {
-      const toast = document.createElement('div');
-      toast.className = 'toast'; toast.textContent = message;
-      toastContainer.appendChild(toast);
-      setTimeout(() => {
-        toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)'; toast.style.transition = 'all 0.3s';
-        setTimeout(() => toast.remove(), 300);
-      }, 3000);
-    }
+        // --- Search Functionality (Fixed) ---
+        function filterEpisodes() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const episodes = document.querySelectorAll('.episode-item');
+            let hasVisible = false;
 
-    /* --- 4. Modals & Settings (Theming Engine) --- */
-    const htmlEl = document.documentElement;
-    const settingsBtn = document.getElementById('settings-btn');
-    const settingsModal = document.getElementById('settings-modal');
-    
-    // Open/Close Modals
-    document.querySelectorAll('.modal-close').forEach(btn => {
-      btn.addEventListener('click', (e) => e.target.closest('.modal-overlay').classList.remove('active'));
-    });
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-      overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
-    });
+            episodes.forEach(ep => {
+                const title = ep.querySelector('.episode-title').textContent.toLowerCase();
+                const desc = ep.querySelector('.episode-desc').textContent.toLowerCase();
+                
+                if (title.includes(query) || desc.includes(query)) {
+                    ep.style.display = 'flex';
+                    hasVisible = true;
+                } else {
+                    ep.style.display = 'none';
+                }
+            });
 
-    settingsBtn.addEventListener('click', () => settingsModal.classList.add('active'));
+            const noResults = document.getElementById('noResults');
+            if(noResults) {
+                noResults.style.display = hasVisible ? 'none' : 'block';
+            }
+        }
 
-    // Handle Mode Switch
-    const modeBtns = document.querySelectorAll('.mode-btn');
-    modeBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        modeBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        htmlEl.setAttribute('data-mode', btn.dataset.setMode);
-      });
-    });
+        // --- Audio Player Simulation ---
+        let isPlaying = false;
+        let progress = 0;
+        let playInterval;
+        let playbackSpeed = 1;
 
-    // Handle Color Switch
-    const colorBtns = document.querySelectorAll('.color-btn');
-    colorBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        colorBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        htmlEl.setAttribute('data-color', btn.dataset.setColor);
-      });
-    });
+        function playTrack(title, subtitle) {
+            document.getElementById('playerTitle').textContent = title;
+            document.getElementById('playerSubtitle').textContent = subtitle;
+            progress = 0;
+            isPlaying = true;
+            updatePlayerUI();
+            startProgress();
+        }
 
-    /* --- 5. Real QR Code Generator API --- */
-    const qrBtn = document.getElementById('qr-btn');
-    const qrModal = document.getElementById('qr-modal');
-    const qrImg = document.getElementById('real-qr-code');
+        function togglePlay() {
+            if(document.getElementById('playerTitle').textContent === "Ready to play") return; // No track loaded
+            isPlaying = !isPlaying;
+            updatePlayerUI();
+            if(isPlaying) startProgress();
+            else clearInterval(playInterval);
+        }
 
-    qrBtn.addEventListener('click', () => {
-      // Use current page URL to generate a working QR code dynamically
-      const currentUrl = encodeURIComponent(window.location.href);
-      // Using reliable qrserver API
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${currentUrl}&color=000000&bgcolor=ffffff&margin=10`;
-      qrModal.classList.add('active');
-    });
+        function updatePlayerUI() {
+            const icon = document.getElementById('playPauseIcon');
+            const visualizer = document.getElementById('visualizer');
+            const pIcon = document.getElementById('playerIcon');
 
-    /* --- 6. Number Animation --- */
-    setTimeout(() => {
-      document.querySelectorAll('.stat-n').forEach(counter => {
-        const target = +counter.getAttribute('data-target');
-        const suffix = counter.getAttribute('data-suffix') || '';
-        let current = 0; const increment = target / (2000 / 16);
-        const updateCounter = () => {
-          current += increment;
-          if(current < target) { counter.innerText = Math.ceil(current) + suffix; requestAnimationFrame(updateCounter); } 
-          else { counter.innerText = target + suffix; }
-        };
-        updateCounter();
-      });
-    }, 800);
+            if (isPlaying) {
+                icon.className = 'fas fa-pause text-lg';
+                visualizer.style.opacity = '1';
+                pIcon.style.opacity = '0';
+            } else {
+                icon.className = 'fas fa-play ml-1 text-lg';
+                visualizer.style.opacity = '0';
+                pIcon.style.opacity = '1';
+            }
+        }
 
-    /* --- 7. Tab Filtering --- */
-    const tabBtns = document.querySelectorAll('.tab-btn[data-filter]');
-    const items = document.querySelectorAll('.item-card');
+        function startProgress() {
+            clearInterval(playInterval);
+            playInterval = setInterval(() => {
+                progress += (0.5 * playbackSpeed);
+                if (progress > 100) {
+                    progress = 0;
+                    isPlaying = false;
+                    updatePlayerUI();
+                    clearInterval(playInterval);
+                }
+                document.getElementById('progressBar').style.width = `${progress}%`;
+            }, 500);
+        }
 
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        tabBtns.forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        const filter = e.target.dataset.filter;
+        function seek(e) {
+            if(!isPlaying && progress === 0) return;
+            const rect = document.getElementById('progressContainer').getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            progress = (x / rect.width) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
 
-        items.forEach(item => {
-          if(filter === 'all' || item.dataset.category === filter) {
-            item.style.display = 'flex';
-            setTimeout(() => item.style.opacity = '1', 50);
-          } else {
-            item.style.opacity = '0';
-            setTimeout(() => item.style.display = 'none', 300);
-          }
-        });
-      });
-    });
+        function cycleSpeed() {
+            const speeds = [1, 1.2, 1.5, 2];
+            let currentIdx = speeds.indexOf(playbackSpeed);
+            playbackSpeed = speeds[(currentIdx + 1) % speeds.length];
+            document.getElementById('speedBtn').textContent = `${playbackSpeed}x`;
+            if(isPlaying) startProgress(); // Restart interval with new speed
+        }
 
-    /* --- 8. Copy Link & Share --- */
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault(); e.stopPropagation();
-        navigator.clipboard.writeText(btn.dataset.link).then(() => {
-          showToast('Link copied to clipboard!');
-        }).catch(() => showToast('Failed to copy.'));
-      });
-    });
-
-    document.getElementById('share-btn').addEventListener('click', async () => {
-      if (navigator.share) {
-        try { await navigator.share({ title: 'Sarah Jenkins - Creator Profile', url: window.location.href }); showToast('Shared successfully!'); } 
-        catch (err) { console.log('Share canceled'); }
-      } else {
-        navigator.clipboard.writeText(window.location.href); showToast('Profile URL copied!');
-      }
-    });
-
-    /* --- 9. Ripple Effects --- */
-    document.querySelectorAll('button:not(.module-action)').forEach(btn => {
-      btn.addEventListener('click', e => {
-        const circle = document.createElement('span'); const d = Math.max(btn.clientWidth, btn.clientHeight);
-        const rect = btn.getBoundingClientRect();
-        circle.style.width = circle.style.height = `${d}px`;
-        circle.style.left = `${e.clientX - rect.left - d/2}px`; circle.style.top = `${e.clientY - rect.top - d/2}px`;
-        circle.classList.add('ripple');
-        const existing = btn.querySelector('.ripple'); if (existing) existing.remove();
-        btn.appendChild(circle);
-      });
-    });
-
-  });
-</script>
-
-</body></html>
+        function playLatest() {
+            playTrack('The Future of AI: Where Are We Actually Headed?', 'EP 142');
+        }
+    </script>
+</body>
+</html>
