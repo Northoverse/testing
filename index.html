@@ -1,795 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Deep Dive · Podcast</title>
-    
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        bg: 'var(--bg)',
-                        surface: 'var(--surface)',
-                        elevated: 'var(--elevated)',
-                        border: 'var(--border)',
-                        textMain: 'var(--text-main)',
-                        textMuted: 'var(--text-muted)',
-                        accent: 'var(--accent)',
-                        accentHover: 'var(--accent-hover)',
-                        accentLight: 'var(--accent-light)',
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Theme System via CSS Variables -->
-    <style>
-        :root { scroll-behavior: smooth; }
-        body { transition: background-color 0.3s, color 0.3s; }
-        
-        /* Modes */
-        body[data-mode="matte"] { --bg: #050505; --surface: #111111; --elevated: #1a1a1a; --border: #222222; --text-main: #f3f4f6; --text-muted: #6b7280; }
-        body[data-mode="dark"] { --bg: #0f172a; --surface: #1e293b; --elevated: #334155; --border: #475569; --text-main: #f8fafc; --text-muted: #94a3b8; }
-        body[data-mode="light"] { --bg: #f8fafc; --surface: #ffffff; --elevated: #f1f5f9; --border: #e2e8f0; --text-main: #0f172a; --text-muted: #64748b; }
-
-        /* Accents */
-        body[data-accent="violet"] { --accent: #8b5cf6; --accent-hover: #7c3aed; --accent-light: rgba(139, 92, 246, 0.15); }
-        body[data-accent="rose"] { --accent: #f43f5e; --accent-hover: #e11d48; --accent-light: rgba(244, 63, 94, 0.15); }
-        body[data-accent="cyan"] { --accent: #06b6d4; --accent-hover: #0891b2; --accent-light: rgba(6, 182, 212, 0.15); }
-        body[data-accent="emerald"] { --accent: #10b981; --accent-hover: #059669; --accent-light: rgba(16, 185, 129, 0.15); }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-        /* Audio Visualizer Animation */
-        @keyframes bounce { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
-        .playing-bar { animation: bounce 1s infinite ease-in-out; transform-origin: bottom; }
-        .playing-bar:nth-child(2) { animation-delay: 0.2s; }
-        .playing-bar:nth-child(3) { animation-delay: 0.4s; }
-        .playing-bar:nth-child(4) { animation-delay: 0.1s; }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gray</title>
+  <meta property="og:title" content="Gray" />
+  <style>
+*{box-sizing:border-box}body{margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif;line-height:1.5}img{max-width:100%;display:block}a{color:inherit}
+* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}:root{--paper:#e9e6df;--paper-2:#ded9cf;--paper-3:#d3cdc1;--ink:#0b0b0b;--ink-2:#2b2924;--ink-3:#5a564d;--oxblood:#8a1c1c;--oxblood-d:#6f1414;--line:#0b0b0b;--display:"Archivo Black", "Arial Black", system-ui, sans-serif;--grotesk:"Space Grotesk", "Archivo Black", system-ui, sans-serif;--mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;--rule:3px;--rule2:2px;--maxw:78rem;}*, ::before, ::after{box-sizing:border-box;}html{background-color:var(--paper);text-size-adjust:100%;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;min-height:100vh;background-color:var(--paper);color:var(--ink);font-family:var(--mono);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;background-image:repeating-linear-gradient(0deg, rgba(11, 11, 11, 0.02) 0px, rgba(11, 11, 11, 0.02) 1px, transparent 1px, transparent 4px), radial-gradient(circle at 18% 12%, rgba(11, 11, 11, 0.035), transparent 60%), radial-gradient(circle at 82% 78%, rgba(138, 28, 28, 0.04), transparent 55%);}::selection{background-color:var(--ink);color:var(--paper);}img{display:block;max-width:100%;}button{font-family:inherit;cursor:pointer;color:inherit;}ul{list-style-position:initial;list-style-image:initial;list-style-type:none;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;}h1, h2, h3, h4, p, dl, dd{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}dt, dd{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}.dossier{min-height:100vh;max-width:var(--maxw);margin-top:0px;margin-right:auto;margin-bottom:0px;margin-left:auto;padding-top:0px;padding-right:1rem;padding-bottom:0px;padding-left:1rem;background-color:var(--paper);}.stamp{display:inline-block;font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:0.18em;line-height:1;padding-top:0.45rem;padding-right:0.7rem;padding-bottom:0.45rem;padding-left:0.7rem;white-space-collapse:collapse;text-wrap-mode:nowrap;}.stamp-red{color:var(--oxblood);transform:rotate(-6deg);font-size:1rem;padding-top:0.55rem;padding-right:0.9rem;padding-bottom:0.55rem;padding-left:0.9rem;box-shadow:rgba(138, 28, 28, 0.35) 0px 0px 0px 1px inset;}.stamp-flat{transform:none;}.stamp-box{color:var(--ink);transform:rotate(3deg);font-size:0.8rem;}.stamp-sm{font-size:0.6rem;padding-top:0.3rem;padding-right:0.5rem;padding-bottom:0.3rem;padding-left:0.5rem;letter-spacing:0.14em;transform:rotate(2deg);}.stamp-sealed{color:var(--oxblood);}.redact{position:relative;display:inline;color:transparent;background-color:var(--ink);box-shadow:0 0 0 1px var(--ink);padding-top:0px;padding-right:0.08em;padding-bottom:0px;padding-left:0.08em;border-top-left-radius:1px;border-top-right-radius:1px;border-bottom-right-radius:1px;border-bottom-left-radius:1px;user-select:none;letter-spacing:-0.02em;}.redact.is-revealed{color:var(--oxblood);background-color:transparent;box-shadow:none;font-weight:600;}.case-no{font-family:var(--mono);font-weight:700;font-size:0.82rem;letter-spacing:0.1em;color:var(--ink);}.file-cat{display:inline-block;font-family:var(--mono);font-weight:600;font-size:0.66rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--oxblood);}.file-foot-meta{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-3);text-transform:uppercase;}.open-file{display:inline-flex;align-items:center;row-gap:0.4rem;column-gap:0.4rem;font-family:var(--mono);font-weight:700;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink);transition-behavior:normal, normal;transition-duration:0.18s, 0.18s;transition-timing-function:ease, ease;transition-delay:0s, 0s;transition-property:gap, color;}.open-file .arrow{transition-behavior:normal;transition-duration:0.18s;transition-timing-function:ease;transition-delay:0s;transition-property:transform;}.masthead{padding-top:1.25rem;}.masthead-bar{display:flex;justify-content:space-between;align-items:center;row-gap:0.5rem;column-gap:0.5rem;padding-top:0.4rem;padding-right:0px;padding-bottom:0.4rem;padding-left:0px;font-family:var(--mono);font-size:0.6rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-2);}.bar-mid{display:none;}.masthead-main{display:grid;grid-template-columns:1fr;row-gap:1rem;column-gap:1rem;align-items:center;padding-top:1.5rem;padding-right:0px;padding-bottom:1.25rem;padding-left:0px;text-align:center;}.masthead-id{display:none;}.id-line{font-family:var(--mono);font-size:0.62rem;font-weight:600;letter-spacing:0.16em;color:var(--ink-3);}.masthead-title-wrap{line-height:1;}.masthead-title{font-family:var(--display);font-size:clamp(2.6rem, 12vw, 5.5rem);line-height:0.9;letter-spacing:-0.01em;text-transform:uppercase;color:var(--ink);}.masthead-kicker{font-family:var(--mono);font-weight:700;font-size:0.9rem;letter-spacing:0.5em;text-indent:0.5em;color:var(--oxblood);margin-top:0.4rem;}.masthead-sub{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-2);margin-top:0.55rem;}.masthead-stamp{display:flex;justify-content:center;}.filterbar{display:flex;align-items:stretch;flex-wrap:wrap;row-gap:0px;column-gap:0px;}.filterbar-label{display:flex;align-items:center;padding-top:0.7rem;padding-right:0.9rem;padding-bottom:0.7rem;padding-left:0.9rem;font-family:var(--mono);font-weight:700;font-size:0.68rem;letter-spacing:0.18em;background-color:var(--ink);color:var(--paper);}.filter-tabs{display:flex;flex-wrap:wrap;}.filter-tab{position:relative;padding-top:0.7rem;padding-right:0.9rem;padding-bottom:0.7rem;padding-left:0.9rem;background-image:initial;background-position-x:initial;background-position-y:initial;background-size:initial;background-repeat:initial;background-attachment:initial;background-origin:initial;background-clip:initial;background-color:transparent;border-top-width:medium;border-right-width:medium;border-bottom-width:medium;border-top-style:none;border-right-style:none;border-bottom-style:none;border-top-color:currentcolor;border-right-color:currentcolor;border-bottom-color:currentcolor;border-image-source:initial;border-image-slice:initial;border-image-width:initial;border-image-outset:initial;border-image-repeat:initial;font-family:var(--mono);font-weight:600;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-2);transition-behavior:normal, normal;transition-duration:0.15s, 0.15s;transition-timing-function:ease, ease;transition-delay:0s, 0s;transition-property:background-color, color;}.filter-tab:hover{background-color:var(--paper-3);color:var(--ink);}.filter-tab.is-active{background-color:var(--oxblood);color:var(--paper);border-left-color:var(--ink);}.filter-tab.is-active:hover{background-color:var(--oxblood-d);color:var(--paper);}.content{padding-top:2rem;padding-right:0px;padding-bottom:0px;padding-left:0px;}.content-grid{display:grid;grid-template-columns:1fr;row-gap:2.25rem;column-gap:2.25rem;}.files-col{min-width:0px;}.featured{background-color:var(--paper-2);margin-bottom:2.25rem;cursor:pointer;}.featured[hidden]{display:none;}.featured-head{display:flex;justify-content:space-between;align-items:center;row-gap:1rem;column-gap:1rem;padding-top:0.7rem;padding-right:1rem;padding-bottom:0.7rem;padding-left:1rem;background-color:var(--ink);}.featured-head .case-no{color:var(--paper);}.featured-head .file-cat{color:rgb(217, 138, 138);}.featured-head-left{display:flex;flex-direction:column;row-gap:0.25rem;column-gap:0.25rem;}.featured-body{display:grid;grid-template-columns:1fr;}.featured-figure{position:relative;background-color:var(--ink);}.doc-img{width:100%;height:14rem;object-fit:cover;filter:grayscale(100%) contrast(1.12) brightness(0.94);opacity:0.92;}.figure-tag{position:absolute;left:0px;bottom:0px;padding-top:0.35rem;padding-right:0.6rem;padding-bottom:0.35rem;padding-left:0.6rem;font-family:var(--mono);font-size:0.6rem;font-weight:700;letter-spacing:0.16em;background-color:var(--oxblood);color:var(--paper);}.featured-text{padding-top:1.5rem;padding-right:1.25rem;padding-bottom:1.5rem;padding-left:1.25rem;}.featured-title{font-family:var(--display);font-size:clamp(1.7rem, 5vw, 2.6rem);line-height:1.02;letter-spacing:-0.01em;color:var(--ink);margin-bottom:0.85rem;}.featured-dek{font-family:var(--grotesk);font-weight:500;font-size:1.02rem;line-height:1.4;color:var(--ink-2);margin-bottom:1rem;}.excerpt{font-family:var(--mono);font-size:0.86rem;line-height:1.7;color:var(--ink-2);margin-bottom:1.1rem;}.file-foot{display:flex;justify-content:space-between;align-items:center;row-gap:1rem;column-gap:1rem;padding-top:0.9rem;}.featured:hover .open-file, .filecard:hover .open-file{color:var(--oxblood);row-gap:0.7rem;column-gap:0.7rem;}.featured:hover .open-file .arrow, .filecard:hover .open-file .arrow{transform:translateX(0.25rem);}.full-body{display:none !important;}.section-tab{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:1.25rem;}.section-tab-label{display:inline-block;padding-top:0.55rem;padding-bottom:0.5rem;padding-left:1.1rem;background-color:var(--ink);color:var(--paper);font-family:var(--display);font-size:0.95rem;letter-spacing:0.06em;text-transform:uppercase;clip-path:polygon(0px 0px, 88% 0px, 100% 100%, 0px 100%);padding-right:1.6rem;}.section-tab-count{font-family:var(--mono);font-size:0.66rem;font-weight:600;letter-spacing:0.16em;color:var(--ink-3);text-transform:uppercase;padding-bottom:0.35rem;}.file-grid{display:grid;grid-template-columns:1fr;row-gap:1.25rem;column-gap:1.25rem;}.filecard{display:flex;flex-direction:column;background-color:var(--paper-2);padding-top:0.9rem;padding-right:1rem;padding-bottom:1rem;padding-left:1rem;cursor:pointer;position:relative;transition-behavior:normal, normal;transition-duration:0.12s, 0.12s;transition-timing-function:ease, ease;transition-delay:0s, 0s;transition-property:transform, box-shadow;}.filecard::before{content:"";position:absolute;top:-1px;left:1.4rem;width:0.7rem;height:0.35rem;background-color:var(--paper);border-top-width:medium;border-top-style:none;border-top-color:currentcolor;}.filecard:hover{transform:translate(-2px, -2px);box-shadow:4px 4px 0 var(--ink);}.filecard[hidden]{display:none;}.filecard-head{display:flex;justify-content:space-between;align-items:flex-start;row-gap:0.75rem;column-gap:0.75rem;margin-bottom:0.5rem;}.filecard .file-cat{margin-bottom:0.5rem;}.filecard-title{font-family:var(--grotesk);font-weight:700;font-size:1.18rem;line-height:1.15;color:var(--ink);margin-bottom:0.65rem;}.filecard .excerpt{font-size:0.78rem;margin-bottom:0px;flex-grow:1;}.filecard-foot{display:flex;justify-content:space-between;align-items:center;row-gap:0.75rem;column-gap:0.75rem;margin-top:0.9rem;padding-top:0.7rem;}.filecard-foot .open-file{font-size:0.66rem;}.empty-state{background-color:var(--paper-2);padding-top:2.5rem;padding-right:1.5rem;padding-bottom:2.5rem;padding-left:1.5rem;text-align:center;}.empty-state[hidden]{display:none;}.empty-stamp{display:inline-block;font-family:var(--mono);font-weight:700;letter-spacing:0.22em;color:var(--oxblood);padding-top:0.5rem;padding-right:0.9rem;padding-bottom:0.5rem;padding-left:0.9rem;transform:rotate(-4deg);margin-bottom:1rem;}.empty-text{font-family:var(--mono);font-size:0.78rem;letter-spacing:0.06em;color:var(--ink-2);}.meta-col{display:flex;flex-direction:column;row-gap:1.75rem;column-gap:1.75rem;min-width:0px;}.meta-head{font-family:var(--mono);font-weight:700;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--paper);background-color:var(--ink);padding-top:0.55rem;padding-right:0.75rem;padding-bottom:0.55rem;padding-left:0.75rem;}.desk-note{background-color:var(--paper-2);}.desk-body{padding-top:1rem;padding-right:0.9rem;padding-bottom:1.1rem;padding-left:0.9rem;}.desk-line{font-family:var(--mono);font-size:0.76rem;line-height:1.6;color:var(--ink-2);margin-bottom:0.5rem;}.desk-sign{margin-top:0.75rem;font-family:var(--mono);font-weight:700;font-size:0.7rem;letter-spacing:0.12em;color:var(--oxblood);}.open-inv{background-color:var(--paper-2);}.inv-list{padding-top:0.5rem;padding-right:0.9rem;padding-bottom:0.9rem;padding-left:0.9rem;}.inv-item{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"status name" "ref ref";row-gap:0.2rem;column-gap:0.6rem;align-items:center;padding-top:0.7rem;padding-right:0px;padding-bottom:0.7rem;padding-left:0px;}.inv-item:last-child{border-bottom-width:medium;border-bottom-style:none;border-bottom-color:currentcolor;}.inv-status{grid-row-start:status;grid-column-start:status;grid-row-end:status;grid-column-end:status;font-family:var(--mono);font-weight:700;font-size:0.58rem;letter-spacing:0.12em;padding-top:0.2rem;padding-right:0.4rem;padding-bottom:0.2rem;padding-left:0.4rem;border-top-width:1.5px;border-right-width:1.5px;border-bottom-width:1.5px;border-left-width:1.5px;border-top-style:solid;border-right-style:solid;border-bottom-style:solid;border-left-style:solid;border-top-color:currentcolor;border-right-color:currentcolor;border-bottom-color:currentcolor;border-left-color:currentcolor;border-image-source:initial;border-image-slice:initial;border-image-width:initial;border-image-outset:initial;border-image-repeat:initial;}.status-active{color:var(--oxblood);}.status-pending{color:var(--ink-3);}.inv-name{grid-row-start:name;grid-column-start:name;grid-row-end:name;grid-column-end:name;font-family:var(--grotesk);font-weight:700;font-size:0.92rem;line-height:1.1;color:var(--ink);}.inv-ref{grid-row-start:ref;grid-column-start:ref;grid-row-end:ref;grid-column-end:ref;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.14em;color:var(--ink-3);}.custody{background-color:var(--ink);}.custody .meta-head{background-color:var(--oxblood);}.custody-grid{display:grid;grid-template-columns:auto 1fr;row-gap:0px;column-gap:0px;padding-top:0.4rem;padding-right:0.9rem;padding-bottom:0.6rem;padding-left:0.9rem;}.custody-grid dt{font-family:var(--mono);font-size:0.64rem;font-weight:600;letter-spacing:0.14em;color:rgb(154, 149, 138);padding-top:0.5rem;padding-right:0.8rem;padding-bottom:0.5rem;padding-left:0px;border-bottom-width:1.5px;border-bottom-style:dashed;border-bottom-color:rgb(58, 56, 51);}.custody-grid dd{font-family:var(--mono);font-size:0.72rem;font-weight:600;letter-spacing:0.06em;color:var(--paper);text-align:right;padding-top:0.5rem;padding-right:0px;padding-bottom:0.5rem;padding-left:0px;border-bottom-width:1.5px;border-bottom-style:dashed;border-bottom-color:rgb(58, 56, 51);}.custody-grid dt:nth-last-of-type(1), .custody-grid dd:nth-last-of-type(1){border-bottom-width:medium;border-bottom-style:none;border-bottom-color:currentcolor;}.custody-ok{color:rgb(224, 138, 138) !important;}.custody-stamp{padding-top:0px;padding-right:0.9rem;padding-bottom:1rem;padding-left:0.9rem;}.footer{margin-top:3rem;}.footer-rule{overflow-x:hidden;overflow-y:hidden;white-space-collapse:collapse;text-wrap-mode:nowrap;font-family:var(--mono);font-size:0.62rem;font-weight:700;letter-spacing:0.3em;color:var(--oxblood);background-color:var(--ink);padding-top:0.45rem;padding-right:0px;padding-bottom:0.45rem;padding-left:0px;text-align:center;}.footer-grid{display:grid;grid-template-columns:1fr;row-gap:1.75rem;column-gap:1.75rem;padding-top:2rem;padding-right:0px;padding-bottom:2rem;padding-left:0px;}.footer-title{font-family:var(--display);font-size:1.5rem;letter-spacing:0.02em;color:var(--ink);}.footer-about{font-family:var(--mono);font-size:0.74rem;line-height:1.6;color:var(--ink-2);margin-top:0.6rem;max-width:26rem;}.footer-head{font-family:var(--mono);font-weight:700;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--oxblood);margin-bottom:0.75rem;padding-bottom:0.4rem;}.footer-list{display:flex;flex-direction:column;row-gap:0.5rem;column-gap:0.5rem;font-family:var(--mono);font-size:0.74rem;letter-spacing:0.04em;color:var(--ink-2);}.footer-secure{display:inline-flex;align-items:center;row-gap:0.45rem;column-gap:0.45rem;font-weight:700;color:var(--ink);}.lock{flex-grow:0;flex-shrink:0;flex-basis:auto;color:var(--oxblood);}.footer-bottom{display:flex;flex-direction:column;row-gap:0.5rem;column-gap:0.5rem;padding-top:1.1rem;padding-right:0px;padding-bottom:2rem;padding-left:0px;font-family:var(--mono);font-size:0.64rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);}.footer-credit{color:var(--ink-2);}.reader{display:flex;align-items:flex-start;justify-content:center;position:fixed;top:0px;right:0px;bottom:0px;left:0px;z-index:60;padding-top:1.5rem;padding-right:1rem;padding-bottom:1.5rem;padding-left:1rem;overflow-y:auto;background-color:rgba(11, 11, 11, 0.82);}.reader[hidden]{display:none;}.reader-sheet{position:relative;width:100%;max-width:44rem;margin-top:auto;margin-right:auto;margin-bottom:auto;margin-left:auto;background-color:var(--paper);box-shadow:12px 12px 0 var(--oxblood);background-image:repeating-linear-gradient(0deg, rgba(11, 11, 11, 0.02) 0px, rgba(11, 11, 11, 0.02) 1px, transparent 1px, transparent 4px);}.reader-head{display:flex;justify-content:space-between;align-items:center;row-gap:1rem;column-gap:1rem;padding-top:0.7rem;padding-right:1rem;padding-bottom:0.7rem;padding-left:1rem;background-color:var(--ink);}.reader-head-id{display:flex;flex-direction:column;row-gap:0.25rem;column-gap:0.25rem;}.reader-case{font-family:var(--mono);font-weight:700;font-size:0.8rem;letter-spacing:0.1em;color:var(--paper);}.reader-cat{font-family:var(--mono);font-weight:600;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgb(217, 138, 138);}.reader-head-right{display:flex;align-items:center;row-gap:0.75rem;column-gap:0.75rem;}.reader-stamp{font-size:0.66rem;padding-top:0.3rem;padding-right:0.5rem;padding-bottom:0.3rem;padding-left:0.5rem;}.reader-close{display:inline-flex;align-items:center;justify-content:center;padding-top:0.35rem;padding-right:0.35rem;padding-bottom:0.35rem;padding-left:0.35rem;background-color:var(--paper);color:var(--ink);line-height:0;transition-behavior:normal, normal;transition-duration:0.15s, 0.15s;transition-timing-function:ease, ease;transition-delay:0s, 0s;transition-property:background-color, color;}.reader-close:hover{background-color:var(--oxblood);color:var(--paper);}.reader-scroll{padding-top:1.5rem;padding-right:1.25rem;padding-bottom:1.25rem;padding-left:1.25rem;}.reader-title{font-family:var(--display);font-size:clamp(1.5rem, 5vw, 2.3rem);line-height:1.04;letter-spacing:-0.01em;color:var(--ink);padding-bottom:1rem;}.reader-meta{display:flex;justify-content:space-between;flex-wrap:wrap;row-gap:0.5rem;column-gap:0.5rem;padding-top:0.9rem;padding-right:0px;padding-bottom:0.9rem;padding-left:0px;margin-bottom:1.1rem;font-family:var(--mono);font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);}.reader-prose{font-family:var(--grotesk);font-weight:500;font-size:1.04rem;line-height:1.7;color:var(--ink-2);}.reader-prose p{margin-bottom:1.1rem;}.reader-prose p:last-child{margin-bottom:0px;}.reader-drop::first-letter{float:left;font-family:var(--display);font-size:3.4rem;line-height:0.8;color:var(--oxblood);margin-top:0.35rem;margin-right:0.6rem;margin-bottom:0px;margin-left:0px;}.reader-tail{font-family:var(--mono);font-size:0.78rem;line-height:1.6;color:var(--ink-3);padding-top:1rem;}.reader-foot{display:flex;justify-content:space-between;flex-wrap:wrap;row-gap:0.5rem;column-gap:0.5rem;padding-top:0.7rem;padding-right:1.25rem;padding-bottom:0.7rem;padding-left:1.25rem;background-color:var(--paper-2);font-family:var(--mono);font-size:0.62rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--oxblood);}@media (prefers-reduced-motion: reduce){.filecard{transition-behavior:normal !important;transition-duration:0s !important;transition-timing-function:ease !important;transition-delay:0s !important;transition-property:none !important;}.open-file{transition-behavior:normal !important;transition-duration:0s !important;transition-timing-function:ease !important;transition-delay:0s !important;transition-property:none !important;}.redact{transition-behavior:normal !important;transition-duration:0s !important;transition-timing-function:ease !important;transition-delay:0s !important;transition-property:none !important;}.card-image, .open-file .arrow{transition-behavior:normal !important;transition-duration:0s !important;transition-timing-function:ease !important;transition-delay:0s !important;transition-property:none !important;}.filecard:hover{transform:none;}}@media (min-width: 700px){.dossier{padding-top:0px;padding-right:1.5rem;padding-bottom:0px;padding-left:1.5rem;}.bar-mid{display:inline;}.masthead-main{grid-template-columns:auto 1fr auto;text-align:center;padding-top:2rem;padding-right:0px;padding-bottom:1.5rem;padding-left:0px;}.masthead-id{display:flex;flex-direction:column;row-gap:0.35rem;column-gap:0.35rem;text-align:left;}.masthead-stamp{justify-content:flex-end;}.featured-body{grid-template-columns:1.05fr 1fr;}.featured-figure{border-bottom-width:medium;border-bottom-style:none;border-bottom-color:currentcolor;}.doc-img{height:100%;min-height:18rem;}.file-grid{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:2fr 1fr 1fr;}.footer-bottom{flex-direction:row;justify-content:space-between;align-items:center;}}@media (min-width: 1000px){.content-grid{grid-template-columns:minmax(0px, 2.4fr) minmax(16rem, 1fr);row-gap:2.5rem;column-gap:2.5rem;}.files-col{padding-right:2.5rem;}.doc-img{min-height:20rem;}}@supports not (clip-path: polygon(0 0, 1px 0, 1px 1px)){.section-tab-label{clip-path:none;padding-right:1.1rem;}}
+  </style>
 </head>
-<body data-mode="matte" data-accent="violet" class="bg-bg text-textMain font-sans pb-32">
-
-    <!-- 1. NAVIGATION -->
-    <nav class="fixed top-0 w-full z-50 backdrop-blur-md border-b border-border bg-surface/80">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3 font-black text-xl tracking-tight">
-                <i class="fas fa-microphone text-accent"></i> Test.
-            </div>
-            
-            <div class="flex items-center gap-6">
-                <div class="hidden md:flex items-center gap-4 text-sm font-semibold text-textMuted">
-                    <a href="#episodes" class="hover:text-accent transition-colors">Episodes</a>
-                    <a href="#about" class="hover:text-accent transition-colors">Hosts</a>
-                    <a href="#premium" class="hover:text-accent transition-colors">Premium</a>
-                    <a href="#gear" class="hover:text-accent transition-colors">Gear</a>
-                    <!-- Feature 19: Language Selector -->
-                    <button class="hover:text-accent transition-colors flex items-center gap-1" title="Change Language"><i class="fas fa-globe"></i> EN</button>
-                </div>
-
-                <!-- Theme Switchers -->
-                <div class="flex items-center gap-2 pl-6 border-l border-border">
-                    <div class="flex p-1 rounded-lg bg-elevated border border-border">
-                        <button onclick="setMode('light')" class="p-1.5 rounded-md text-textMuted hover:text-accent transition-all" title="Light"><i class="fas fa-sun"></i></button>
-                        <button onclick="setMode('dark')" class="p-1.5 rounded-md text-textMuted hover:text-accent transition-all" title="Dark"><i class="fas fa-moon"></i></button>
-                        <button onclick="setMode('matte')" class="p-1.5 rounded-md text-textMuted hover:text-accent transition-all" title="Matte"><i class="fas fa-desktop"></i></button>
-                    </div>
-                    <div class="flex p-1 rounded-lg bg-elevated border border-border gap-1 hidden sm:flex">
-                        <button onclick="setAccent('rose')" class="w-5 h-5 rounded-full bg-rose-500 opacity-50 hover:opacity-100 transition-opacity"></button>
-                        <button onclick="setAccent('cyan')" class="w-5 h-5 rounded-full bg-cyan-500 opacity-50 hover:opacity-100 transition-opacity"></button>
-                        <button onclick="setAccent('violet')" class="w-5 h-5 rounded-full bg-violet-500 opacity-100 ring-2 ring-violet-500 ring-offset-2 ring-offset-bg transition-opacity" id="btn-violet"></button>
-                        <button onclick="setAccent('emerald')" class="w-5 h-5 rounded-full bg-emerald-500 opacity-50 hover:opacity-100 transition-opacity"></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- 2. HERO -->
-    <header class="relative pt-32 pb-20 overflow-hidden">
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent opacity-10 blur-[100px] rounded-full pointer-events-none"></div>
-        
-        <div class="max-w-4xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
-            <div class="w-32 h-32 md:w-48 md:h-48 rounded-3xl border-4 border-accent mb-6 flex items-center justify-center text-6xl shadow-[0_0_30px_var(--accent-light)] bg-gradient-to-br from-black to-gray-900 overflow-hidden relative group cursor-pointer">
-                🎙️
-            </div>
-            
-            <!-- Feature 6: Awards -->
-            <div class="flex items-center gap-2 mb-6 bg-accentLight text-accent px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest border border-accent border-opacity-30">
-                <i class="fas fa-trophy"></i> Apple Top 10 Tech Podcast 2025
-            </div>
-
-            <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-tight">
-                The <span class="text-accent">Test podcast</span>
-            </h1>
-            <p class="text-lg md:text-xl text-textMuted max-w-2xl mb-10 leading-relaxed">
-                Weekly conversations with founders, engineers, and creators who are building the future. No fluff, just pure signal.
-            </p>
-            
-            <div class="flex flex-wrap justify-center gap-4 mb-12">
-                <button onclick="playLatest()" class="flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-white bg-accent hover:bg-accentHover transition-all transform hover:-translate-y-1 shadow-lg">
-                    <i class="fas fa-play"></i> Play Latest Episode
-                </button>
-                <a href="#premium" class="flex items-center gap-2 px-8 py-4 rounded-xl font-bold border-2 border-border hover:border-accent hover:text-accent transition-all">
-                    <i class="fas fa-rss"></i> Subscribe
-                </a>
-            </div>
-
-            <div class="flex flex-wrap justify-center items-center gap-3">
-                <div class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border border-border bg-surface text-textMuted hover:text-textMain cursor-pointer transition-colors"><i class="fab fa-spotify text-green-500"></i> Spotify</div>
-                <div class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border border-border bg-surface text-textMuted hover:text-textMain cursor-pointer transition-colors"><i class="fab fa-apple"></i> Apple</div>
-                <div class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border border-border bg-surface text-textMuted hover:text-textMain cursor-pointer transition-colors"><i class="fab fa-youtube text-red-500"></i> YouTube</div>
-            </div>
-        </div>
-    </header>
-
-    <!-- 3. MARQUEE STATS -->
-    <div class="border-y border-border bg-elevated py-6 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-center gap-8 md:gap-16 text-center">
-            <div><div class="text-2xl md:text-3xl font-black text-accent">142</div><div class="text-[10px] md:text-xs uppercase tracking-widest font-bold mt-1 text-textMuted">Episodes</div></div>
-            <div><div class="text-2xl md:text-3xl font-black text-accent">1.2M</div><div class="text-[10px] md:text-xs uppercase tracking-widest font-bold mt-1 text-textMuted">Downloads</div></div>
-            <!-- Feature 7: Global Reach -->
-            <div><div class="text-2xl md:text-3xl font-black text-accent">184</div><div class="text-[10px] md:text-xs uppercase tracking-widest font-bold mt-1 text-textMuted">Countries Reached</div></div>
-            <!-- Feature 18: Discord Live Stats -->
-            <div class="hidden sm:block"><div class="text-2xl md:text-3xl font-black text-accent flex items-center gap-2 justify-center"><div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div> 1,204</div><div class="text-[10px] md:text-xs uppercase tracking-widest font-bold mt-1 text-textMuted">Online in Discord</div></div>
-        </div>
-    </div>
-
-    <!-- 4. MAIN LAYOUT GRID -->
-    <main class="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12">
-        
-        <!-- LEFT COLUMN: EPISODES (8 cols) -->
-        <div class="lg:col-span-8 space-y-12" id="episodes">
-            
-            <!-- Feature 13: Curated Playlists -->
-            <section>
-                <h2 class="text-sm font-bold uppercase tracking-widest text-textMuted mb-4">Start Here / Curated Playlists</h2>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div class="bg-surface border border-border p-4 rounded-xl hover:border-accent cursor-pointer transition-colors group">
-                        <i class="fas fa-rocket text-accent text-2xl mb-2 group-hover:scale-110 transition-transform"></i>
-                        <h4 class="font-bold text-sm">For Founders</h4>
-                        <p class="text-xs text-textMuted mt-1">12 episodes</p>
-                    </div>
-                    <div class="bg-surface border border-border p-4 rounded-xl hover:border-accent cursor-pointer transition-colors group">
-                        <i class="fas fa-code text-accent text-2xl mb-2 group-hover:scale-110 transition-transform"></i>
-                        <h4 class="font-bold text-sm">Deep Engineering</h4>
-                        <p class="text-xs text-textMuted mt-1">8 episodes</p>
-                    </div>
-                    <div class="bg-surface border border-border p-4 rounded-xl hover:border-accent cursor-pointer transition-colors group hidden md:block">
-                        <i class="fas fa-brain text-accent text-2xl mb-2 group-hover:scale-110 transition-transform"></i>
-                        <h4 class="font-bold text-sm">AI & Future</h4>
-                        <p class="text-xs text-textMuted mt-1">15 episodes</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Featured / Latest Episode -->
-            <section>
-                <h2 class="text-sm font-bold uppercase tracking-widest mb-6 flex items-center gap-2 text-accent">
-                    <span class="w-2 h-2 rounded-full animate-pulse bg-accent"></span> Latest Release
-                </h2>
-                <div class="p-6 md:p-8 rounded-2xl border-2 border-accent bg-accentLight relative overflow-hidden group">
-                    <div class="relative z-10">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="px-3 py-1 rounded-md text-xs font-bold bg-accent text-white">EP 142</span>
-                            <span class="text-sm font-semibold opacity-80 text-textMain">2 days ago</span>
-                        </div>
-                        <h3 class="text-2xl md:text-3xl font-black mb-4 leading-tight text-textMain">The Future of AI: Where Are We Actually Headed?</h3>
-                        <p class="mb-8 leading-relaxed max-w-2xl text-textMain opacity-90">Dr. Sarah Chen unpacks the state of AI research, what the hype gets right, and what the next 10 years might look like for developers and society.</p>
-                        
-                        <div class="flex items-center gap-6">
-                            <button onclick="playTrack('The Future of AI', 'EP 142')" class="w-14 h-14 rounded-full flex items-center justify-center text-white bg-accent hover:bg-accentHover transform transition-transform hover:scale-105 shadow-xl">
-                                <i class="fas fa-play ml-1 text-xl"></i>
-                            </button>
-                            <div>
-                                <div class="font-bold text-sm text-textMain">Listen Now</div>
-                                <div class="text-xs opacity-75 text-textMain">38:24 • Tech, AI</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FIXED SEARCH & EPISODES LIST -->
-            <section>
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-                    <div>
-                        <h2 class="text-3xl font-black mb-2">All Episodes</h2>
-                        <p class="text-textMuted">Dive into the archives.</p>
-                    </div>
-                </div>
-
-                <!-- Search Bar -->
-                <div class="flex mb-6">
-                    <div class="flex-1 flex items-center gap-2 px-4 py-3 rounded-xl border border-border bg-surface focus-within:border-accent transition-colors">
-                        <i class="fas fa-search text-textMuted"></i>
-                        <input type="text" id="searchInput" placeholder="Search episodes, guests, topics..." class="bg-transparent border-none outline-none w-full text-sm font-medium text-textMain placeholder-textMuted" onkeyup="filterEpisodes()">
-                    </div>
-                </div>
-
-                <!-- Episode List -->
-                <div class="flex flex-col gap-4" id="episodeContainer">
-                    
-                    <!-- Episode Item -->
-                    <div class="episode-item flex flex-col sm:flex-row sm:items-center gap-6 p-4 rounded-2xl border border-border bg-surface hover:border-accent transition-all cursor-pointer">
-                        <div class="relative flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-xl bg-elevated group-hover:bg-accentLight transition-colors">
-                            <button onclick="playTrack('Building in Public: The Full Honest Truth', 'EP 141')" class="absolute inset-0 m-auto w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center shadow-lg opacity-0 hover:opacity-100 transition-opacity z-10">
-                                <i class="fas fa-play ml-0.5 text-xs"></i>
-                            </button>
-                            <div class="text-center">
-                                <div class="text-[10px] font-bold uppercase text-textMuted">EP</div>
-                                <div class="text-lg font-black text-textMain">141</div>
-                            </div>
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex flex-wrap items-center gap-2 mb-2">
-                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm bg-elevated text-textMuted">Business</span>
-                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm bg-elevated text-textMuted">Founders</span>
-                                <span class="text-xs font-medium text-textMuted ml-auto">2 weeks ago • 44:12</span>
-                            </div>
-                            <h4 class="text-lg font-bold mb-2 leading-tight episode-title">Building in Public: The Full Honest Truth</h4>
-                            <p class="text-sm text-textMuted line-clamp-2 episode-desc">Three founders share the good, bad, and ugly of building their companies openly on social media. We discuss mental health, competition, and real ROI.</p>
-                            <!-- Feature 3: Transcripts -->
-                            <div class="mt-3 flex gap-3">
-                                <button class="text-xs font-bold text-accent hover:underline flex items-center gap-1"><i class="fas fa-file-alt"></i> Read Transcript</button>
-                                <button class="text-xs font-bold text-textMuted hover:text-textMain flex items-center gap-1"><i class="fas fa-share-alt"></i> Share</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Episode Item -->
-                    <div class="episode-item flex flex-col sm:flex-row sm:items-center gap-6 p-4 rounded-2xl border border-border bg-surface hover:border-accent transition-all cursor-pointer">
-                        <div class="relative flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-xl bg-elevated group-hover:bg-accentLight transition-colors">
-                            <button onclick="playTrack('Distributed Systems', 'EP 140')" class="absolute inset-0 m-auto w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center shadow-lg opacity-0 hover:opacity-100 transition-opacity z-10">
-                                <i class="fas fa-play ml-0.5 text-xs"></i>
-                            </button>
-                            <div class="text-center">
-                                <div class="text-[10px] font-bold uppercase text-textMuted">EP</div>
-                                <div class="text-lg font-black text-textMain">140</div>
-                            </div>
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex flex-wrap items-center gap-2 mb-2">
-                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm bg-elevated text-textMuted">Engineering</span>
-                                <span class="text-xs font-medium text-textMuted ml-auto">3 weeks ago • 51:05</span>
-                            </div>
-                            <h4 class="text-lg font-bold mb-2 leading-tight episode-title">Distributed Systems Don't Have to Be Hard</h4>
-                            <p class="text-sm text-textMuted line-clamp-2 episode-desc">A staff engineer breaks down distributed systems patterns every developer should know. Scaling microservices without losing your mind.</p>
-                            <div class="mt-3 flex gap-3">
-                                <button class="text-xs font-bold text-accent hover:underline flex items-center gap-1"><i class="fas fa-file-alt"></i> Read Transcript</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Episode Item -->
-                    <div class="episode-item flex flex-col sm:flex-row sm:items-center gap-6 p-4 rounded-2xl border border-border bg-surface hover:border-accent transition-all cursor-pointer">
-                        <div class="relative flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-xl bg-elevated group-hover:bg-accentLight transition-colors">
-                            <button onclick="playTrack('From Side Project to $2M ARR', 'EP 139')" class="absolute inset-0 m-auto w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center shadow-lg opacity-0 hover:opacity-100 transition-opacity z-10">
-                                <i class="fas fa-play ml-0.5 text-xs"></i>
-                            </button>
-                            <div class="text-center">
-                                <div class="text-[10px] font-bold uppercase text-textMuted">EP</div>
-                                <div class="text-lg font-black text-textMain">139</div>
-                            </div>
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex flex-wrap items-center gap-2 mb-2">
-                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm bg-elevated text-textMuted">Business</span>
-                                <span class="text-xs font-medium text-textMuted ml-auto">1 month ago • 36:40</span>
-                            </div>
-                            <h4 class="text-lg font-bold mb-2 leading-tight episode-title">From Side Project to $2M ARR</h4>
-                            <p class="text-sm text-textMuted line-clamp-2 episode-desc">How one developer bootstrapped a developer tool to significant revenue without outside funding. Bootstrapping vs VC debate settled.</p>
-                            <div class="mt-3 flex gap-3">
-                                <button class="text-xs font-bold text-accent hover:underline flex items-center gap-1"><i class="fas fa-file-alt"></i> Read Transcript</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p id="noResults" class="hidden text-center text-textMuted py-8 border-2 border-dashed border-border rounded-xl">No episodes found.</p>
-                </div>
+<body>
+<body><div class="dossier"><!-- ====================================================================
+         MASTHEAD
+         ==================================================================== --><header class="masthead"><div class="masthead-bar"><span class="bar-tag">CLASSIFICATION // PUBLIC RELEASE</span><span class="bar-tag bar-mid">BUREAU FILE INDEX</span><span data-clock="" class="bar-tag">REC // 06.03.2026 — 00:00 UTC</span></div><div class="masthead-main"><div class="masthead-id"><span class="id-line">DOC-REF</span><span class="id-line">TV//2026</span><span class="id-line">SEC-01</span></div><div class="masthead-title-wrap"><h1 class="masthead-title">THE dANCE</h1><p class="masthead-kicker">— DOSSIERS —</p><p class="masthead-sub">Independent investigative bureau · Est. 2026</p></div><div class="masthead-stamp"><span class="stamp stamp-red">DECLASSIFIED</span></div></div><!-- Filter tabs --><nav aria-label="Filter dossiers by classification" class="filterbar"><span class="filterbar-label">FILTER //</span><div data-menu-list="" id="filter-tabs" class="filter-tabs"><button data-category="All Files" data-category-btn="" type="button" class="filter-tab is-active">All Files</button><button data-category="Investigative" data-category-btn="" type="button" class="filter-tab">Investigative</button><button data-category="Climate" data-category-btn="" type="button" class="filter-tab">Climate</button><button data-category="Tech Policy" data-category-btn="" type="button" class="filter-tab">Tech Policy</button><button data-category="Justice" data-category-btn="" type="button" class="filter-tab">Justice</button><button data-category="Environment" data-category-btn="" type="button" class="filter-tab">Environment</button></div></nav></header><!-- ====================================================================
+         MAIN
+         ==================================================================== --><main class="content"><div class="content-grid"><!-- ---------------- FILES COLUMN ---------------- --><section aria-label="Case files" class="files-col"><!-- FEATURED DOSSIER --><article data-article="" data-byline="Field report // Bureau Desk A" data-case="CASE No. 089" data-category="Investigative" data-class="CONFIDENTIAL" data-date="FILED 05.03.2026" data-title="The Architecture of the New Surveillance State" class="featured"><header class="featured-head"><div class="featured-head-left"><span class="case-no">CASE No. 089</span><span class="file-cat">FILE // INVESTIGATIVE</span></div><span class="stamp stamp-box">CONFIDENTIAL</span></header><div class="featured-body"><div class="featured-figure"><img alt="Surveillance infrastructure document plate" loading="lazy" src="https://picsum.photos/seed/surveil/900/620" class="doc-img"/><span class="figure-tag">EXHIBIT A — PLATE 01</span></div><div class="featured-text"><h2 class="featured-title">The Architecture of the New Surveillance State</h2><p class="featured-dek">Leaked municipal smart-city contracts funnel resident data to private vendors — with no real consent.</p><p class="excerpt">A cache of 
+                  contracts shows that data from "smart" sensors rarely stays with the city. In three jurisdictions the vendor —
+                  
+                  — retained a perpetual license to resident records even after the contract lapsed.
+                </p><footer class="file-foot"><span class="file-foot-meta">FILED 05.03.2026 · DESK A</span><span class="open-file">OPEN FILE
+                    <svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="20" class="arrow"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span></footer></div></div><div data-article-content="" hidden class="full-body">The pitch was seductive: sensors on every lamppost, traffic that flows like water, refuse collection routed by algorithm. What the brochures omitted was the back end. A cache of more than four thousand leaked municipal contracts, reviewed by The Vance over six months, shows that the data harvested by these "smart" systems rarely stays with the city that paid for it. Camera feeds, license-plate reads, transit taps and Wi-Fi pings are routinely funneled to private analytics vendors under terms residents were never shown. In three of the cities we examined the vendor retained a perpetual license to the data even after the contract ended; the privacy impact assessments, where they existed at all, were drafted by the vendors themselves. "Consent" was a banner on a website almost nobody reads. The result is a quiet, distributed surveillance apparatus assembled not by a spy agency but by procurement officers chasing efficiency grants.</div></article><!-- SECTION TAB --><div class="section-tab"><span class="section-tab-label">CASE FILES</span><span data-visible-count="" class="section-tab-count">05 RECORDS ON FILE</span></div><!-- CASE-FILE GRID --><div data-articles-stream="" class="file-grid"><!-- File 2 --><article data-article="" data-byline="Field report // Resource Desk" data-case="CASE No. 071" data-category="Climate" data-class="RESTRICTED" data-date="FILED 04.28.2026" data-title="Water Rights in the Age of Scarcity" class="filecard"><header class="filecard-head"><span class="case-no">CASE No. 071</span><span class="stamp stamp-box stamp-sm">RESTRICTED</span></header><span class="file-cat">FILE // CLIMATE</span><h3 class="filecard-title">Water Rights in the Age of Scarcity</h3><p class="excerpt">
+                At least nine funds have spent a combined
                 
-                <button class="mt-8 w-full py-4 rounded-xl border border-border bg-elevated font-bold text-sm hover:text-textMain transition-colors">
-                    Load Archive
-                </button>
-            </section>
-        </div>
-
-        <!-- RIGHT COLUMN: SIDEBAR (4 cols) -->
-        <div class="lg:col-span-4 space-y-10">
-            
-            <!-- Feature 4: Voice Message Widget -->
-            <div class="p-5 rounded-2xl border border-border bg-surface text-center">
-                <div class="w-12 h-12 mx-auto rounded-full bg-accentLight text-accent flex items-center justify-center mb-3">
-                    <i class="fas fa-microphone-alt text-xl"></i>
-                </div>
-                <h3 class="font-bold mb-1">Send us a voice note</h3>
-                <p class="text-xs text-textMuted mb-4">Got a question? Record it, and we might play it on the next Q&A episode!</p>
-                <button class="w-full py-2.5 rounded-lg font-bold text-sm bg-elevated border border-border hover:border-accent transition-colors">Start Recording</button>
-            </div>
-
-            <!-- Support / Premium CTA -->
-            <div class="p-6 rounded-2xl border border-accent bg-accentLight relative overflow-hidden" id="premium">
-                <i class="fas fa-star text-accent text-3xl mb-4 opacity-50"></i>
-                <h3 class="text-xl font-black mb-2">Inner Circle</h3>
-                <p class="text-sm text-textMain opacity-80 mb-6">Ad-free episodes, bonus AMA content, and private Discord access.</p>
-                <a href="#memberships" class="block text-center w-full py-3 rounded-xl font-bold text-white bg-accent hover:bg-accentHover mb-2 shadow-lg">View Tiers</a>
-            </div>
-
-            <!-- Feature 2: Upcoming Live Shows -->
-            <div>
-                <h3 class="text-sm font-black uppercase text-textMuted mb-4"><i class="fas fa-calendar-alt text-accent"></i> Live Tour Dates</h3>
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between p-3 rounded-xl border border-border bg-surface hover:border-accent transition-colors">
-                        <div>
-                            <div class="font-bold text-sm">San Francisco, CA</div>
-                            <div class="text-xs text-textMuted">Oct 12 • The Fillmore</div>
-                        </div>
-                        <button class="text-xs font-bold px-3 py-1.5 bg-accent text-white rounded-md">Tickets</button>
-                    </div>
-                    <div class="flex items-center justify-between p-3 rounded-xl border border-border bg-surface hover:border-accent transition-colors">
-                        <div>
-                            <div class="font-bold text-sm">Austin, TX</div>
-                            <div class="text-xs text-textMuted">Oct 24 • ACL Live</div>
-                        </div>
-                        <button class="text-xs font-bold px-3 py-1.5 bg-elevated border border-border rounded-md text-textMuted">Sold Out</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Feature 10: Sponsor Promo Codes -->
-            <div>
-                <h3 class="text-sm font-black uppercase text-textMuted mb-4"><i class="fas fa-tag text-accent"></i> Sponsor Codes</h3>
-                <div class="bg-surface border border-border rounded-xl p-4">
-                    <div class="flex items-center justify-between mb-3 border-b border-border pb-3">
-                        <div class="flex items-center gap-2"><i class="fas fa-server text-blue-500"></i> <span class="font-bold text-sm">CloudHost</span></div>
-                        <span class="text-xs font-mono bg-elevated px-2 py-1 rounded border border-border text-accent">DIVE20</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2"><i class="fas fa-coffee text-amber-600"></i> <span class="font-bold text-sm">MagicBrew</span></div>
-                        <span class="text-xs font-mono bg-elevated px-2 py-1 rounded border border-border text-accent">DEEPDIVE</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Feature 16: Suggest a Guest -->
-            <div class="p-5 rounded-2xl border border-border bg-surface">
-                <h3 class="font-bold mb-1 text-sm"><i class="fas fa-lightbulb text-accent"></i> Suggest a Guest</h3>
-                <p class="text-xs text-textMuted mb-3">Who should we interview next?</p>
-                <input type="text" placeholder="Twitter handle or name..." class="w-full px-3 py-2 rounded-lg border border-border bg-elevated text-sm outline-none focus:border-accent mb-2">
-                <button class="w-full py-2 rounded-lg font-bold text-xs bg-accent text-white">Submit</button>
-            </div>
-
-            <!-- Newsletter -->
-            <div class="p-6 rounded-2xl border border-border bg-elevated">
-                <h3 class="text-lg font-black mb-2 flex items-center gap-2">
-                    <i class="fas fa-envelope text-accent"></i> The Weekly Dive
-                </h3>
-                <p class="text-sm text-textMuted mb-4">Show notes and exclusive insights every Wednesday.</p>
-                <div class="space-y-3">
-                    <input type="email" placeholder="you@email.com" class="w-full px-4 py-3 rounded-xl border border-border bg-bg outline-none focus:border-accent transition-colors text-sm">
-                    <button class="w-full py-3 rounded-xl font-bold text-white bg-accent hover:bg-accentHover">Subscribe</button>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- 5. FEATURE SECTION: HOST BIOS (Feature 1) -->
-    <section class="py-20 border-t border-border bg-elevated" id="about">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-black mb-4">Meet the Hosts</h2>
-                <p class="text-textMuted">The voices behind the mic.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="flex gap-6 items-start">
-                    <img src="https://i.pravatar.cc/150?img=11" alt="Host 1" class="w-24 h-24 rounded-full border-2 border-accent object-cover">
-                    <div>
-                        <h3 class="text-xl font-bold mb-1">Alex Rivera</h3>
-                        <p class="text-xs font-bold text-accent uppercase mb-3">Ex-Stripe Engineer</p>
-                        <p class="text-sm text-textMuted leading-relaxed mb-3">Alex spent 8 years building payment infrastructure before turning to content creation full time. He focuses on the technical deep-dives.</p>
-                        <a href="#" class="text-textMuted hover:text-[#1DA1F2]"><i class="fab fa-twitter"></i> @arivera</a>
-                    </div>
-                </div>
-                <div class="flex gap-6 items-start">
-                    <img src="https://i.pravatar.cc/150?img=5" alt="Host 2" class="w-24 h-24 rounded-full border-2 border-accent object-cover">
-                    <div>
-                        <h3 class="text-xl font-bold mb-1">Jordan Lee</h3>
-                        <p class="text-xs font-bold text-accent uppercase mb-3">2x Founder</p>
-                        <p class="text-sm text-textMuted leading-relaxed mb-3">Jordan built and sold two SaaS companies by age 30. They bring the business, product, and growth perspective to every interview.</p>
-                        <a href="#" class="text-textMuted hover:text-[#1DA1F2]"><i class="fab fa-twitter"></i> @jordanbuilds</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. TIERED MEMBERSHIPS (Feature 5) -->
-    <section class="py-20 border-t border-border" id="memberships">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-black mb-4">Support the Show</h2>
-                <p class="text-textMuted">Choose a tier to join the Inner Circle.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Bronze -->
-                <div class="p-6 rounded-2xl border border-border bg-surface text-center flex flex-col">
-                    <h3 class="text-lg font-bold mb-2">Supporter</h3>
-                    <div class="text-3xl font-black mb-4">$5<span class="text-sm text-textMuted font-normal">/mo</span></div>
-                    <ul class="text-sm text-textMuted space-y-3 mb-8 flex-1">
-                        <li><i class="fas fa-check text-accent mr-2"></i>Ad-free episodes</li>
-                        <li><i class="fas fa-check text-accent mr-2"></i>Discord Community</li>
-                    </ul>
-                    <button class="w-full py-2 rounded-lg font-bold border border-border hover:border-accent">Join</button>
-                </div>
-                <!-- Silver (Highlighted) -->
-                <div class="p-6 rounded-2xl border-2 border-accent bg-elevated text-center flex flex-col relative transform md:-translate-y-4 shadow-2xl">
-                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full">Most Popular</div>
-                    <h3 class="text-lg font-bold mb-2">Insider</h3>
-                    <div class="text-3xl font-black text-accent mb-4">$10<span class="text-sm text-textMuted font-normal">/mo</span></div>
-                    <ul class="text-sm text-textMuted space-y-3 mb-8 flex-1">
-                        <li><i class="fas fa-check text-accent mr-2"></i>Everything in Supporter</li>
-                        <li><i class="fas fa-check text-accent mr-2"></i>Bonus monthly episode</li>
-                        <li><i class="fas fa-check text-accent mr-2"></i>Early access to tickets</li>
-                    </ul>
-                    <button class="w-full py-2 rounded-lg font-bold bg-accent text-white hover:bg-accentHover">Join Insider</button>
-                </div>
-                <!-- Gold -->
-                <div class="p-6 rounded-2xl border border-border bg-surface text-center flex flex-col">
-                    <h3 class="text-lg font-bold mb-2">Producer</h3>
-                    <div class="text-3xl font-black mb-4">$50<span class="text-sm text-textMuted font-normal">/mo</span></div>
-                    <ul class="text-sm text-textMuted space-y-3 mb-8 flex-1">
-                        <li><i class="fas fa-check text-accent mr-2"></i>Everything in Insider</li>
-                        <li><i class="fas fa-check text-accent mr-2"></i>Name in show notes</li>
-                        <li><i class="fas fa-check text-accent mr-2"></i>Quarterly group Zoom</li>
-                    </ul>
-                    <button class="w-full py-2 rounded-lg font-bold border border-border hover:border-accent">Join Producer</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. RESOURCES & COMMUNITY (Features 8, 9, 11, 17) -->
-    <section class="py-20 border-t border-border bg-surface">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
-            
-            <!-- Left: Reading & Gear -->
-            <div>
-                <h2 class="text-2xl font-black mb-6 border-b border-border pb-2">Resources</h2>
+                acquiring senior Colorado River rights, betting that as the river shrinks the right to its water becomes the most valuable asset in the West.
+              </p><footer class="filecard-foot"><span class="file-foot-meta">FILED 04.28.2026</span><span class="open-file">OPEN FILE
+                  <svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="16" class="arrow"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span></footer><div data-article-content="" hidden class="full-body">For most of the twentieth century, water rights on the Colorado were the dull province of farmers, irrigation districts and state engineers. That is changing fast. The Vance has tracked at least nine investment funds that have spent a combined 1.2 billion dollars acquiring senior water rights across the basin since 2021, often by quietly buying the farmland those rights are attached to. The funds do not want to grow alfalfa. They are betting that as the river shrinks, the right to its water becomes one of the most valuable assets in the American West. Critics call it the financialization of thirst. When a hedge fund holds the most senior claim on a dwindling river, the question is no longer who farms the land, but who can afford to drink.</div></article><!-- File 3 --><article data-article="" data-byline="Field report // Tech Desk" data-case="CASE No. 064" data-category="Tech Policy" data-class="RESTRICTED" data-date="FILED 04.21.2026" data-title="The Right to Repair the Future" class="filecard"><header class="filecard-head"><span class="case-no">CASE No. 064</span><span class="stamp stamp-box stamp-sm">RESTRICTED</span></header><span class="file-cat">FILE // TECH POLICY</span><h3 class="filecard-title">The Right to Repair the Future</h3><p class="excerpt">
+                Internal engineering memos show how
+                <span data-reveal="six manufacturers" class="redact">█████████████</span>
+                use software locks to route every repair through their own networks, turning fixable hardware into disposable e-waste by design.
+              </p><footer class="filecard-foot"><span class="file-foot-meta">FILED 04.21.2026</span><span class="open-file">OPEN FILE
+                  <svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="16" class="arrow"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span></footer><div data-article-content="" hidden class="full-body">A tractor that refuses to start until a licensed technician types in a code. A phone that disables its own camera when a third party swaps the glass. A ventilator that a hospital is contractually forbidden from fixing. These are not bugs; they are the business model. Through internal engineering memos and dealer agreements, The Vance documents how a handful of manufacturers have engineered repair out of their products and routed every fix back through their own service networks. The environmental toll is enormous: tens of millions of devices discarded not because they are broken, but because they are locked. A growing coalition of farmers, nurses and tinkerers is now fighting back in statehouses across the country, and the manufacturers are spending heavily to stop them.</div></article><!-- File 4 --><article data-article="" data-byline="Field report // Data Desk" data-case="CASE No. 052" data-category="Justice" data-class="SEALED" data-date="FILED 04.14.2026" data-title="Algorithms in the Courtroom" class="filecard"><header class="filecard-head"><span class="case-no">CASE No. 052</span><span class="stamp stamp-box stamp-sm stamp-sealed">SEALED</span></header><span class="file-cat">FILE // JUSTICE</span><h3 class="filecard-title">Algorithms in the Courtroom</h3><p class="excerpt">
+                Scoring data for
                 
-                <!-- Books (F8) -->
-                <div class="mb-8">
-                    <h3 class="text-sm font-bold uppercase text-textMuted mb-4"><i class="fas fa-book text-accent"></i> Recommended Reading</h3>
-                    <div class="flex gap-4 overflow-x-auto pb-4">
-                        <div class="w-24 flex-shrink-0 text-center">
-                            <div class="w-24 h-32 bg-elevated border border-border rounded shadow mb-2 flex items-center justify-center text-xs">Book Cover</div>
-                            <div class="text-xs font-bold truncate">Build</div>
-                        </div>
-                        <div class="w-24 flex-shrink-0 text-center">
-                            <div class="w-24 h-32 bg-elevated border border-border rounded shadow mb-2 flex items-center justify-center text-xs">Book Cover</div>
-                            <div class="text-xs font-bold truncate">Zero to One</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Gear (F9) -->
-                <div id="gear">
-                    <h3 class="text-sm font-bold uppercase text-textMuted mb-4"><i class="fas fa-headphones text-accent"></i> Studio Gear</h3>
-                    <ul class="text-sm space-y-2 border-l-2 border-elevated pl-4">
-                        <li><strong>Mics:</strong> Shure SM7B</li>
-                        <li><strong>Interface:</strong> RodeCaster Pro II</li>
-                        <li><strong>Cameras:</strong> Sony FX3 (x3)</li>
-                        <li><a href="#" class="text-accent hover:underline text-xs font-bold mt-2 inline-block">View Full Kit →</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Right: Community Poll & BTS Grid -->
-            <div>
-                <h2 class="text-2xl font-black mb-6 border-b border-border pb-2">Community</h2>
+                reveals opaque risk-assessment tools leaning on proxies for poverty and geography to set bail — formulas guarded as trade secrets.
+              </p><footer class="filecard-foot"><span class="file-foot-meta">FILED 04.14.2026</span><span class="open-file">OPEN FILE
+                  <svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="16" class="arrow"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span></footer><div data-article-content="" hidden class="full-body">In dozens of jurisdictions the decision to hold a defendant in jail before trial is now shaped by a number generated by software. The tools promise objectivity: feed in a person's history, receive a "risk score," let the judge decide. The Vance obtained scoring data for more than thirty thousand cases and found the promise hollow. The models lean heavily on proxies for poverty and geography, penalizing defendants for where they live and who they know. Two people accused of the same offense can receive wildly different scores. The vendors guard their formulas as trade secrets, so neither the accused nor their lawyers can examine how the number was reached. A risk score, it turns out, is only as fair as the system that trained it — and that system was never fair to begin with.</div></article><!-- File 5 --><article data-article="" data-byline="Field report // Field Desk" data-case="CASE No. 047" data-category="Environment" data-class="RESTRICTED" data-date="FILED 04.05.2026" data-title="The Ghost Flights of Europe" class="filecard"><header class="filecard-head"><span class="case-no">CASE No. 047</span><span class="stamp stamp-box stamp-sm">RESTRICTED</span></header><span class="file-cat">FILE // ENVIRONMENT</span><h3 class="filecard-title">The Ghost Flights of Europe</h3><p class="excerpt">
+                Flight-tracking data exposes
                 
-                <!-- Poll (F17) -->
-                <div class="bg-elevated border border-border rounded-xl p-5 mb-8">
-                    <h3 class="font-bold text-sm mb-3"><i class="fas fa-poll text-accent"></i> Poll of the Week</h3>
-                    <p class="text-sm mb-4">What's the biggest threat to early-stage startups right now?</p>
-                    <div class="space-y-2" id="poll-options">
-                        <label class="flex items-center gap-3 p-2 rounded border border-border bg-surface cursor-pointer hover:border-accent">
-                            <input type="radio" name="poll" class="accent-accent" onclick="document.getElementById('poll-res').classList.remove('hidden')"> <span class="text-sm">Running out of runway</span>
-                        </label>
-                        <label class="flex items-center gap-3 p-2 rounded border border-border bg-surface cursor-pointer hover:border-accent">
-                            <input type="radio" name="poll" class="accent-accent" onclick="document.getElementById('poll-res').classList.remove('hidden')"> <span class="text-sm">Big tech AI features</span>
-                        </label>
-                        <label class="flex items-center gap-3 p-2 rounded border border-border bg-surface cursor-pointer hover:border-accent">
-                            <input type="radio" name="poll" class="accent-accent" onclick="document.getElementById('poll-res').classList.remove('hidden')"> <span class="text-sm">Finding product-market fit</span>
-                        </label>
-                    </div>
-                    <div id="poll-res" class="hidden mt-3 text-xs text-accent font-bold text-center">Thanks for voting! Results revealed on Tuesday.</div>
-                </div>
+                near-empty jets flown across the continent each winter — carriers burning carbon to protect takeoff slots under a use-it-or-lose-it rule.
+              </p><footer class="filecard-foot"><span class="file-foot-meta">FILED 04.05.2026</span><span class="open-file">OPEN FILE
+                  <svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="16" class="arrow"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span></footer><div data-article-content="" hidden class="full-body">Under a use-it-or-lose-it rule, airlines must operate a minimum share of their scheduled flights or forfeit the takeoff and landing slots that are their most valuable possessions at congested airports. So when demand collapses, carriers face a perverse choice: fly nearly empty aircraft, or surrender slots worth tens of millions. The Vance analyzed flight-tracking data across a single winter season and identified thousands of these "ghost flights," jets crossing the continent with a handful of passengers or none at all. The carbon released to protect a spreadsheet entry runs to hundreds of thousands of tonnes. Regulators have known about the loophole for years. Closing it, it turns out, means taking on the most powerful lobby in aviation.</div></article></div><!-- Empty state --><div data-no-articles="" hidden class="empty-state"><span class="empty-stamp">NO RECORDS</span><p class="empty-text">No files in the archive match this classification. Adjust the filter to retrieve records.</p></div></section><!-- ---------------- METADATA COLUMN ---------------- --><aside aria-label="Bureau metadata" class="meta-col"><!-- FROM THE DESK --><section class="desk-note"><h3 class="meta-head">FROM THE DESK</h3><div class="desk-body"><p class="desk-line">&gt; The Vance is independent and reader-funded.</p><p class="desk-line">&gt; We accept no advertising from the subjects we investigate.</p><p class="desk-line">&gt; Every record on file was paid for by subscribers.</p><p class="desk-sign">— THE EDITOR // DESK A</p></div></section><!-- OPEN INVESTIGATIONS --><section class="open-inv"><h3 class="meta-head">OPEN INVESTIGATIONS</h3><ul class="inv-list"><li class="inv-item"><span class="inv-status status-active">ACTIVE</span><span class="inv-name">The Offshore Property Maze</span><span class="inv-ref">REF // 094</span></li><li class="inv-item"><span class="inv-status status-active">ACTIVE</span><span class="inv-name">Who Owns the Seabed?</span><span class="inv-ref">REF // 092</span></li><li class="inv-item"><span class="inv-status status-pending">PENDING</span><span class="inv-name">The Lithium Supply Chain</span><span class="inv-ref">REF // 090</span></li><li class="inv-item"><span class="inv-status status-pending">PENDING</span><span class="inv-name">Private Equity in the ER</span><span class="inv-ref">REF // 088</span></li></ul></section><!-- CHAIN OF CUSTODY / fact panel --><section class="custody"><h3 class="meta-head">CHAIN OF CUSTODY</h3><dl class="custody-grid"><dt>BUREAU</dt><dd>Independent</dd><dt>RECORDS</dt><dd>05 on file</dd><dt>VERIFIED</dt><dd>Source-confirmed</dd><dt>STATUS</dt><dd class="custody-ok">RELEASED</dd></dl><div class="custody-stamp"><span class="stamp stamp-red stamp-flat">DECLASSIFIED</span></div></section></aside></div></main><!-- ====================================================================
+         FOOTER
+         ==================================================================== --><footer class="footer"><div class="footer-rule">END OF INDEX · END OF INDEX · END OF INDEX · END OF INDEX</div><div class="footer-grid"><div class="footer-brand"><span class="footer-title">THE VANCE</span><p class="footer-about">Independent, reader-supported investigative bureau. Exposing the hidden architecture of modern power, one document at a time.</p></div><div class="footer-block"><h4 class="footer-head">SECURE CONTACT</h4><ul class="footer-list"><li class="footer-secure"><svg aria-hidden="true" fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="14" class="lock"><rect height="11" rx="1" width="18" x="3" y="11"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              SecureDrop · thevance.onion
+            </li><li>tips@thevance.press</li><li>PGP key on request</li></ul></div><div class="footer-block"><h4 class="footer-head">THE DESK</h4><ul class="footer-list"><li>Editorial · Desk A</li><li>Data · Desk B</li><li>Counsel · A. Okonkwo</li><li>Reading Room · Archive</li></ul></div></div><div class="footer-bottom"><span>© <span data-current-year="">2026</span> THE VANCE BUREAU · ALL FILES PROTECTED</span><span class="footer-credit">Made with care, by the DaaSFac team</span></div></footer></div><!-- ====================================================================
+       DOSSIER READER MODAL  (static; JS only populates + toggles [hidden])
+       ==================================================================== --><div data-modal="" hidden id="reader" class="reader"><div aria-labelledby="reader-title" aria-modal="true" role="dialog" class="reader-sheet"><header class="reader-head"><div class="reader-head-id"><span data-modal-case="" class="reader-case">CASE No. 000</span><span data-modal-category="" class="reader-cat">FILE</span></div><div class="reader-head-right"><span class="stamp stamp-red stamp-flat reader-stamp">DECLASSIFIED</span><button aria-label="Close dossier" data-modal-close="" type="button" class="reader-close"><svg aria-hidden="true" fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="22"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg></button></div></header><div class="reader-scroll"><h2 data-modal-title="" id="reader-title" class="reader-title">Dossier</h2><div class="reader-meta"><span data-modal-byline="">Field report</span><span data-modal-date="">FILED</span></div><div class="reader-prose"><p data-modal-content="" class="reader-drop"></p><p class="reader-tail">This investigation is ongoing. The Vance will continue to release documents, data and source material as our reporting is independently verified.</p></div></div><footer class="reader-foot"><span>STATUS // DECLASSIFIED FOR PUBLIC RELEASE</span><span data-modal-case-foot="">CASE No. 000</span></footer></div></div></body>
 
-                <!-- Behind the scenes (F11) -->
-                <div>
-                    <h3 class="text-sm font-bold uppercase text-textMuted mb-4"><i class="fab fa-instagram text-accent"></i> Behind the Scenes</h3>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="aspect-square bg-elevated rounded border border-border overflow-hidden group">
-                            <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=200&q=80" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
-                        </div>
-                        <div class="aspect-square bg-elevated rounded border border-border overflow-hidden group">
-                            <img src="https://images.unsplash.com/photo-1559523182-a284c3fb7cff?w=200&q=80" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
-                        </div>
-                        <div class="aspect-square bg-elevated rounded border border-border overflow-hidden group flex items-center justify-center cursor-pointer hover:bg-surface">
-                            <span class="text-xs font-bold text-textMuted">Follow →</span>
-                        </div>
-                    </div>
-                </div>
+<script>
+/* ============================================================================
+   THE VANCE — DOSSIERS  ·  script.js
+   Vanilla, dependency-free. ENHANCES the static DOM only:
+     - classification tab filter (show/hide [data-article] by data-category)
+     - dossier reader modal (reads case/category/title/date/byline + full body)
+     - on open, redaction bars inside the reader animate to reveal their text
+     - empty-state when a filter matches nothing
+   The script NEVER injects page content and NEVER sets the base theme.
+   ============================================================================ */
+(function () {
+  function init() {
+    var docEl = document.documentElement;
 
-            </div>
-        </div>
-    </section>
+    var articles = Array.prototype.slice.call(document.querySelectorAll('[data-article]'));
+    var tabBtns = Array.prototype.slice.call(document.querySelectorAll('[data-category-btn]'));
+    var emptyState = document.querySelector('[data-no-articles]');
+    var countEl = document.querySelector('[data-visible-count]');
+    var modal = document.querySelector('[data-modal]');
 
-    <!-- 8. FAQ (Feature 15) -->
-    <section class="py-20 border-t border-border bg-bg">
-        <div class="max-w-3xl mx-auto px-6">
-            <h2 class="text-3xl font-black mb-8 text-center">Frequently Asked Questions</h2>
-            <div class="space-y-4">
-                <details class="bg-surface border border-border rounded-xl p-4 group cursor-pointer open:border-accent">
-                    <summary class="font-bold outline-none flex justify-between items-center text-sm">Do you accept guest pitches? <i class="fas fa-chevron-down text-textMuted group-open:rotate-180 transition-transform"></i></summary>
-                    <p class="text-sm text-textMuted mt-3 pl-2 border-l-2 border-accent">We do read all pitches sent via our suggestion form, but please note we currently schedule guests about 3 months in advance.</p>
-                </details>
-                <details class="bg-surface border border-border rounded-xl p-4 group cursor-pointer open:border-accent">
-                    <summary class="font-bold outline-none flex justify-between items-center text-sm">Can I sponsor an episode? <i class="fas fa-chevron-down text-textMuted group-open:rotate-180 transition-transform"></i></summary>
-                    <p class="text-sm text-textMuted mt-3 pl-2 border-l-2 border-accent">Yes! We have a dedicated audience of tech professionals. Please reach out via our contact page for the media kit and current CPM rates.</p>
-                </details>
-                <details class="bg-surface border border-border rounded-xl p-4 group cursor-pointer open:border-accent">
-                    <summary class="font-bold outline-none flex justify-between items-center text-sm">Where can I find the show notes? <i class="fas fa-chevron-down text-textMuted group-open:rotate-180 transition-transform"></i></summary>
-                    <p class="text-sm text-textMuted mt-3 pl-2 border-l-2 border-accent">Show notes with all mentioned links and transcripts are available on the individual episode pages and delivered to our newsletter subscribers.</p>
-                </details>
-            </div>
-        </div>
-    </section>
+    // ---- Live clock / year (cosmetic; static fallbacks already in HTML) ----
+    try {
+      var clock = document.querySelector('[data-clock]');
+      if (clock) {
+        var now = new Date();
+        var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+        clock.textContent = 'REC // ' + pad(now.getMonth() + 1) + '.' + pad(now.getDate()) + '.' +
+          now.getFullYear() + ' — ' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + ' LOCAL';
+      }
+      var yr = document.querySelector('[data-current-year]');
+      if (yr) yr.textContent = String(new Date().getFullYear());
+    } catch (e) { /* keep static fallbacks */ }
 
-    <!-- 9. FOOTER & PRESS KIT (Feature 14) -->
-    <footer class="border-t border-border bg-surface pt-16 pb-32">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div class="col-span-1 md:col-span-2">
-                <div class="flex items-center gap-2 font-black text-2xl tracking-tight mb-4">
-                    <i class="fas fa-microphone text-accent"></i> DeepDive.
-                </div>
-                <p class="text-sm text-textMuted max-w-sm mb-6">
-                    The premier podcast for builders, creators, and engineers. Documenting the future, one conversation at a time.
-                </p>
-                <div class="flex gap-4">
-                    <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center bg-elevated hover:bg-accent hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center bg-elevated hover:bg-accent hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center bg-elevated hover:bg-accent hover:text-white transition-colors"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center bg-elevated hover:bg-[#5865F2] hover:text-white transition-colors"><i class="fab fa-discord"></i></a>
-                </div>
-            </div>
-            
-            <div>
-                <h4 class="font-bold mb-4">Navigate</h4>
-                <ul class="space-y-2 text-sm text-textMuted">
-                    <li><a href="#episodes" class="hover:text-accent">All Episodes</a></li>
-                    <li><a href="#about" class="hover:text-accent">About the Hosts</a></li>
-                    <li><a href="#store" class="hover:text-accent">Merch Store</a></li>
-                    <li><a href="#memberships" class="hover:text-accent">Memberships</a></li>
-                </ul>
-            </div>
+    // ---- Record count helper ----
+    function pad2(n) { return (n < 10 ? '0' : '') + n; }
+    function updateCount(n) {
+      if (countEl) countEl.textContent = pad2(n) + (n === 1 ? ' RECORD ON FILE' : ' RECORDS ON FILE');
+    }
 
-            <div>
-                <h4 class="font-bold mb-4">Resources</h4>
-                <ul class="space-y-2 text-sm text-textMuted">
-                    <!-- Feature 14: Press Kit -->
-                    <li><a href="#" class="hover:text-accent flex items-center gap-2 text-accent"><i class="fas fa-download"></i> Download Press Kit (ZIP)</a></li>
-                    <li><a href="#" class="hover:text-accent">Sponsorship Inquiries</a></li>
-                    <li><a href="#gear" class="hover:text-accent">Studio Gear List</a></li>
-                    <li><a href="#" class="hover:text-accent">Contact Us</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between text-xs text-textMuted">
-            <p>© <span id="year">2025</span> Deep Dive Podcast. All rights reserved.</p>
-            <div class="flex gap-4 mt-4 md:mt-0">
-                <a href="#" class="hover:text-textMain">Privacy Policy</a>
-                <a href="#" class="hover:text-textMain">Terms of Service</a>
-            </div>
-        </div>
-    </footer>
+    // ---- Classification tab filter ----
+    function applyFilter(cat) {
+      var shown = 0;
+      articles.forEach(function (a) {
+        var match = cat === 'All Files' || a.getAttribute('data-category') === cat;
+        a.hidden = !match;
+        if (match) shown++;
+      });
+      if (emptyState) emptyState.hidden = shown !== 0;
+      updateCount(shown);
+      tabBtns.forEach(function (b) {
+        b.classList.toggle('is-active', b.getAttribute('data-category') === cat);
+      });
+    }
+    tabBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        applyFilter(b.getAttribute('data-category') || 'All Files');
+      });
+    });
 
-    <!-- 10. PERSISTENT GLOBAL AUDIO PLAYER -->
-    <div class="fixed bottom-0 left-0 w-full z-50 border-t border-border bg-surface/95 backdrop-blur-xl transform transition-transform duration-300">
-        <!-- Progress Bar & Feature 12: Chapter Markers -->
-        <div class="h-1.5 w-full bg-border absolute top-0 left-0 cursor-pointer relative" id="progressContainer" onclick="seek(event)">
-            <div id="progressBar" class="h-full bg-accent w-[0%] transition-all duration-300 ease-linear"></div>
-            <!-- Chapter Markers -->
-            <div class="absolute top-0 w-0.5 h-full bg-bg left-[15%]" title="Intro"></div>
-            <div class="absolute top-0 w-0.5 h-full bg-bg left-[45%]" title="Sponsor Break"></div>
-            <div class="absolute top-0 w-0.5 h-full bg-bg left-[80%]" title="Q&A"></div>
-        </div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 md:h-24 flex items-center justify-between gap-4">
-            
-            <!-- Track Info -->
-            <div class="flex items-center gap-4 w-1/3 min-w-0">
-                <div class="hidden sm:flex w-12 h-12 md:w-14 md:h-14 rounded-xl bg-accentLight items-center justify-center flex-shrink-0 border border-accent/30 relative overflow-hidden">
-                    <i class="fas fa-microphone text-accent text-xl z-10" id="playerIcon"></i>
-                    <!-- Feature 20: Audio Visualizer -->
-                    <div class="absolute inset-0 flex items-end justify-center gap-1 opacity-0 transition-opacity p-2" id="visualizer">
-                        <div class="w-1.5 h-[30%] bg-accent playing-bar"></div>
-                        <div class="w-1.5 h-[60%] bg-accent playing-bar"></div>
-                        <div class="w-1.5 h-[40%] bg-accent playing-bar"></div>
-                        <div class="w-1.5 h-[80%] bg-accent playing-bar"></div>
-                    </div>
-                </div>
-                <div class="min-w-0">
-                    <div class="text-[10px] font-bold uppercase tracking-wider mb-1 text-textMuted" id="playerSubtitle">Select an episode</div>
-                    <div class="text-sm md:text-base font-bold truncate pr-4" id="playerTitle">Ready to play</div>
-                </div>
-            </div>
+    // ---- Dossier reader modal ----
+    function setText(sel, val) {
+      if (!modal) return;
+      var nodes = modal.querySelectorAll(sel);
+      for (var i = 0; i < nodes.length; i++) nodes[i].textContent = val || '';
+    }
 
-            <!-- Controls -->
-            <div class="flex flex-col items-center justify-center flex-1 max-w-md">
-                <div class="flex items-center gap-5 md:gap-8">
-                    <button class="text-textMuted hover:text-textMain transition-colors hidden sm:block text-xs font-bold w-6 text-center" onclick="cycleSpeed()" id="speedBtn">1x</button>
-                    <button class="text-textMuted hover:text-textMain transition-colors" title="Rewind 15s"><i class="fas fa-undo"></i></button>
-                    
-                    <button onclick="togglePlay()" class="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-white bg-accent hover:bg-accentHover transform hover:scale-105 transition-all shadow-md">
-                        <i class="fas fa-play ml-1 text-lg" id="playPauseIcon"></i>
-                    </button>
-                    
-                    <button class="text-textMuted hover:text-textMain transition-colors" title="Forward 15s"><i class="fas fa-redo"></i></button>
-                    <button class="text-textMuted hover:text-textMain transition-colors hidden sm:block" title="Chapters"><i class="fas fa-list-ul"></i></button>
-                </div>
-            </div>
+    var revealTimers = [];
+    function clearRevealTimers() {
+      for (var i = 0; i < revealTimers.length; i++) clearTimeout(revealTimers[i]);
+      revealTimers = [];
+    }
 
-            <!-- Extra Controls -->
-            <div class="w-1/3 flex justify-end items-center gap-4 hidden md:flex">
-                <div class="flex items-center gap-2 w-32 group">
-                    <i class="fas fa-volume-up text-textMuted text-xs"></i>
-                    <div class="h-1.5 flex-1 rounded-full bg-elevated cursor-pointer relative overflow-hidden">
-                        <div class="absolute top-0 left-0 h-full w-2/3 bg-accent"></div>
-                    </div>
-                </div>
-                <button class="p-2 rounded-md bg-elevated hover:text-textMain text-textMuted transition-colors" title="Share">
-                    <i class="fas fa-external-link-alt"></i>
-                </button>
-            </div>
-            
-        </div>
-    </div>
+    function revealRedactions() {
+      if (!modal) return;
+      var bars = modal.querySelectorAll('.redact');
+      Array.prototype.forEach.call(bars, function (bar, idx) {
+        // Swap the block-glyph placeholder for the real text, then transition.
+        var truth = bar.getAttribute('data-reveal');
+        if (truth) bar.textContent = truth;
+        var t = setTimeout(function () { bar.classList.add('is-revealed'); }, 280 + idx * 220);
+        revealTimers.push(t);
+      });
+    }
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // Set Year
-        document.getElementById('year').textContent = new Date().getFullYear();
+    function openDossier(article) {
+      if (!modal) return;
+      var title = article.getAttribute('data-title') || 'Dossier';
+      var cat = article.getAttribute('data-category') || 'FILE';
+      var caseNo = article.getAttribute('data-case') || '';
+      var byline = article.getAttribute('data-byline') || '';
+      var date = article.getAttribute('data-date') || '';
 
-        // --- Theme System ---
-        function setMode(mode) {
-            document.body.setAttribute('data-mode', mode);
+      setText('[data-modal-title]', title);
+      setText('[data-modal-category]', 'FILE // ' + cat.toUpperCase());
+      setText('[data-modal-case]', caseNo);
+      setText('[data-modal-case-foot]', caseNo);
+      setText('[data-modal-byline]', byline);
+      setText('[data-modal-date]', date);
+
+      // Move the hidden full body into the reader. Keep redaction bars covered
+      // until the reveal animation fires.
+      var src = article.querySelector('[data-article-content]');
+      var dest = modal.querySelector('[data-modal-content]');
+      if (dest) dest.innerHTML = src ? src.innerHTML : '';
+
+      clearRevealTimers();
+      modal.hidden = false;
+      modal.setAttribute('aria-hidden', 'false');
+      docEl.style.overflow = 'hidden';
+
+      // Kick off the declassification reveal on the next frame.
+      if (typeof requestAnimationFrame === 'function') requestAnimationFrame(revealRedactions);
+      else revealRedactions();
+
+      var closeBtn = modal.querySelector('[data-modal-close]');
+      if (closeBtn) { try { closeBtn.focus(); } catch (e) {} }
+    }
+
+    function closeDossier() {
+      if (!modal) return;
+      clearRevealTimers();
+      modal.hidden = true;
+      modal.setAttribute('aria-hidden', 'true');
+      docEl.style.overflow = '';
+    }
+
+    articles.forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        if (e.target && e.target.closest && e.target.closest('a')) return; // let real links work
+        openDossier(a);
+      });
+      // keyboard: Enter/Space opens (cards are focusable via tabindex below)
+      a.setAttribute('tabindex', '0');
+      a.setAttribute('role', 'button');
+      a.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          openDossier(a);
         }
-        function setAccent(accent) {
-            document.body.setAttribute('data-accent', accent);
-            // Visual indicator for active accent button
-            document.querySelectorAll('[id^="btn-"]').forEach(btn => {
-                btn.className = btn.className.replace('opacity-100 ring-2 ring-offset-2 ring-offset-bg', 'opacity-50');
-                btn.classList.add('hover:opacity-100');
-            });
-            const activeBtn = document.querySelector(`[onclick="setAccent('${accent}')"]`);
-            if(activeBtn) {
-                activeBtn.className = activeBtn.className.replace('opacity-50 hover:opacity-100', '');
-                activeBtn.className += ` opacity-100 ring-2 ring-${accent}-500 ring-offset-2 ring-offset-bg`;
-            }
-        }
+      });
+    });
 
-        // --- Search Functionality (Fixed) ---
-        function filterEpisodes() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const episodes = document.querySelectorAll('.episode-item');
-            let hasVisible = false;
+    if (modal) {
+      var closeBtn = modal.querySelector('[data-modal-close]');
+      if (closeBtn) closeBtn.addEventListener('click', closeDossier);
+      modal.addEventListener('click', function (e) { if (e.target === modal) closeDossier(); });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal && !modal.hidden) closeDossier();
+    });
 
-            episodes.forEach(ep => {
-                const title = ep.querySelector('.episode-title').textContent.toLowerCase();
-                const desc = ep.querySelector('.episode-desc').textContent.toLowerCase();
-                
-                if (title.includes(query) || desc.includes(query)) {
-                    ep.style.display = 'flex';
-                    hasVisible = true;
-                } else {
-                    ep.style.display = 'none';
-                }
-            });
+    // ---- initial state ----
+    applyFilter('All Files');
+  }
 
-            const noResults = document.getElementById('noResults');
-            if(noResults) {
-                noResults.style.display = hasVisible ? 'none' : 'block';
-            }
-        }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
 
-        // --- Audio Player Simulation ---
-        let isPlaying = false;
-        let progress = 0;
-        let playInterval;
-        let playbackSpeed = 1;
-
-        function playTrack(title, subtitle) {
-            document.getElementById('playerTitle').textContent = title;
-            document.getElementById('playerSubtitle').textContent = subtitle;
-            progress = 0;
-            isPlaying = true;
-            updatePlayerUI();
-            startProgress();
-        }
-
-        function togglePlay() {
-            if(document.getElementById('playerTitle').textContent === "Ready to play") return; // No track loaded
-            isPlaying = !isPlaying;
-            updatePlayerUI();
-            if(isPlaying) startProgress();
-            else clearInterval(playInterval);
-        }
-
-        function updatePlayerUI() {
-            const icon = document.getElementById('playPauseIcon');
-            const visualizer = document.getElementById('visualizer');
-            const pIcon = document.getElementById('playerIcon');
-
-            if (isPlaying) {
-                icon.className = 'fas fa-pause text-lg';
-                visualizer.style.opacity = '1';
-                pIcon.style.opacity = '0';
-            } else {
-                icon.className = 'fas fa-play ml-1 text-lg';
-                visualizer.style.opacity = '0';
-                pIcon.style.opacity = '1';
-            }
-        }
-
-        function startProgress() {
-            clearInterval(playInterval);
-            playInterval = setInterval(() => {
-                progress += (0.5 * playbackSpeed);
-                if (progress > 100) {
-                    progress = 0;
-                    isPlaying = false;
-                    updatePlayerUI();
-                    clearInterval(playInterval);
-                }
-                document.getElementById('progressBar').style.width = `${progress}%`;
-            }, 500);
-        }
-
-        function seek(e) {
-            if(!isPlaying && progress === 0) return;
-            const rect = document.getElementById('progressContainer').getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            progress = (x / rect.width) * 100;
-            document.getElementById('progressBar').style.width = `${progress}%`;
-        }
-
-        function cycleSpeed() {
-            const speeds = [1, 1.2, 1.5, 2];
-            let currentIdx = speeds.indexOf(playbackSpeed);
-            playbackSpeed = speeds[(currentIdx + 1) % speeds.length];
-            document.getElementById('speedBtn').textContent = `${playbackSpeed}x`;
-            if(isPlaying) startProgress(); // Restart interval with new speed
-        }
-
-        function playLatest() {
-            playTrack('The Future of AI: Where Are We Actually Headed?', 'EP 142');
-        }
-    </script>
+</script>
+<script>(function(){try{fetch("https://daasfac-backend.onrender.com/enterapi/corner/cloud/analytics/ping",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({project_id:"9ce88953-9a9c-4d2c-a089-ea9a384d761c",page_path:location.pathname})}).catch(function(){});}catch(e){}})();</script>
 </body>
 </html>
